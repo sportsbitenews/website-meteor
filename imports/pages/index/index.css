@@ -1,0 +1,51 @@
+img#main-image-index-page {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+}
+
+header {
+    height: 625px;
+    position: relative;
+}
+
+h1 {
+    position: absolute;
+    bottom: 100px;
+    color: white;
+    font-weight: 100;
+}
+
+h2 {
+    position: absolute;
+    bottom: 0;
+    color: white;
+    font-weight: 100;
+
+}
+
+h3 {
+  text-transform: uppercase;
+  font-weight: 100;
+  margin: 0;
+}
+
+body {
+    font-family: "Neue Helvetica W01", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div.column {
+    width: 30%;
+    display: inline-block;
+    padding: 10px;
+    height: 100%;
+    vertical-align: top;
+}
+
+div.content {
+    height: 400px;
+}
+
+div.column:not(:first-child) {
+    border-left: black 1px solid;
+}
