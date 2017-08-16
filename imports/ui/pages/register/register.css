@@ -1,0 +1,86 @@
+body {
+  font: 16px "Helvetica Neue",Helvetica,Arial,sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+div#sign-in {
+  width: 100%;
+  font-weight: bold;
+  text-align: right;
+}
+
+div#header-line-text span:not(:last-child) {
+    margin-right: 243px;
+}
+
+div#content {
+  text-align: center;
+}
+
+div#content>div {
+  display: inline-block;
+  padding: 30px;
+  border: 2px solid #AAAAAA;
+  border-radius: 4px;
+  text-align: left;
+  min-width: 640px;
+}
+
+div#content button {
+  float: right;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.button,
+button {
+  margin: 10px;
+  padding: 15px 30px;
+  border-width: 0;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.button:hover,
+button:hover {
+  text-decoration: underline;
+}
+
+.button.disabled,
+button.disabled {
+  background-color: #626B83;
+}
+
+.button.disabled:hover,
+button.disabled:hover {
+  background-color: #99a0b2;
+}
+
+.button.enabled,
+button.enabled {
+  background-color: #1B1464;
+}
+
+.button.enabled:hover,
+button.enabled:hover {
+  background-color: #2d22aa;
+}
+
+div#header{
+  width: 100%;
+  text-align: center;
+  margin: 40px 0 20px 0;
+}
+
+.error {
+  color: red;
+}

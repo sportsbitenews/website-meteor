@@ -1,0 +1,136 @@
+{
+  "extends": "eslint:recommended",
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    // Add spacing before/after curly braces in jsx expressions
+    "react/jsx-curly-spacing": [
+      2,
+      {
+        "when": "always"
+      }
+    ],
+    //
+    // Permit console.log statements (we have a lot of them)
+    // TODO: Find a way to make sure no console.log statements make it to production.  Can use the no-console rule
+    // but we want to be able to use console.log during development.
+    "no-console": 0,
+    //
+    // specify whether backticks, double or single quotes should be used (fixable)
+    "quotes": [
+      2,
+      "single"
+    ],
+    //
+    // require or disallow use of semicolons instead of ASI (fixable)
+    "semi": [
+      2,
+      "always"
+    ],
+    //
+    // Custom rule for checking the copyright.
+    "copyright": 2,
+    //
+    // Custom rule for checking TODOs have issues
+    "todo-should-have-issue": 2,
+    //
+    // Custom rule for ensuring that images and text use scenery node
+    "no-html-constructors": 2,
+    //
+    // disallow declaration of variables that are not used in the code (recommended)
+    // Overriden to allow unused args
+    "no-unused-vars": [
+      2,
+      {
+        "vars": "all",
+        "args": "none"
+      }
+    ],
+    //    "require-jsdoc": [
+    //      2
+    //    ],
+    //
+    // require the use of === and !== (fixable)
+    "eqeqeq": 2,
+    //
+    // specify curly brace conventions for all control statements
+    "curly": 2,
+    //    "no-use-before-define": [
+    //      2
+    //    ],
+    // TODO: This may be good to have
+    //    "new-cap": [
+    //      2
+    //    ],
+    //
+    // disallow use of arguments.caller or arguments.callee
+    "no-caller": 2,
+    //
+    // disallow use of the new operator when not part of an assignment or comparison
+    "no-new": 2,
+    //
+    // controls location of Use Strict Directives
+    "strict": 2,
+    //
+    // Avoid code that looks like two expressions but is actually one
+    "no-unexpected-multiline": 2,
+    //
+    // encourages use of dot notation whenever possible
+    "dot-notation": 2,
+    //
+    // disallow adding to native types
+    "no-extend-native": 2,
+    //
+    // disallow use of assignment in return statement
+    "no-return-assign": 2,
+    //
+    // disallow comparisons where both sides are exactly the same
+    "no-self-compare": 2,
+    //
+    // disallow unnecessary .call() and .apply()
+    // TODO: Under discussion in https://github.com/phetsims/scenery-phet/issues/193
+    //    "no-useless-call": 2,
+    //
+    // disallow use of undefined when initializing variables
+    "no-undef-init": 2,
+    //
+    //
+    "require-statement-match": 2,
+    "phet-io-require-contains-ifphetio": 2,
+    "require-tandem-support": 0,
+    "no-property-in-require-statement": 2,
+    // permit only one var declaration per line, see #390
+    "one-var": [
+      2,
+      "never"
+    ],
+    "string-require-statement-match": 2,
+    // require radix argument for parseInt
+    "radix": 2,
+    // require default case for switch statements
+    "default-case": 2,
+    // do not allow fall-through cases in switch statements
+    "no-fallthrough": 2,
+    //     disallow trailing whitespace at the end of lines (fixable)
+    "no-trailing-spaces": 2,
+    //     USE THIS DURING CODE REVIEW
+    //     specify the maximum length of a line in your program
+    "max-len": [
+      2,
+      // this many columns per line
+      120,
+      // tab counts for this many spaces
+      4
+    ]
+  },
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "import": false
+  }
+}
