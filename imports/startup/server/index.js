@@ -2,7 +2,7 @@
 
 
 import { Meteor } from 'meteor/meteor';
-import { Strings } from '../../api/schools/schools.js';
+import { Schools } from '../../api/schools/schools.js';
 
 
 // if the database is empty on server start, create some sample data.
@@ -84,6 +84,6 @@ Meteor.startup( () => {
       }
     ];
 
-    data.forEach( Schools.insert );
+    data.forEach( (school) =>{ Schools.insert( school ) } );
   }
 } );

@@ -6,6 +6,7 @@
  **/
 
 import { Mongo } from 'meteor/mongo';
+import 'meteor/aldeed:collection2';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 // class SchoolsCollection extends Mongo.Collection {
@@ -31,7 +32,7 @@ Schools.schema = new SimpleSchema( {
   _id: { type: String, regEx: SimpleSchema.RegEx.Id },
   ncesId: { type: String },
   name: { type: String },
-  name2: { type: String },
+  name2: { type: String, optional: true },
   city: { type: String },
   state: { type: String },
   country: { type: String },
@@ -64,19 +65,19 @@ Schools.adminFields = {
   phetUser: 1,
 };
 
-Schools.helpers( {
-  isPrivate() {
-    return !this.enabled;
-  },
-  // isLastPublicList() {
-  //   const publicListCount = Schools.find( { userId: { $exists: false } } ).count();
-  //   return !this.isPrivate() && publicListCount === 1;
-  // },
-  // editableBy( userId ) {
-  //   if ( !this.userId ) {
-  //     return true;
-  //   }
-  //
-  //   return this.userId === userId;
-  // }
-} );
+// Schools.helpers( {
+//   isPrivate() {
+//     return !this.enabled;
+//   },
+//   // isLastPublicList() {
+//   //   const publicListCount = Schools.find( { userId: { $exists: false } } ).count();
+//   //   return !this.isPrivate() && publicListCount === 1;
+//   // },
+//   // editableBy( userId ) {
+//   //   if ( !this.userId ) {
+//   //     return true;
+//   //   }
+//   //
+//   //   return this.userId === userId;
+//   // }
+// } );
