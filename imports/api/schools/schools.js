@@ -25,7 +25,7 @@ export const Schools = new Mongo.Collection( 'schools' );
 Schools.deny( {
   insert() { return true; },
   update() { return true; },
-  remove() { return true; },
+  remove() { return true; }
 } );
 
 Schools.schema = new SimpleSchema( {
@@ -37,7 +37,7 @@ Schools.schema = new SimpleSchema( {
   state: { type: String },
   country: { type: String },
   enabled: { type: Boolean, defaultValue: false },
-  phetUser: { type: Number },
+  phetUser: { type: Number }
 } );
 
 Schools.attachSchema( Schools.schema );
@@ -50,7 +50,7 @@ Schools.publicFields = {
   name2: 1,
   city: 1,
   state: 1,
-  country: 1,
+  country: 1
 };
 
 Schools.adminFields = {
@@ -62,7 +62,7 @@ Schools.adminFields = {
   state: 1,
   country: 1,
   enabled: 1,
-  phetUser: 1,
+  phetUser: 1
 };
 
 // Schools.helpers( {

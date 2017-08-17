@@ -10,12 +10,12 @@
  * @typedef {Object} component - a jsx component
  **/
 
-import React, { Component } from 'react'
-import { PropTypes } from 'prop-types'
-import { createContainer } from 'meteor/react-meteor-data'
+import React, {Component} from 'react'
+import {PropTypes} from 'prop-types'
+import {createContainer} from 'meteor/react-meteor-data'
 
 
-import { Strings } from '/imports/api/strings/strings.js'
+import {Strings} from '/imports/api/strings/server/strings.js'
 
 class IndexPage extends Component {
   constructor( props ) {
@@ -48,25 +48,25 @@ class IndexPage extends Component {
     return (
       <div className="container">
         <header>
-          <img id="main-image-index-page" src="/img/front.png" alt={this.renderTranslatedString( 'title' )} />
-          <h1 dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'title' ) }} />
-          <h2 dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'subtitle' ).replace( '{0}', '360' ) }} />
+          <img id="main-image-index-page" src="/img/front.png" alt={this.renderTranslatedString( 'title' )}/>
+          <h1 dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'title' ) }}/>
+          <h2 dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'subtitle' ).replace( '{0}', '360' ) }}/>
         </header>
         <div className="content">
           <div className="column">
             <div id="video-rotator"></div>
-            <div id="play-sims" className="phet-button"><span dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'playButton' ) }} />
+            <div id="play-sims" className="phet-button"><span dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'playButton' ) }}/>
             </div>
           </div>
           <div className="column">
-            <h3 dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'whatIsPhet' ) }} />
-            <p dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'aboutPhet' ) }} />
-            <img alt={this.renderTranslatedString( 'buzzwords' )} />
+            <h3 dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'whatIsPhet' ) }}/>
+            <p dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'aboutPhet' ) }}/>
+            <img alt={this.renderTranslatedString( 'buzzwords' )}/>
           </div>
           <div className="column">
-            <h3 dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'whatsNew' ) }} />
-            <p dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'appDescription' ) }} />
-            <img alt={this.renderTranslatedString( 'iPad' )} />
+            <h3 dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'whatsNew' ) }}/>
+            <p dangerouslySetInnerHTML={{ __html: this.renderTranslatedString( 'appDescription' ) }}/>
+            <img alt={this.renderTranslatedString( 'iPad' )}/>
           </div>
         </div>
       </div>

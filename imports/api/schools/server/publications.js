@@ -11,9 +11,9 @@ import { Schools } from '../schools.js';
 
 Meteor.publish( 'schools.public', function schoolsPublic() {
   return Schools.find( {
-    enabled: { $eq: true },
+    enabled: { $eq: true }
   }, {
-    fields: Schools.publicFields,
+    fields: Schools.publicFields
   } );
 } );
 
@@ -21,6 +21,6 @@ Meteor.publish( 'schools.admin', function schoolsAdmin() {
   return Schools.find( {
     // userId: this.userId,
   }, {
-    fields: Schools.adminFields,
+    fields: Schools.adminFields
   } );
 } );

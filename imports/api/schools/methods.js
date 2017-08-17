@@ -7,19 +7,19 @@ import { _ } from 'meteor/underscore';
 import { Schools } from './schools.js';
 
 const SCHOOL_ID_ONLY = new SimpleSchema( {
-  schoolId: Schools.simpleSchema().schema( '_id' ),
+  schoolId: Schools.simpleSchema().schema( '_id' )
 } ).validator( { clean: true, filter: false } );
 
 export const insert = new ValidatedMethod( {
   name: 'schools.insert',
   validate: new SimpleSchema( {
     language: {
-      type: String,
-    },
+      type: String
+    }
   } ).validator(),
   run( { language } ) {
     return Schools.insert( {}, null, language );
-  },
+  }
 } );
 
 export const enable = new ValidatedMethod( {
@@ -39,9 +39,9 @@ export const enable = new ValidatedMethod( {
     // }
 
     Schools.update( schoolId, {
-      $set: { enabled: true },
+      $set: { enabled: true }
     } );
-  },
+  }
 } );
 
 export const disable = new ValidatedMethod( {
@@ -49,16 +49,16 @@ export const disable = new ValidatedMethod( {
   validate: SCHOOL_ID_ONLY,
   run( { schoolId } ) {
     Schools.update( schoolId, {
-      $set: { enabled: false },
+      $set: { enabled: false }
     } );
-  },
+  }
 } );
 
 export const updateName = new ValidatedMethod( {
   name: 'schools.updateName',
   validate: new SimpleSchema( {
     schoolId: Schools.simpleSchema().schema( '_id' ),
-    newName: Schools.simpleSchema().schema( 'name' ),
+    newName: Schools.simpleSchema().schema( 'name' )
   } ).validator( { clean: true, filter: false } ),
   run( { schoolId, newName } ) {
     // const school = Schools.findOne( schoolId );
@@ -72,9 +72,9 @@ export const updateName = new ValidatedMethod( {
     // result in exposing private data
 
     Schools.update( schoolId, {
-      $set: { name: newName },
+      $set: { name: newName }
     } );
-  },
+  }
 } );
 
 export const remove = new ValidatedMethod( {
@@ -97,7 +97,7 @@ export const remove = new ValidatedMethod( {
     // }
 
     Schools.remove( schoolId );
-  },
+  }
 } );
 
 // Get school of all method names on Schools
@@ -106,7 +106,7 @@ const SCHOOLS_METHODS = _.pluck( [
   enable,
   disable,
   updateName,
-  remove,
+  remove
 ], 'name' );
 
 if ( Meteor.isServer ) {
@@ -117,6 +117,6 @@ if ( Meteor.isServer ) {
     },
 
     // Rate limit per connection ID
-    connectionId() { return true; },
+    connectionId() { return true; }
   }, 5, 1000 );
 }
