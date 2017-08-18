@@ -15,7 +15,7 @@ import {PropTypes} from 'prop-types'
 import {createContainer} from 'meteor/react-meteor-data'
 
 
-import {Strings} from '/imports/api/strings/server/strings.js'
+// import '../../../api/strings/server/strings.js'
 
 class IndexPage extends Component {
   constructor( props ) {
