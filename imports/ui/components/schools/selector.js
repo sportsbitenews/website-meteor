@@ -16,7 +16,7 @@ export default class SchoolSelector extends React.Component {
   }
 
   getState() {
-    return Schools.find();
+    return this.props.findSchools("at");
   }
 
   render() {
