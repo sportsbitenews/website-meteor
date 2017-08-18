@@ -9,9 +9,10 @@ import { Meteor } from 'meteor/meteor';
 
 import { Schools } from '../schools.js';
 
-Meteor.publish( 'schools.public', function schoolsPublic() {
+Meteor.publish( 'schools.public', function schoolsPublic( search ) {
+  console.log('search:' + search);
   return Schools.find( {
-    enabled: { $eq: true }
+    state: { $eq: search }
   }, {
     fields: Schools.publicFields
   } );

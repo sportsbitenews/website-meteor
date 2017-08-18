@@ -2,7 +2,10 @@
 
 
 import { Meteor } from 'meteor/meteor';
-import { Schools } from '../../api/schools/schools.js';
+import { Schools } from '/imports/api/schools/schools.js';
+
+import '/imports/api/schools/server/publications.js';
+import '/imports/api/schools/methods.js';
 
 
 // if the database is empty on server start, create some sample data.

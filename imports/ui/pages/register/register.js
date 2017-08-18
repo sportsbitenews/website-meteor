@@ -14,7 +14,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import Helmet from 'react-helmet';
 
-import SchoolSelectorContainer from '/imports/ui/components/schools/selectorContainer.js';
+import SchoolSelector from '/imports/ui/components/schools/selector.js';
 
 import './register.css';
 
@@ -246,7 +246,7 @@ class AccountTypePanel extends React.Component {
         </ul>
         <span className="error">{this.state.errorMessage ? this.state.errorMessage : ''}</span>
         <button className="enabled" onClick={() => { this.next() }}>NEXT</button>
-        <SchoolSelectorContainer onClick={this.handleSchool} />
+        <SchoolSelector onClick={this.handleSchool} />
 
         <Modal
           isOpen={this.state.dialogIsOpen}
