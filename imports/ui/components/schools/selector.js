@@ -13,16 +13,20 @@ import {Schools} from '/imports/api/schools/schools.js';
 export default class SchoolSelector extends React.Component {
   constructor() {
     super();
+    this.state = { search: new ReactiveVar( '' ) };
+    Tracker.autorun( ()=> {
+      console.log( this.state.search.get() );
+    } );
   }
 
-  getState() {
-    return this.props.findSchools("at");
+  handleChange( event ) {
+    this.state.search.set( event.target.value );
   }
 
   render() {
     return (
       <div>
-        <button onClick={() => this.props.onClick(this.getState())}>Click ME!</button>
+        <textarea value={this.state.search} onChange={this.handleChange} placeholder="Enter a school name, city, or state."/>
       </div>
     );
   }
