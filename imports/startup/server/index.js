@@ -89,4 +89,12 @@ Meteor.startup( () => {
 
     data.forEach( (school) =>{ Schools.insert( school ) } );
   }
+
+  
+  Schools._ensureIndex({
+      "name": "text",
+      "name2": "text",
+      "city": "text",
+      "state": "text",
+    });
 } );

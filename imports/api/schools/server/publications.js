@@ -12,7 +12,8 @@ import { Schools } from '../schools.js';
 Meteor.publish( 'schools.public', function schoolsPublic( search ) {
   console.log('search:' + search);
   return Schools.find( {
-    state: { $eq: search }
+    enabled: {$eq: true },
+    name: { $regex: '\.*' + search + '\.*', $options: 'i' }
   }, {
     fields: Schools.publicFields
   } );
