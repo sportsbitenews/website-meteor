@@ -74,34 +74,48 @@ const stateStringMap = {
 Meteor.publish( 'schools.public', function schoolsPublic( search ) {
   console.log( 'search:' + search );
 
-  const schools = Schools.find( {
-    enabled: { $eq: true }
-  }, {
-    fields: Schools.publicFields
-  } ).fetch();
-
   // Split the search string into tokens
-  const searchTerms = search.split( ' ' );
+  const searchTerms = search.split( ' ' ).map( (term) => {return term.toLowerCase()});
 
-  // We search the database for schools that have words that include the search terms
-  // Each school is assigned a score based on the number of terms matched
-  return schools.reduce( ( filteredSchools, school ) => {
-    let score = 0;
-    for ( let i in searchTerms ) {
-      if ( school.Name.toLowerCase().indexOf( searchTerms[ i ].toLowerCase() ) >= 0
-           || school.Name2.toLowerCase().indexOf( searchTerms[ i ].toLowerCase() ) >= 0
-           || school.City.toLowerCase().indexOf( searchTerms[ i ].toLowerCase() ) >= 0
-           || ( stateStringMap[ school.State ] && stateStringMap[ school.State ].toLowerCase().indexOf( searchTerms[ i ].toLowerCase() ) >= 0 ) ) {
-        score++;
-      }
-    }
-    if ( score > 0 ) {
-      filteredSchools.push( { score, school } );
-    }
-    return filteredSchools;
-  }, [] )
+  const searchOptions = [];
+  searchTerms.forEach( ( term ) => {
+    searchOptions.push( { name: { $regex: '\.*' + term + '\.*', $options: 'i' } } );
+    searchOptions.push( { name2: { $regex: '\.*' + term + '\.*', $options: 'i' } } );
+    searchOptions.push( { city: { $regex: '\.*' + term + '\.*', $options: 'i' } } );
+    searchOptions.push( { state: { $regex: '\.*' + term + '\.*', $options: 'i' } } );
+  } );
 
-  // Sort by score descending, then by school.Name alphabetically
+  return Schools
+    // We search the database for schools that have words that include the search terms
+    .find( {
+      enabled: { $eq: true },
+      $or: searchOptions
+    }, {
+      fields: Schools.publicFields
+    } )
+
+    // Convert Mongo Cursor to Object
+    .fetch()
+
+    // Each school is assigned a score based on the number of terms matched
+    .map( ( filteredSchools, school ) => {
+      let score = 0;
+
+      const name = school.name.toLowerCase();
+      const name2 = school.name2.toLowerCase();
+      const city = school.city.toLowerCase();
+      const state = school.state.toLowerCase();
+
+      searchTerms.forEach( ( term ) => {
+        if ( name.indexOf( term ) >= 0 ) { score++; }
+        if ( name2.indexOf( term ) >= 0 ) { score++; }
+        if ( city.indexOf( term ) >= 0 ) { score++; }
+        if ( state.indexOf( term ) >= 0 ) { score++; }
+      } );
+      return { score, school };
+    }, [] )
+
+    // Sort by score descending, then by school.Name alphabetically
     .sort( ( a, b ) => {
       if ( a.score !== b.score ) {
         return b.score - a.score;
