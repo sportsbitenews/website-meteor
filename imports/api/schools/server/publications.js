@@ -98,7 +98,7 @@ Meteor.publish( 'schools.public', function schoolsPublic( search ) {
     .fetch()
 
     // Each school is assigned a score based on the number of terms matched
-    .map( ( filteredSchools, school ) => {
+    .map( ( school ) => {
       let score = 0;
 
       const name = school.name.toLowerCase();
