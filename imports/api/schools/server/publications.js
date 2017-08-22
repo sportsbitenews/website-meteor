@@ -75,7 +75,7 @@ Meteor.publish( 'schools.public', function schoolsPublic( search ) {
   console.log( 'search:' + search );
 
   // Split the search string into tokens
-  const searchTerms = search.split( ' ' ).map( (term) => {return term.toLowerCase()});
+  const searchTerms = search.split( ' ' ).map( ( term ) => {return term.toLowerCase()} );
 
   const searchOptions = [];
   searchTerms.forEach( ( term ) => {
@@ -85,51 +85,70 @@ Meteor.publish( 'schools.public', function schoolsPublic( search ) {
     searchOptions.push( { state: { $regex: '\.*' + term + '\.*', $options: 'i' } } );
   } );
 
-  return Schools
-    // We search the database for schools that have words that include the search terms
-    .find( {
-      enabled: { $eq: true },
-      $or: searchOptions
+  function score( e ) {
+    console.log( e );
+    return e;
+  }
+
+  return Schools.aggregate( [
+    {
+      $match: {
+        enabled: { $eq: true },
+        $or: searchOptions
+      }
     }, {
-      fields: Schools.publicFields
-    } )
-
-    // Convert Mongo Cursor to Object
-    .fetch()
-
-    // Each school is assigned a score based on the number of terms matched
-    .map( ( school ) => {
-      let score = 0;
-
-      const name = school.name.toLowerCase();
-      const name2 = school.name2.toLowerCase();
-      const city = school.city.toLowerCase();
-      const state = school.state.toLowerCase();
-
-      searchTerms.forEach( ( term ) => {
-        if ( name.indexOf( term ) >= 0 ) { score++; }
-        if ( name2.indexOf( term ) >= 0 ) { score++; }
-        if ( city.indexOf( term ) >= 0 ) { score++; }
-        if ( state.indexOf( term ) >= 0 ) { score++; }
-      } );
-      return { score, school };
-    }, [] )
-
-    // Sort by score descending, then by school.Name alphabetically
-    .sort( ( a, b ) => {
-      if ( a.score !== b.score ) {
-        return b.score - a.score;
+      $project: Schools.publicFields
+    }, {
+      $addFields: {
+        score: score(e)
       }
-      else {
-        return a.school.Name.toLowerCase().localeCompare( b.school.Name.toLowerCase() );
-      }
-    } )
+    }
 
-    // We only return the first N schools, some search terms could have ~100K results
-    .slice( 0, 20 )
+  ] );
 
-    // The recipient doesn't care about the search score, we return the schools in sorted form only
-    .filter( ( item ) => { return item.school; } );
+  //
+  // return Schools
+  // // We search the database for schools that have words that include the search terms
+  //   .find( , {
+  //     fields: Schools.publicFields
+  //   } )
+  //
+  //   // Convert Mongo Cursor to Object
+  //   .fetch()
+  //
+  //   // Each school is assigned a score based on the number of terms matched
+  //   .map( ( school ) => {
+  //     let score = 0;
+  //
+  //     const name = school.name.toLowerCase();
+  //     const name2 = school.name2.toLowerCase();
+  //     const city = school.city.toLowerCase();
+  //     const state = school.state.toLowerCase();
+  //
+  //     searchTerms.forEach( ( term ) => {
+  //       if ( name.indexOf( term ) >= 0 ) { score++; }
+  //       if ( name2.indexOf( term ) >= 0 ) { score++; }
+  //       if ( city.indexOf( term ) >= 0 ) { score++; }
+  //       if ( state.indexOf( term ) >= 0 ) { score++; }
+  //     } );
+  //     return { score, school };
+  //   }, [] )
+  //
+  //   // Sort by score descending, then by school.Name alphabetically
+  //   .sort( ( a, b ) => {
+  //     if ( a.score !== b.score ) {
+  //       return b.score - a.score;
+  //     }
+  //     else {
+  //       return a.school.Name.toLowerCase().localeCompare( b.school.Name.toLowerCase() );
+  //     }
+  //   } )
+  //
+  //   // We only return the first N schools, some search terms could have ~100K results
+  //   .slice( 0, 20 )
+  //
+  //   // The recipient doesn't care about the search score, we return the schools in sorted form only
+  //   .filter( ( item ) => { return item.school; } );
 } );
 
 // Meteor.publish( 'schools.admin', function schoolsAdmin() {
