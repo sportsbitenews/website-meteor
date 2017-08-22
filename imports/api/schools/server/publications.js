@@ -5,14 +5,14 @@
  * @author Matt Pennington
  **/
 
-import { Meteor } from 'meteor/meteor';
+import {Meteor} from 'meteor/meteor';
 
-import { Schools } from '../schools.js';
+import {Schools} from '../schools.js';
 
 Meteor.publish( 'schools.public', function schoolsPublic( search ) {
-  console.log('search:' + search);
+  console.log( 'search:' + search );
   return Schools.find( {
-    enabled: {$eq: true },
+    enabled: { $eq: true },
     name: { $regex: '\.*' + search + '\.*', $options: 'i' }
   }, {
     fields: Schools.publicFields

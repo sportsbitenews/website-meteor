@@ -18,13 +18,13 @@ export default class SchoolSelector extends React.Component {
       results: []
     };
     Tracker.autorun( ()=> {
-      Meteor.subscribe( 'schools.public', this.state.search.get()  );
+      Meteor.subscribe( 'schools.public', this.state.search.get() );
       console.log( this.state.search.get() );
     } );
     Tracker.autorun( ()=> {
-      console.log('found new results');
-      Schools.find().fetch().forEach( (e)=>{ console.log('name:' + e.name) });
-    });
+      console.log( 'found new results' );
+      Schools.find().fetch().forEach( ( e )=> { console.log( 'name:' + e.name ) } );
+    } );
   }
 
   handleChange( event ) {

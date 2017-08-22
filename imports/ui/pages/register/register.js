@@ -50,20 +50,20 @@ function Node( props ) {
 
   if ( props.active ) {
     return (
-      <img src="/img/yellow_paper_airplane.png" alt="" aria-hidden="true" />
+      <img src="/img/yellow_paper_airplane.png" alt="" aria-hidden="true"/>
     )
   }
   else if ( props.enabled ) {
     return (
       <svg height={diameter} width={diameter}>
-        <circle cx={radius} cy={radius} r={innerRadius} stroke={phetYellow} strokeWidth={strokeWidth} fill={phetYellow} />
+        <circle cx={radius} cy={radius} r={innerRadius} stroke={phetYellow} strokeWidth={strokeWidth} fill={phetYellow}/>
       </svg>
     );
   }
   else {
     return (
       <svg height={diameter} width={diameter}>
-        <circle cx={radius} cy={radius} r={innerRadius} stroke={disabledGrey} strokeWidth={strokeWidth} fillOpacity="0.0" />
+        <circle cx={radius} cy={radius} r={innerRadius} stroke={disabledGrey} strokeWidth={strokeWidth} fillOpacity="0.0"/>
       </svg>
     );
   }
@@ -82,14 +82,14 @@ function Line( props ) {
   if ( props.enabled ) {
     return (
       <svg height={lineHeight} width={width}>
-        <line x1={start} y1={lineHeight / 2} x2={end} y2={lineHeight / 2} stroke={phetYellow} strokeWidth={strokeWidth} fill={phetYellow} />
+        <line x1={start} y1={lineHeight / 2} x2={end} y2={lineHeight / 2} stroke={phetYellow} strokeWidth={strokeWidth} fill={phetYellow}/>
       </svg>
     );
   }
   else {
     return (
       <svg height={lineHeight} width={width}>
-        <line x1={start} y1={lineHeight / 2} x2={end} y2={lineHeight / 2} stroke={disabledGrey} strokeWidth={strokeWidth} />
+        <line x1={start} y1={lineHeight / 2} x2={end} y2={lineHeight / 2} stroke={disabledGrey} strokeWidth={strokeWidth}/>
       </svg>
     );
   }
@@ -104,11 +104,11 @@ function HeaderLine( props ) {
   return (
     <div>
       <div>
-        <Node enabled={props.page > 0} active={props.page === 1} />
-        <Line enabled={props.page > 1} />
-        <Node enabled={props.page > 1} active={props.page === 2} />
-        <Line enabled={props.page > 2} />
-        <Node enabled={props.page > 2} active={props.page === 3} />
+        <Node enabled={props.page > 0} active={props.page === 1}/>
+        <Line enabled={props.page > 1}/>
+        <Node enabled={props.page > 1} active={props.page === 2}/>
+        <Line enabled={props.page > 2}/>
+        <Node enabled={props.page > 2} active={props.page === 3}/>
       </div>
       <div id="header-line-text">
         <span>Account Type</span>
@@ -129,7 +129,7 @@ function CheckBox( props ) {
   return (
     <li>
       <label htmlFor={props.name}>
-        <input type="checkbox" id={props.name} onChange={props.onChange} /> {props.name}
+        <input type="checkbox" id={props.name} onChange={props.onChange}/> {props.name}
       </label>
     </li>
   );
@@ -147,7 +147,7 @@ function TextInput( props ) {
       <label htmlFor={props.name}>
          {props.name}
         <br />
-        <input type="text" id={props.name} onChange={props.onChange} />
+        <input type="text" id={props.name} onChange={props.onChange}/>
       </label>
     </span>
   );
@@ -165,7 +165,7 @@ function Password( props ) {
       <label htmlFor={props.name}>
          {props.name}
         <br />
-        <input type="password" id={props.name} onChange={props.onChange} />
+        <input type="password" id={props.name} onChange={props.onChange}/>
       </label>
     </span>
   );
@@ -230,12 +230,12 @@ class AccountTypePanel extends React.Component {
   }
 
   handleSchool( something ) {
-    console.log(something);
+    console.log( something );
   }
 
   render() {
     const listItems = userTypes.map( ( name ) => {
-      return <CheckBox key={name} name={name} onChange={() => this.updateTypesSelected( name )} />;
+      return <CheckBox key={name} name={name} onChange={() => this.updateTypesSelected( name )}/>;
     } );
 
     return (
@@ -246,7 +246,7 @@ class AccountTypePanel extends React.Component {
         </ul>
         <span className="error">{this.state.errorMessage ? this.state.errorMessage : ''}</span>
         <button className="enabled" onClick={() => { this.next() }}>NEXT</button>
-        <SchoolSelector onClick={this.handleSchool} />
+        <SchoolSelector onClick={this.handleSchool}/>
 
         <Modal
           isOpen={this.state.dialogIsOpen}
@@ -272,25 +272,25 @@ class ContactInfoPanel extends React.Component {
   render() {
     return (
       <div>
-        <TextInput name="Primary Email address" />
-        <TextInput name="Secondary Email address" />
-        <TextInput name="Re-enter Primary Email address" />
+        <TextInput name="Primary Email address"/>
+        <TextInput name="Secondary Email address"/>
+        <TextInput name="Re-enter Primary Email address"/>
         <br />
-        <Password name="Password" />
-        <Password name="Re-enter Password" />
+        <Password name="Password"/>
+        <Password name="Re-enter Password"/>
         <br />
-        <TextInput name="First Name" />
-        <TextInput name="Last Name" />
+        <TextInput name="First Name"/>
+        <TextInput name="Last Name"/>
         {/* <DateSelect name="Birthday(optional)" />
-        <LocationSelect />
-        <TextInput name="City" />
-        <ZipCodeInput /> */}
+         <LocationSelect />
+         <TextInput name="City" />
+         <ZipCodeInput /> */}
         <span>
 
         </span>
         <br />
         <span>Email subsciptions</span>
-        <CheckBox name="Receive PhET Emails" />
+        <CheckBox name="Receive PhET Emails"/>
         <button className="enabled" onClick={this.props.next}>NEXT</button>
       </div>
     );
@@ -371,15 +371,15 @@ class Layout extends React.Component {
     switch( this.state.page ) {
       case 1:
         headerText = 'Create Your PhET Account';
-        contentPanel = <AccountTypePanel next={() => { this.handleNext() }} />;
+        contentPanel = <AccountTypePanel next={() => { this.handleNext() }}/>;
         break;
       case 2:
         headerText = 'Tell Us About You';
-        contentPanel = <ContactInfoPanel next={() => { this.handleNext() }} />;
+        contentPanel = <ContactInfoPanel next={() => { this.handleNext() }}/>;
         break;
       case 3:
         headerText = 'Tell Us About Your Organization';
-        contentPanel = <AdditionalInfoPanel next={() => { this.handleNext() }} />;
+        contentPanel = <AdditionalInfoPanel next={() => { this.handleNext() }}/>;
         break;
       default:
         headerText = '';
@@ -399,9 +399,9 @@ class Layout extends React.Component {
         </div>
 
         <div id="header">
-          <img src="/img/phet_registration_logo.png" alt="PhET Logo" />
+          <img src="/img/phet_registration_logo.png" alt="PhET Logo"/>
           <h1>{headerText}</h1>
-          <HeaderLine page={this.state.page} />
+          <HeaderLine page={this.state.page}/>
         </div>
 
         <div id="content">
@@ -415,5 +415,5 @@ class Layout extends React.Component {
 }
 
 export const RegistrationPage = ( { locale } ) => (
-  <Layout locale={locale} />
+  <Layout locale={locale}/>
 );

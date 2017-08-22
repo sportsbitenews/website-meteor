@@ -1,8 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 
-import { Meteor } from 'meteor/meteor';
-import { Schools } from '/imports/api/schools/schools.js';
+import {Meteor} from 'meteor/meteor';
+import {Schools} from '/imports/api/schools/schools.js';
 
 import '/imports/api/schools/server/publications.js';
 import '/imports/api/schools/methods.js';
@@ -87,14 +87,14 @@ Meteor.startup( () => {
       }
     ];
 
-    data.forEach( (school) =>{ Schools.insert( school ) } );
+    data.forEach( ( school ) => { Schools.insert( school ) } );
   }
 
-  
-  Schools._ensureIndex({
-      "name": "text",
-      "name2": "text",
-      "city": "text",
-      "state": "text",
-    });
+
+  Schools._ensureIndex( {
+    "name": "text",
+    "name2": "text",
+    "city": "text",
+    "state": "text",
+  } );
 } );
