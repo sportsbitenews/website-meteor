@@ -1,5 +1,5 @@
 body {
-  font: 16px "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font: 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 20px;
 }
 
@@ -14,14 +14,14 @@ div#sign-in {
 }
 
 div#header-line-text span:not(:last-child) {
-    margin-right: 243px;
+  margin-right: 243px;
 }
 
 div#content {
   text-align: center;
 }
 
-div#content>div {
+div#content > div {
   display: inline-block;
   padding: 30px;
   border: 2px solid #AAAAAA;
@@ -75,7 +75,7 @@ button.enabled:hover {
   background-color: #2d22aa;
 }
 
-div#header{
+div#header {
   width: 100%;
   text-align: center;
   margin: 40px 0 20px 0;

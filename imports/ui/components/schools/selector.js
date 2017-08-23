@@ -38,12 +38,12 @@ export default class SchoolSelector extends React.Component {
     // and change state.value to show typed value in the textarea
     Tracker.autorun( ()=> {
       Meteor.subscribe( 'schools.public', this.state.search.get() );
-      this.setState( {value: this.state.search.get()} );
+      this.setState( { value: this.state.search.get() } );
     } );
 
     // Refresh the autocomplete options when new data is ready
     Tracker.autorun( ()=> {
-      this.setState( {suggestions: Schools.find().fetch() } );
+      this.setState( { suggestions: Schools.find().fetch() } );
     } );
   }
 
@@ -54,24 +54,24 @@ export default class SchoolSelector extends React.Component {
       }
     }
     return false;
-  }
+  };
 
   // Update the search ReactiveVar to trigger subscription change
-  onChange = (event, { newValue }) => {
+  onChange = ( event, { newValue } ) => {
     // User is highlighting a suggestion. Do not update subscription parameters.
-    if ( this.suggestionsContainsName( newValue )) {
+    if ( this.suggestionsContainsName( newValue ) ) {
 
-      this.setState( {value: newValue} );
+      this.setState( { value: newValue } );
     }
     // User is typing, update subscription parameters and clear the selection
     else {
       this.state.search.set( newValue );
-      this.setState( {selection: null} );
+      this.setState( { selection: null } );
     }
   };
 
-  onSuggestionSelected = (event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) => {
-    console.log('select')
+  onSuggestionSelected = ( event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method } ) => {
+    console.log( 'select' )
     this.setState( { selection: suggestion } );
     // TODO: trigger callback passing this value to parent
   }
