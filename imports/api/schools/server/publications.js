@@ -72,7 +72,6 @@ const stateStringMap = {
 };
 
 Meteor.publish( 'schools.public', ( search ) => {
-  console.log( 'search:' + search );
 
   // Split the search string into tokens
   const searchTerm = search.toLowerCase();

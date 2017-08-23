@@ -17,7 +17,7 @@ Meteor.startup( () => {
         "name": "Abbott Loop Elementary",
         "name2": "Anchorage School District",
         "city": "Anchorage",
-        "state": "AK",
+        "state": "Alaska",
         "country": "United States of America",
         "enabled": true,
         "phetUser": -1
@@ -26,7 +26,7 @@ Meteor.startup( () => {
         "name": "Academy Charter School",
         "name2": "Matanuska-Susitna Borough School District",
         "city": "Palmer",
-        "state": "AK",
+        "state": "Alaska",
         "country": "United States of America",
         "enabled": true,
         "phetUser": -1
@@ -35,7 +35,7 @@ Meteor.startup( () => {
         "name": "ACADEMY OF HIGHER LEARNING MLS",
         "name2": "",
         "city": "STERLING",
-        "state": "AK",
+        "state": "Alaska",
         "country": "United States of America",
         "enabled": true,
         "phetUser": -1
@@ -44,7 +44,7 @@ Meteor.startup( () => {
         "name": "Adak School",
         "name2": "Aleutian Region School District",
         "city": "Adak",
-        "state": "AK",
+        "state": "Alaska",
         "country": "United States of America",
         "enabled": true,
         "phetUser": -1
@@ -53,7 +53,7 @@ Meteor.startup( () => {
         "name": "Airport Heights Elementary",
         "name2": "Anchorage School District",
         "city": "Anchorage",
-        "state": "AK",
+        "state": "Alaska",
         "country": "United States of America",
         "enabled": true,
         "phetUser": -1
@@ -62,7 +62,7 @@ Meteor.startup( () => {
         "name": "Akhiok School",
         "name2": "Kodiak Island Borough School District",
         "city": "Akhiok",
-        "state": "AK",
+        "state": "Alaska",
         "country": "United States of America",
         "enabled": true,
         "phetUser": -1
@@ -71,7 +71,7 @@ Meteor.startup( () => {
         "name": "Akiachak School",
         "name2": "Yupiit School District",
         "city": "Akiachak",
-        "state": "AK",
+        "state": "Alaska",
         "country": "United States of America",
         "enabled": true,
         "phetUser": -1
@@ -80,7 +80,7 @@ Meteor.startup( () => {
         "name": "Akiak School",
         "name2": "Yupiit School District",
         "city": "Akiak",
-        "state": "AK",
+        "state": "Alaska",
         "country": "United States of America",
         "enabled": true,
         "phetUser": -1
