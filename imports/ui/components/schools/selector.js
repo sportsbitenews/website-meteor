@@ -15,7 +15,12 @@ import './selector.css';
 
 const renderSuggestion = ( suggestion ) => (
   <div>
-    <strong>{suggestion.name}</strong> {suggestion.name2}- {suggestion.city}, {suggestion.state}
+    <div className="autosuggest_primary_text">
+      <strong>{suggestion.name}</strong> {suggestion.name2}
+    </div>
+    <div className="autosuggest_secondary_text">
+      {suggestion.city}, {suggestion.state}
+    </div>
   </div>
 );
 
@@ -25,9 +30,8 @@ export default class SchoolSelector extends React.Component {
     this.state = {
       search: new ReactiveVar( '' ), // Subscription parameter
       value: '', // current textarea value
-      suggestions: [], //list of schools
-      selection: null,
-      highlight: null
+      suggestions: [], // list of schools
+      selection: null // selected school
     };
 
     // Change the subscription parameter whenever the user changes the selection text
