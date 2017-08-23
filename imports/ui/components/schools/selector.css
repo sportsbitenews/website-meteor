@@ -1,0 +1,28 @@
+/** Copyright 2017, University of Colorado Boulder **/
+
+li.react-autosuggest__suggestion--highlighted {
+    background: lightblue;
+}
+
+li.react-autosuggest__suggestion {
+    padding: 5px;
+}
+
+ul.react-autosuggest__suggestions-list {
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+    border: 1px solid black;
+    background: aliceblue;
+    position: absolute;
+}
+
+input.react-autosuggest__input {
+    font-size: inherit;
+    padding: 5px;
+    width: 400px;
+}
+
+div.autosuggest_secondary_text {
+  color: grey;
+}
