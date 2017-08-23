@@ -19,11 +19,12 @@ export default class SchoolSelector extends React.Component {
     };
     Tracker.autorun( ()=> {
       Meteor.subscribe( 'schools.public', this.state.search.get() );
-      console.log( this.state.search.get() );
     } );
     Tracker.autorun( ()=> {
       console.log( 'found new results' );
-      Schools.find().fetch().forEach( ( e )=> { console.log( 'name:' + e.name ) } );
+      const newState = this.state;
+      newState.results = Schools.find().fetch()
+      this.setState( newState );
     } );
   }
 
@@ -35,6 +36,10 @@ export default class SchoolSelector extends React.Component {
     return (
       <div>
         <textarea onChange={this.handleChange.bind(this)} placeholder="Enter a school name, city, or state."/>
+        <ListView
+          dataSource={this.state.results}
+          renderRow={(rowData) => <Text>{rowData.name}</Text>}
+        />
       </div>
     );
   }
