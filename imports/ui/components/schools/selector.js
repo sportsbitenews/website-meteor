@@ -47,7 +47,7 @@ export default class SchoolSelector extends React.Component {
     } );
   }
 
-  suggestionsContainsName = ( name ) => {
+  suggestionsContainsName( name ) {
     for ( let i in this.state.suggestions ) {
       if ( this.state.suggestions.hasOwnProperty( i ) && this.state.suggestions[ i ].name === name ) {
         return true;
@@ -57,7 +57,7 @@ export default class SchoolSelector extends React.Component {
   };
 
   // Update the search ReactiveVar to trigger subscription change
-  onChange = ( event, { newValue } ) => {
+  onChange( event, { newValue } ) {
     // User is highlighting a suggestion. Do not update subscription parameters.
     if ( this.suggestionsContainsName( newValue ) ) {
 
@@ -70,10 +70,10 @@ export default class SchoolSelector extends React.Component {
     }
   };
 
-  onSuggestionSelected = ( event, { suggestion } ) => {
+  onSuggestionSelected( event, { suggestion } ) {
     this.setState( { selection: suggestion } );
     // TODO: trigger callback passing this value to parent
-  }
+  };
 
   render() {
     // Autosuggest will pass through all these props to the input.

@@ -225,7 +225,7 @@ class AccountTypePanel extends React.Component {
     }
     // Otherwise continue to the next screen
     else {
-      this.props.next()
+      this.props.next( { types: this.state.typesSelected } )
     }
   }
 
@@ -256,7 +256,7 @@ class AccountTypePanel extends React.Component {
           <div>Students do not need to register for a PhET account in order to use the PhET sims.</div>
           <br /><br />
           <a className="enabled button" href="https://phet.colorado.edu/en/simulations/category/new">PLAY WITH SIMS</a>
-          <button className="disabled" onClick={this.props.next}>CONTINUE ANYWAY</button>
+          <button className="disabled" onClick={() => this.props.next({types: this.state.typesSelected})}>CONTINUE ANYWAY</button>
         </Modal>
       </div>
     );
@@ -269,30 +269,157 @@ class AccountTypePanel extends React.Component {
  * @return {React.Component} the second screen in the registration page activity
  **/
 class ContactInfoPanel extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      primaryEmail: '',
+      confirmEmail: '',
+      secondaryEmail: '',
+      password: '',
+      confirmPassword: '',
+      firstName: '',
+      lastName: '',
+      country: '',
+      state: '',
+      city: '',
+      zipCode: '',
+      twitterHandle: '',
+      receiveEmail: true,
+      errorMessage: ''
+    }
+  }
+
+  next() {
+    // TODO: validate data
+    let errorMessage = '';
+
+    if ( !( this.state.primaryEmail.indexOf( '@' ) > 0 ) || this.state.primaryEmail.length < 5 ) {
+      errorMessage += "Please enter a valid email address<br />";
+    }
+    else if ( this.state.primaryEmail !== this.state.confirmEmail ) {
+      errorMessage += "Please confirm email address<br />";
+    }
+
+    if ( this.state.password.length < 8 ) {
+      errorMessage += "Password should be at least 8 characters<br />";
+    }
+    else if ( this.state.password !== this.state.confirmPassword ) {
+      errorMessage += "Please confirm password<br />";
+    }
+
+    if ( this.state.firstName.length <= 0 ) {
+      errorMessage += "Please enter your first name<br />";
+    }
+
+    if ( this.state.lastName.length <= 0 ) {
+      errorMessage += "Please enter your last name<br />";
+    }
+
+    if ( this.state.country.length <= 0 ) {
+      errorMessage += "Please select a country<br />";
+    }
+
+    if ( this.state.state.length <= 0 ) {
+      errorMessage += "Please select a state or province<br />";
+    }
+
+    if ( this.state.city.length <= 0 ) {
+      errorMessage += "Please enter a city<br />";
+    }
+
+    if ( this.state.country === 'United States' && this.state.zipCode.length != 5 ) {
+      errorMessage += "Please enter your 5 digit zip code<br />";
+    }
+
+    if ( errorMessage !== '' ) {
+      //TODO: handle error
+      this.setState( { errorMessage } );
+      return;
+    }
+
+    this.props.next( {
+      primaryEmail: this.state.primaryEmail,
+      secondaryEmail: this.state.secondaryEmail,
+      password: this.state.password,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      country: this.state.country,
+      state: this.state.state,
+      city: this.state.city,
+      zipCode: this.state.zipCode,
+      twitterHandle: this.state.twitterHandle,
+      receiveEmail: this.state.receiveEmail
+    } );
+  }
+
   render() {
     return (
       <div>
-        <TextInput name="Primary Email address"/>
-        <TextInput name="Secondary Email address"/>
-        <TextInput name="Re-enter Primary Email address"/>
-        <br />
-        <Password name="Password"/>
-        <Password name="Re-enter Password"/>
-        <br />
-        <TextInput name="First Name"/>
-        <TextInput name="Last Name"/>
-        {/* <DateSelect name="Birthday(optional)" />
-         <LocationSelect />
-         <TextInput name="City" />
-         <ZipCodeInput /> */}
-        <span>
+        <form onSubmit={ this.next.bind( this ) }>
+          <label>
+            <span>Primary Email address:</span>
+            <input type="text" value={ this.state.primaryEmail } onChange={ (event) => { this.setState( { primaryEmail: event.target.value } ); } }/>
+          </label>
+          <label>
+            <span>Secondary Email address:</span>
+            <input type="text" value={ this.state.secondary } onChange={ (event) => { this.setState( { secondary: event.target.value } ); } }/>
+          </label>
+          <label>
+            <span>Re-enter Primary Email address:</span>
+            <input type="text" value={ this.state.confirmEmail } onChange={ (event) => { this.setState( { confirmEmail: event.target.value } ); } }/>
+          </label>
+          <label>
+            <span>First Name:</span>
+            <input type="text" value={ this.state.firstName } onChange={ (event) => { this.setState( { firstName: event.target.value } ); } }/>
+          </label>
+          <label>
+            <span>Last Name:</span>
+            <input type="text" value={ this.state.lastName } onChange={ (event) => { this.setState( { lastName: event.target.value } ); } }/>
+          </label>
+          <label>
+            <span>Country:</span>
+            // TODO: populate with all countries
+            <select value={ this.state.country } onChange={ (event) => { this.setState( { country: event.target.value } ); } }>
+              <option value="United States">Grapefruit</option>
+              <option value="Canada">Canada</option>
+              <option value="Mexico">Mexico</option>
+              <option value="Brazil">Brazil</option>
+            </select>
+          </label>
+          <label>
+            <span>State/Province:</span>
+            // TODO: populate with all states and update based on country
+            <select value={ this.state.state } onChange={ (event) => { this.setState( { state: event.target.value } ); } }>
+              <option value="Colorado">Colorado</option>
+              <option value="California">California</option>
+              <option value="Hawaii">Hawaii</option>
+              <option value="Disarray">Disarray</option>
+            </select>
+          </label>
+          <label>
+            <span>City:</span>
+            <input type="text" value={ this.state.city } onChange={ (event) => { this.setState( { city: event.target.value } ); } }/>
+          </label>
+          <label>
+            // TODO: hide if country !== USA
+            <span>Zip:</span>
+            <input type="text" value={ this.state.zipCode } onChange={ (event) => { this.setState( { zipCode: event.target.value } ); } }/>
+          </label>
+          <label>
+            <span>Twitter Handle (optional):</span>
+            <input type="text" value={ this.state.twitterHandle } onChange={ (event) => { this.setState( { twitterHandle: event.target.value } ); } }/>
+          </label>
+          <span>Email Subscriptions:</span>
+          <label>
+            <input type="checkbox" checked={this.state.receiveEmail} onChange={ (event) => { this.setState( { receiveEmail: event.target.value } ); } } />
+            <label>Receive PhET Emails</label>
+          </label>
 
-        </span>
-        <br />
-        <span>Email subsciptions</span>
-        <CheckBox name="Receive PhET Emails"/>
-        <button className="enabled" onClick={this.props.next}>NEXT</button>
+          <input type="submit" value="NEXT"/>
+        </form>
       </div>
+
+
     );
   }
 }
@@ -353,16 +480,26 @@ class Layout extends React.Component {
     }
   }
 
-  handleNext() {
-    let page = this.state.page;
-    page += 1;
-    if ( page > 3 ) {
-      console.log( 'done' );
-      // POST data to the website
-      // Redirect user to the dest/home page
-      return;
+  handleNext( userData ) {
+    let newState = this.state;
+
+    switch( newState.page ) {
+      case 1:
+        newState.types = userData.types;
+        break;
+      case 2:
+        break;
+      case 3:
+        console.log( 'done' );
+        // POST data to the website
+        // Redirect user to the dest/home page
+        return;
+        break;
+      default:
+
     }
-    this.setState( { page } );
+    newState.page += 1;
+    this.setState( newState );
   }
 
   render() {
