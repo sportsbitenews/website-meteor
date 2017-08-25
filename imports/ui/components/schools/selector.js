@@ -80,13 +80,13 @@ export default class SchoolSelector extends React.Component {
     const inputProps = {
       placeholder: 'Enter your school name, city, or state',
       value: this.state.value,
-      onChange: this.onChange
+      onChange: this.onChange.bind(this)
     };
 
     return (
       <Autosuggest
         suggestions={this.state.suggestions}
-        onSuggestionSelected={this.onSuggestionSelected}
+        onSuggestionSelected={this.onSuggestionSelected.bind(this)}
         onSuggestionsFetchRequested={()=>{}} // fetch handled by search tracker
         onSuggestionsClearRequested={() => {}} // clear handled by search tracker
         getSuggestionValue={suggestion => suggestion.name}

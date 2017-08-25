@@ -27,7 +27,7 @@ div#content > div {
   border: 2px solid #AAAAAA;
   border-radius: 4px;
   text-align: left;
-  min-width: 640px;
+  width: 640px;
 }
 
 div#content button {
@@ -83,4 +83,62 @@ div#header {
 
 .error {
   color: red;
+}
+
+div.contact_info_panel > div {
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 20px;
+  width: 40%;
+  padding: 0px 30px;
+}
+
+div.contact_info_panel label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+div.contact_info_panel label.checkbox_label {
+  display: inline;
+}
+
+div.contact_info_panel input[type=text],
+div.contact_info_panel input[type=password],
+div.contact_info_panel select {
+  display: block;
+  width: 100%;
+}
+
+div.contact_info_panel span.twitter_input:before {
+  content: "@";
+  display: inline;
+  margin-right: 5px;
+  color:#999;
+}
+
+div.contact_info_panel span.twitter_input input {
+  display: inline;
+  width: 90%;
+}
+
+div.contact_info_panel hr {
+  width: 80%;
+  margin-top: -5px;
+  background-color: #ccc;
+  border-color: transparent;
+  margin-bottom: 20px;
+}
+
+div.contact_info_panel label span {
+  margin-bottom: 5px;
+  display: block;
+}
+
+div.contact_info_panel i.fa-twitter {
+  color: #1da1f2;
+  margin: 0px 3px;
+}
+
+div.contact_info_panel div.email_header {
+  margin-bottom: 10px;
 }

@@ -10,6 +10,8 @@
  * @typedef {Object} component - a jsx component
  **/
 
+// TODO: implement translatability
+
 import React from 'react';
 import Modal from 'react-modal';
 import Helmet from 'react-helmet';
@@ -229,10 +231,6 @@ class AccountTypePanel extends React.Component {
     }
   }
 
-  handleSchool( something ) {
-    console.log( something );
-  }
-
   render() {
     const listItems = userTypes.map( ( name ) => {
       return <CheckBox key={name} name={name} onChange={() => this.updateTypesSelected( name )}/>;
@@ -246,7 +244,6 @@ class AccountTypePanel extends React.Component {
         </ul>
         <span className="error">{this.state.errorMessage ? this.state.errorMessage : ''}</span>
         <button className="enabled" onClick={() => { this.next() }}>NEXT</button>
-        <SchoolSelector onClick={this.handleSchool}/>
 
         <Modal
           isOpen={this.state.dialogIsOpen}
@@ -290,7 +287,6 @@ class ContactInfoPanel extends React.Component {
   }
 
   next() {
-    // TODO: validate data
     let errorMessage = '';
 
     if ( !( this.state.primaryEmail.indexOf( '@' ) > 0 ) || this.state.primaryEmail.length < 5 ) {
@@ -299,6 +295,12 @@ class ContactInfoPanel extends React.Component {
     else if ( this.state.primaryEmail !== this.state.confirmEmail ) {
       errorMessage += "Please confirm email address<br />";
     }
+
+    if ( this.state.secondaryEmail.length > 0 && ( !( this.state.secondaryEmail.indexOf( '@' ) > 0 ) || this.state.secondaryEmail.length < 5 ) ) {
+      errorMessage += "Please enter a valid secondary email address<br />";
+    }
+
+    //TODO: check if either email already exists in the database
 
     if ( this.state.password.length < 8 ) {
       errorMessage += "Password should be at least 8 characters<br />";
@@ -333,6 +335,7 @@ class ContactInfoPanel extends React.Component {
 
     if ( errorMessage !== '' ) {
       //TODO: handle error
+      console.log(errorMessage);
       this.setState( { errorMessage } );
       return;
     }
@@ -354,69 +357,100 @@ class ContactInfoPanel extends React.Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={ this.next.bind( this ) }>
+      <div className="contact_info_panel">
+          <div>
+            <label>
+              <span>Primary Email address</span>
+              <input type="text" value={ this.state.primaryEmail } onChange={ (event) => { this.setState( { primaryEmail: event.target.value } ); } }/>
+            </label>
+            <label>
+              <span>Re-enter Primary Email address</span>
+              <input type="text" value={ this.state.confirmEmail } onChange={ (event) => { this.setState( { confirmEmail: event.target.value } ); } }/>
+            </label>
+          </div>
+          <div>
+            <label>
+              <span>Secondary Email address</span>
+              <input type="text" value={ this.state.secondary } onChange={ (event) => { this.setState( { secondary: event.target.value } ); } }/>
+            </label>
+          </div>
+          <div>
+            <label>
+              <span>Password</span>
+              <input type="password" value={ this.state.password } onChange={ (event) => { this.setState( { password: event.target.value } ); } }/>
+            </label>
+            <label>
+              <span>Confirm Password</span>
+              <input type="password" value={ this.state.confirmPassword } onChange={ (event) => { this.setState( { confirmPassword: event.target.value } ); } }/>
+            </label>
+          </div>
+          <div></div>
+          <div>
+            <label>
+              <span>First Name</span>
+              <input type="text" value={ this.state.firstName } onChange={ (event) => { this.setState( { firstName: event.target.value } ); } }/>
+            </label>
+          </div>
+          <div>
+            <label>
+              <span>Last Name</span>
+              <input type="text" value={ this.state.lastName } onChange={ (event) => { this.setState( { lastName: event.target.value } ); } }/>
+            </label>
+          </div>
+          <hr />
+          <div>
+            <label>
+              <span>Country</span>
+              {/*TODO: populate with all countries */}
+              <select value={ this.state.country } onChange={ (event) => { this.setState( { country: event.target.value } ); } }>
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+                <option value="Mexico">Mexico</option>
+                <option value="Brazil">Brazil</option>
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>
+              <span>State/Province</span>
+              {/*TODO: populate with all states and update based on country */}
+              <select value={ this.state.state } onChange={ (event) => { this.setState( { state: event.target.value } ); } }>
+                <option value="Colorado">Colorado</option>
+                <option value="California">California</option>
+                <option value="Hawaii">Hawaii</option>
+                <option value="Disarray">Disarray</option>
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>
+              <span>City</span>
+              <input type="text" value={ this.state.city } onChange={ (event) => { this.setState( { city: event.target.value } ); } }/>
+            </label>
+          </div>
+          <div>
           <label>
-            <span>Primary Email address:</span>
-            <input type="text" value={ this.state.primaryEmail } onChange={ (event) => { this.setState( { primaryEmail: event.target.value } ); } }/>
-          </label>
-          <label>
-            <span>Secondary Email address:</span>
-            <input type="text" value={ this.state.secondary } onChange={ (event) => { this.setState( { secondary: event.target.value } ); } }/>
-          </label>
-          <label>
-            <span>Re-enter Primary Email address:</span>
-            <input type="text" value={ this.state.confirmEmail } onChange={ (event) => { this.setState( { confirmEmail: event.target.value } ); } }/>
-          </label>
-          <label>
-            <span>First Name:</span>
-            <input type="text" value={ this.state.firstName } onChange={ (event) => { this.setState( { firstName: event.target.value } ); } }/>
-          </label>
-          <label>
-            <span>Last Name:</span>
-            <input type="text" value={ this.state.lastName } onChange={ (event) => { this.setState( { lastName: event.target.value } ); } }/>
-          </label>
-          <label>
-            <span>Country:</span>
-            // TODO: populate with all countries
-            <select value={ this.state.country } onChange={ (event) => { this.setState( { country: event.target.value } ); } }>
-              <option value="United States">Grapefruit</option>
-              <option value="Canada">Canada</option>
-              <option value="Mexico">Mexico</option>
-              <option value="Brazil">Brazil</option>
-            </select>
-          </label>
-          <label>
-            <span>State/Province:</span>
-            // TODO: populate with all states and update based on country
-            <select value={ this.state.state } onChange={ (event) => { this.setState( { state: event.target.value } ); } }>
-              <option value="Colorado">Colorado</option>
-              <option value="California">California</option>
-              <option value="Hawaii">Hawaii</option>
-              <option value="Disarray">Disarray</option>
-            </select>
-          </label>
-          <label>
-            <span>City:</span>
-            <input type="text" value={ this.state.city } onChange={ (event) => { this.setState( { city: event.target.value } ); } }/>
-          </label>
-          <label>
-            // TODO: hide if country !== USA
-            <span>Zip:</span>
+            {/*TODO: hide if country !== USA */}
+            <span>Zip code</span>
             <input type="text" value={ this.state.zipCode } onChange={ (event) => { this.setState( { zipCode: event.target.value } ); } }/>
           </label>
+        </div>
+        <div>
           <label>
-            <span>Twitter Handle (optional):</span>
-            <input type="text" value={ this.state.twitterHandle } onChange={ (event) => { this.setState( { twitterHandle: event.target.value } ); } }/>
+            <div><i className="fa fa-twitter" aria-hidden="true"></i>Twitter Handle (optional)</div>
+            <span className="twitter_input"><input type="text" value={ this.state.twitterHandle } onChange={ (event) => { this.setState( { twitterHandle: event.target.value } ); } }/></span>
           </label>
-          <span>Email Subscriptions:</span>
+        </div>
+        <div></div>
+        <div>
+          <div className="email_header">Email Subscriptions</div>
           <label>
             <input type="checkbox" checked={this.state.receiveEmail} onChange={ (event) => { this.setState( { receiveEmail: event.target.value } ); } } />
-            <label>Receive PhET Emails</label>
+            <label className="checkbox_label">Receive PhET Emails</label>
           </label>
+        </div>
 
-          <input type="submit" value="NEXT"/>
-        </form>
+          <button className="enabled" onClick={this.next.bind(this)}>NEXT</button>
       </div>
 
 
@@ -429,10 +463,28 @@ class ContactInfoPanel extends React.Component {
  *
  * @return {React.Component} the third screen in the registration page activity
  **/
-class AdditionalInfoPanel extends React.Component {
+class OrganizationPanel extends React.Component {
+  handleSchool(){}
   render() {
     return (
       <div>
+        <button className="enabled" onClick={this.props.onClick}>REGISTER NOW</button>
+      </div>
+    );
+  }
+}
+
+/**
+ * @param {function} next Callback for moving to the next screen
+ *
+ * @return {React.Component} the third screen in the registration page activity
+ **/
+class ClassroomPanel extends React.Component {
+  handleSchool(){}
+  render() {
+    return (
+      <div>
+        <SchoolSelector onClick={this.handleSchool}/>
         <button className="enabled" onClick={this.props.onClick}>REGISTER NOW</button>
       </div>
     );
@@ -444,7 +496,8 @@ class AdditionalInfoPanel extends React.Component {
  * @return {component} the footer panel
  **/
 function FooterPanel() {
-  return <div>Hello from FooterPanel</div>;
+  // TODO: export FooterPanel as component from wicket app
+  return <div></div>;
 }
 
 /**
@@ -488,6 +541,17 @@ class Layout extends React.Component {
         newState.types = userData.types;
         break;
       case 2:
+        newState.primaryEmail = userData.primaryEmail;
+        newState.secondaryEmail = userData.secondaryEmail;
+        newState.password = userData.password;
+        newState.firstName = userData.firstName;
+        newState.lastName = userData.lastName;
+        newState.country = userData.country;
+        newState.state = userData.state;
+        newState.city = userData.city;
+        newState.zipCode = userData.zipCode;
+        newState.twitterHandle = userData.twitterHandle;
+        newState.receiveEmail = userData.receiveEmail;
         break;
       case 3:
         console.log( 'done' );
@@ -508,15 +572,21 @@ class Layout extends React.Component {
     switch( this.state.page ) {
       case 1:
         headerText = 'Create Your PhET Account';
-        contentPanel = <AccountTypePanel next={() => { this.handleNext() }}/>;
+        contentPanel = <AccountTypePanel next={this.handleNext.bind(this)}/>;
         break;
       case 2:
         headerText = 'Tell Us About You';
-        contentPanel = <ContactInfoPanel next={() => { this.handleNext() }}/>;
+        contentPanel = <ContactInfoPanel next={this.handleNext.bind(this)}/>;
         break;
       case 3:
-        headerText = 'Tell Us About Your Organization';
-        contentPanel = <AdditionalInfoPanel next={() => { this.handleNext() }}/>;
+        if ( this.state.types.indexOf( 'Teacher' ) >= 0 || this.state.types.indexOf( 'Pre-service Teacher' ) >= 0 ) {
+          headerText = 'Tell Us About Your Organization';
+          contentPanel = <OrganizationPanel next={this.handleNext.bind(this)}/>;
+        }
+        else {
+          headerText = 'Tell Us About Your Classroom';
+          contentPanel = <ClassroomPanel next={this.handleNext.bind(this)}/>;
+        }
         break;
       default:
         headerText = '';
@@ -527,6 +597,7 @@ class Layout extends React.Component {
       <div>
         <Helmet>
           <title>Register</title>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
         </Helmet>
 
         <div id="sign-in">
