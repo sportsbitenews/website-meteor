@@ -351,7 +351,8 @@ class ContactInfoPanel extends React.Component {
       city: this.state.city,
       zipCode: this.state.zipCode,
       twitterHandle: this.state.twitterHandle,
-      receiveEmail: this.state.receiveEmail
+      receiveEmail: this.state.receiveEmail,
+      showEmailHelper: false
     } );
   }
 
@@ -370,8 +371,15 @@ class ContactInfoPanel extends React.Component {
           </div>
           <div>
             <label>
-              <span>Secondary Email address</span>
+              <span style={{float: 'left'}}>Secondary Email address (optional)</span>
+              <span style={{float: 'right', color: 'navy'}} onClick={ () => { this.setState( { showEmailHelper: !this.state.showEmailHelper } ); } }>
+                <i className="fa fa-info-circle" aria-hidden="true"></i>
+              </span>
               <input type="text" value={ this.state.secondary } onChange={ (event) => { this.setState( { secondary: event.target.value } ); } }/>
+              { this.state.showEmailHelper
+                ? <div className="helper_label">To ensure you can always access your account, we recommend adding a second personal email address</div>
+                : ''
+              }
             </label>
           </div>
           <div>
