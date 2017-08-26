@@ -81,8 +81,14 @@ div#header {
   margin: 40px 0 20px 0;
 }
 
-.error {
+span.error,
+div.error {
   color: red;
+}
+
+input.error,
+select.error {
+  background-color: #ff9999
 }
 
 div.contact_info_panel > div {
@@ -107,6 +113,8 @@ div.contact_info_panel input[type=password],
 div.contact_info_panel select {
   display: block;
   width: 100%;
+  font-size: inherit;
+  padding: 3px;
 }
 
 div.contact_info_panel span.twitter_input:before {
@@ -118,7 +126,7 @@ div.contact_info_panel span.twitter_input:before {
 
 div.contact_info_panel span.twitter_input input {
   display: inline;
-  width: 90%;
+  width: 255px;
 }
 
 div.contact_info_panel hr {

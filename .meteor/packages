@@ -24,3 +24,4 @@ ddp-rate-limiter
 aldeed:simple-schema
 aldeed:collection2
 meteorhacks:aggregate
+http
