@@ -1,4 +1,4 @@
-img#main-image-index-page {
+/*img#main-image-index-page {
   position: absolute;
   z-index: -1;
   width: 100%;
@@ -48,4 +48,4 @@ div.content {
 
 div.column:not(:first-child) {
   border-left: black 1px solid;
-}
+}*/

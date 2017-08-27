@@ -91,7 +91,7 @@ select.error {
   background-color: #ff9999
 }
 
-div.contact_info_panel > div {
+div.contact_info_panel > form > div {
   display: inline-block;
   vertical-align: top;
   margin-bottom: 20px;

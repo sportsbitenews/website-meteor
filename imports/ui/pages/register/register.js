@@ -17,6 +17,7 @@ import Modal from 'react-modal';
 import Helmet from 'react-helmet';
 
 import SchoolSelector from '/imports/ui/components/schools/selector.js';
+
 import Strings from '/imports/api/strings/strings.js';
 import Locations from '/imports/api/data/countryState.js';
 
@@ -41,7 +42,7 @@ function updateState( self, parameterName, newValue ) {
   self.setState( newState );
 }
 
-/**
+  /**
  * @param {boolean} props.enabled - if true the node is yellow otherwise it is grey
  * @param {boolean} props.active - if true the node is a paper airplane otherwise it is a cirle
  *
@@ -197,7 +198,13 @@ class AccountTypePanel extends React.Component {
     }
     // Otherwise continue to the next screen
     else {
-      this.props.next( { types: this.state.typesSelected } )
+      this.props.next(
+        {
+          types: this.state.typesSelected
+            .map( (type, i) => type ? userTypes[i] : type  )
+            .filter( (type) => {return type} )
+        }
+      );
     }
   }
 
@@ -261,7 +268,12 @@ class ContactInfoPanel extends React.Component {
     }
   }
 
-  next() {
+  next( event ) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.next();
+    return;
+
     let errorMessages = [];
     let errorFields = {};
 
@@ -362,6 +374,8 @@ class ContactInfoPanel extends React.Component {
   render() {
     return (
       <div className="contact_info_panel">
+        <form
+          onSubmit={ this.next.bind( this ) }>
         <div>
           <label>
             <span>Primary Email address</span>
@@ -448,7 +462,6 @@ class ContactInfoPanel extends React.Component {
         <div>
           <label>
             <span>Country</span>
-            {/*TODO: populate with all countries */}
             <select
               className={ this.state.errorFields.country ? 'error' : '' }
               value={ this.state.country }
@@ -459,17 +472,12 @@ class ContactInfoPanel extends React.Component {
                   <option key={country} value={country}>{country}</option>
                 ) )
               }
-              {/* <option value="United States">United States</option>
-               <option value="Canada">Canada</option>
-               <option value="Mexico">Mexico</option>
-               <option value="Brazil">Brazil</option> */}
             </select>
           </label>
         </div>
         <div>
           <label>
             <span>State/Province</span>
-            {/*TODO: populate with all states and update based on country */}
             <select
               className={ this.state.errorFields.state ? 'error' : '' }
               value={ this.state.state }
@@ -482,10 +490,6 @@ class ContactInfoPanel extends React.Component {
                     ) )
                   : ''
               }
-              {/* <option value="Colorado">Colorado</option>
-               <option value="California">California</option>
-               <option value="Hawaii">Hawaii</option>
-               <option value="Disarray">Disarray</option> */}
             </select>
           </label>
         </div>
@@ -501,7 +505,7 @@ class ContactInfoPanel extends React.Component {
           </label>
         </div>
         <div>
-          <label>
+          <label className={this.state.country === 'United States of America' || this.state.country === 'default' ? 'hidden' : ''}>
             {/*TODO: hide if country !== USA */}
             <span>Zip code</span>
             <input
@@ -547,9 +551,10 @@ class ContactInfoPanel extends React.Component {
         </div>
         <button
           className="enabled"
-          onClick={ this.next.bind( this ) }>
+          type="submit">
           NEXT
         </button>
+      </form>
       </div>
 
 
@@ -557,18 +562,100 @@ class ContactInfoPanel extends React.Component {
   }
 }
 
+const subjects = [ "General Sciences", "Astronomy", "Earth Science", "Biology", "Physics", "Chemistry", "Math", "Other" ];
+const grades = [ "Elementary (K-5)", "Middle (6-8)", "High (9-12)", "University", "Other" ];
+const experienceLevels = [ "New User", "Occasional User (I've used a few sims)", "Experienced User (I regularly use sims)", "Power User (I tell everyone about PhET)" ]
+
 /**
  * @param {function} next Callback for moving to the next screen
  *
  * @return {React.Component} the third screen in the registration page activity
  **/
 class OrganizationPanel extends React.Component {
-  handleSchool() {}
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  next( event ) {
+    event.preventDefault();
+    event.stopPropagation();
+    //TODO: validation
+    //TODO: prepare state for return
+    this.props.next();
+  }
 
   render() {
+    const subjectItems = subjects.map( ( subject ) => {
+      return (
+        <li key={subject}>
+          <CheckBox name={subject} onChange={() => this.updateSubjectsSelected( subject )}/>
+        </li>
+      );
+    } );
+
+    const gradeItems = grades.map( ( grade ) => {
+      return (
+        <li key={grade}>
+          <CheckBox name={grade} onChange={() => this.updateGradesSelected( grade )}/>
+        </li>
+      );
+    } );
+
+    const experienceItems = experienceLevels.map( ( experience ) => {
+      return (
+        <li key={experience}>
+          <label>
+            <input type="radio" name="experience" onClick={() => this.updateExperienceSelected(experience)} />
+            {experience}
+          </label>
+        </li>
+      );
+    } );
+
     return (
-      <div>
-        <button className="enabled" onClick={this.props.onClick}>REGISTER NOW</button>
+      <div className="organization_panel">
+        <form onSubmit={this.next.bind(this)}>
+          <label>
+            <span>Organization</span>
+            <input
+              type="text"
+              value={ this.state.organization }
+              onChange={ (event) => { this.setState( { organization: event.target.value } ); } }
+            />
+          </label>
+          <div>
+            <span>Subject(s)</span>
+            <ul id={'subject-checkbox-list'}>
+              {subjectItems}
+            </ul>
+          </div>
+          <div>
+            <span>Grade(s)</span>
+            <ul id={'grade-checkbox-list'}>
+              {gradeItems}
+            </ul>
+          </div>
+          <label>
+            <span>Teaching Experience</span>
+            <input
+              type="number"
+              value={ this.state.teachingExperience }
+              onChange={ (event) => { this.setState( { teachingExperience: event.target.value } ); } }
+            />
+            <span>years</span>
+          </label>
+          <label>
+            <span>PhET Experience</span>
+            <ul>
+              {experienceItems}
+            </ul>
+          </label>
+          <button className="enabled" type="submit">REGISTER NOW</button>
+          <span className="registration_warning">By clicking register, you agree to the University of Colorado's privacy policy</span>
+        </form>
       </div>
     );
   }
@@ -646,6 +733,7 @@ class Layout extends React.Component {
         newState.types = userData.types;
         break;
       case 2:
+        break;
         newState.primaryEmail = userData.primaryEmail;
         newState.secondaryEmail = userData.secondaryEmail;
         newState.password = userData.password;
@@ -685,12 +773,12 @@ class Layout extends React.Component {
         break;
       case 3:
         if ( this.state.types.indexOf( 'Teacher' ) >= 0 || this.state.types.indexOf( 'Pre-service Teacher' ) >= 0 ) {
-          headerText = 'Tell Us About Your Organization';
-          contentPanel = <OrganizationPanel next={this.handleNext.bind(this)}/>;
-        }
-        else {
           headerText = 'Tell Us About Your Classroom';
           contentPanel = <ClassroomPanel next={this.handleNext.bind(this)}/>;
+        }
+        else {
+          headerText = 'Tell Us About Your Organization';
+          contentPanel = <OrganizationPanel next={this.handleNext.bind(this)}/>;
         }
         break;
       default:
