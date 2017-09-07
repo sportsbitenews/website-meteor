@@ -32,7 +32,9 @@ FlowRouter.route( '/:locale', {
 FlowRouter.route( '/:locale/register', {
   action() {
     mount( RegistrationPage,
-      { locale: FlowRouter.getParam( 'locale' ) }
+      {
+        locale: FlowRouter.getParam( 'locale' )
+      }
     );
   }
 } );

@@ -3,6 +3,7 @@
 /**
  * PhET Registration Page
  * @author Matt Pennington
+ * TODO: implement translatability
  *
  * @typedef {Object} React.Component
  * @property {function} setState
@@ -10,119 +11,18 @@
  * @typedef {Object} component - a jsx component
  **/
 
-// TODO: implement translatability
-
 import React from 'react';
 import Modal from 'react-modal';
 import Helmet from 'react-helmet';
 
 import SchoolSelector from '/imports/ui/components/schools/selector.js';
-
 import Strings from '/imports/api/strings/strings.js';
 import Locations from '/imports/api/data/countryState.js';
+import HeaderLine from './components/headerLine/headerLine.js';
 
 import './register.css';
 
-
-// SVG parameters for HeaderLine
-const phetYellow = "#FCEE21";
-const disabledGrey = "#AAAAAA";
-const lineHeight = 35;
-const strokeWidth = 1.5;
-
-/**
- * Immutably changes the state of a React.Component to update the given parameter with the given value
- * @param {React.Component} self - object to update.  Required to have a state member object and a setState member function.
- * @param {string} parameterName
- * @param {object} newValue
- **/
-function updateState( self, parameterName, newValue ) {
-  const newState = self.state;
-  newState[ parameterName ] = newValue;
-  self.setState( newState );
-}
-
-  /**
- * @param {boolean} props.enabled - if true the node is yellow otherwise it is grey
- * @param {boolean} props.active - if true the node is a paper airplane otherwise it is a cirle
- *
- * @return {component} - a horizontal line
- **/
-function Node( props ) {
-  const radius = ( lineHeight * .9 ) / 2;
-  const innerRadius = .8 * radius;
-  const diameter = 2 * radius;
-
-  if ( props.active ) {
-    return (
-      <img src="/img/yellow_paper_airplane.png" alt="" aria-hidden="true"/>
-    )
-  }
-  else if ( props.enabled ) {
-    return (
-      <svg height={diameter} width={diameter}>
-        <circle cx={radius} cy={radius} r={innerRadius} stroke={phetYellow} strokeWidth={strokeWidth} fill={phetYellow}/>
-      </svg>
-    );
-  }
-  else {
-    return (
-      <svg height={diameter} width={diameter}>
-        <circle cx={radius} cy={radius} r={innerRadius} stroke={disabledGrey} strokeWidth={strokeWidth} fillOpacity="0.0"/>
-      </svg>
-    );
-  }
-}
-
-/**
- * @param {boolean} props.enabled - if true the line is yellow otherwise it is grey
- *
- * @return {component} - a horizontal line
- **/
-function Line( props ) {
-  const width = 300;
-  const start = 10;
-  const end = width - ( start * 2 );
-
-  if ( props.enabled ) {
-    return (
-      <svg height={lineHeight} width={width}>
-        <line x1={start} y1={lineHeight / 2} x2={end} y2={lineHeight / 2} stroke={phetYellow} strokeWidth={strokeWidth} fill={phetYellow}/>
-      </svg>
-    );
-  }
-  else {
-    return (
-      <svg height={lineHeight} width={width}>
-        <line x1={start} y1={lineHeight / 2} x2={end} y2={lineHeight / 2} stroke={disabledGrey} strokeWidth={strokeWidth}/>
-      </svg>
-    );
-  }
-}
-
-/**
- * @param {integer} props.page - page number of the current location, should be in the range (1,3)
- *
- * @return {component} the dots, paper airplane, horizontal rules and labels at the top of the registration page
- **/
-function HeaderLine( props ) {
-  return (
-    <div>
-      <div>
-        <Node enabled={props.page > 0} active={props.page === 1}/>
-        <Line enabled={props.page > 1}/>
-        <Node enabled={props.page > 1} active={props.page === 2}/>
-        <Line enabled={props.page > 2}/>
-        <Node enabled={props.page > 2} active={props.page === 3}/>
-      </div>
-      <div id="header-line-text">
-        <span>Account Type</span>
-        <span>Contact Info</span>
-        <span>Additional Info</span>
-      </div>
-    </div>
-  );
-}
+const PUBLIC_ORIGIN = window.location.protocol + '//' + window.location.hostname;
 
 /**
  * @param {string} props.name - the name of the component, displayed in the label
@@ -233,7 +133,7 @@ class AccountTypePanel extends React.Component {
 
           <div>Students do not need to register for a PhET account in order to use the PhET sims.</div>
           <br /><br />
-          <a className="enabled button" href="https://phet.colorado.edu/en/simulations/category/new">PLAY WITH SIMS</a>
+          <a className="enabled button" href={ PUBLIC_ORIGIN + '/' + this.props.locale + '/simulations/category/new' }>PLAY WITH SIMS</a>
           <button className="disabled" onClick={() => this.props.next({types: this.state.typesSelected})}>CONTINUE ANYWAY</button>
         </Modal>
       </div>
@@ -271,8 +171,6 @@ class ContactInfoPanel extends React.Component {
   next( event ) {
     event.preventDefault();
     event.stopPropagation();
-    this.props.next();
-    return;
 
     let errorMessages = [];
     let errorFields = {};
@@ -333,7 +231,7 @@ class ContactInfoPanel extends React.Component {
     }
 
     HTTP.get(
-      'http://192.168.56.101/services/users',
+      PUBLIC_ORIGIN + '/services/users',
       {
         params: {
           email: this.state.primaryEmail
@@ -618,43 +516,51 @@ class OrganizationPanel extends React.Component {
     return (
       <div className="organization_panel">
         <form onSubmit={this.next.bind(this)}>
-          <label>
-            <span>Organization</span>
-            <input
-              type="text"
-              value={ this.state.organization }
-              onChange={ (event) => { this.setState( { organization: event.target.value } ); } }
-            />
-          </label>
-          <div>
-            <span>Subject(s)</span>
+          <div className="col-1">
+            <label>
+              <h4>Organization</h4>
+              <input
+                type="text"
+                value={ this.state.organization }
+                className="organization"
+                onChange={ (event) => { this.setState( { organization: event.target.value } ); } }
+              />
+            </label>
+          </div>
+          <div className="col-3">
+            <h4>Subject(s)</h4>
             <ul id={'subject-checkbox-list'}>
               {subjectItems}
             </ul>
           </div>
-          <div>
-            <span>Grade(s)</span>
+          <div className="col-3">
+            <h4>Grade(s)</h4>
             <ul id={'grade-checkbox-list'}>
               {gradeItems}
             </ul>
           </div>
-          <label>
-            <span>Teaching Experience</span>
-            <input
-              type="number"
-              value={ this.state.teachingExperience }
-              onChange={ (event) => { this.setState( { teachingExperience: event.target.value } ); } }
-            />
-            <span>years</span>
-          </label>
-          <label>
-            <span>PhET Experience</span>
-            <ul>
-              {experienceItems}
-            </ul>
-          </label>
-          <button className="enabled" type="submit">REGISTER NOW</button>
-          <span className="registration_warning">By clicking register, you agree to the University of Colorado's privacy policy</span>
+          <div className="col-3">
+            <label>
+              <h4>Teaching Experience</h4>
+              <input
+                type="number"
+                value={ this.state.teachingExperience }
+                className="experience"
+                onChange={ (event) => { this.setState( { teachingExperience: event.target.value } ); } }
+              />
+              <span>years</span>
+            </label>
+          </div>
+          <div className="col-2">
+            <label>
+              <h4>PhET Experience</h4>
+              <ul>
+                {experienceItems}
+              </ul>
+            </label>
+          </div>
+          <button className="enabled register" type="submit">REGISTER NOW</button>
+          <span className="registration_warning">By clicking register, you agree to the University of Colorado&quot;s privacy policy</span>
         </form>
       </div>
     );
@@ -680,12 +586,21 @@ class ClassroomPanel extends React.Component {
 }
 
 /**
- * TODO: implement this using iframe or ESI component or something from the wicket site
- * @return {component} the footer panel
+ * @return {React.Component} the footer panel
  **/
-function FooterPanel() {
-  // TODO: export FooterPanel as component from wicket app
-  return <div></div>;
+class FooterPanel extends React.Component {
+  render() {
+    window.addEventListener( 'message', ( message ) => {
+      console.log( message )
+      message = JSON.parse( message.data );
+      if ( message.switchLocale ) {
+        window.location = window.location.pathname.replace( this.props.locale, message.switchLocale)
+      }
+    } );
+    return (
+      <iframe className="footer" src={ PUBLIC_ORIGIN + '/' + this.props.locale + '/footer' }></iframe>
+    );
+  }
 }
 
 /**
@@ -694,8 +609,6 @@ function FooterPanel() {
 class Layout extends React.Component {
   constructor( props ) {
     super( props );
-
-    console.log( this.props )
 
     this.state = {
       getString: Strings( [ 'nav.iPad' ], this.props.locale, this ),
@@ -733,7 +646,6 @@ class Layout extends React.Component {
         newState.types = userData.types;
         break;
       case 2:
-        break;
         newState.primaryEmail = userData.primaryEmail;
         newState.secondaryEmail = userData.secondaryEmail;
         newState.password = userData.password;
@@ -751,9 +663,8 @@ class Layout extends React.Component {
         // POST data to the website
         // Redirect user to the dest/home page
         return;
-        break;
       default:
-
+        break;
     }
     newState.page += 1;
     this.setState( newState );
@@ -796,7 +707,7 @@ class Layout extends React.Component {
         <div id="sign-in">
           <span>Already Registered?</span>
           {/* TODO: Handle locale and dest */}
-          <a className="button disabled" href="https://phet.colorado.edu/en/sign-in">SIGN IN</a>
+          <a className="button disabled" href={ PUBLIC_ORIGIN + '/' + this.props.locale + '/' + 'sign-in' }>SIGN IN</a>
         </div>
 
         <div id="header">
@@ -810,14 +721,13 @@ class Layout extends React.Component {
         </div>
         <div>
           STRING: {this.state.getString( 'nav.iPad' )}</div>
-        <FooterPanel />
+        <FooterPanel locale={ this.props.locale } />
       </div>
     );
   }
 }
 
 export const RegistrationPage = ( { locale } ) => {
-  console.log( locale );
   return (
     <Layout locale={locale}/>
   );

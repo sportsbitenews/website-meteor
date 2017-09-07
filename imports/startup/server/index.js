@@ -2,14 +2,24 @@
 
 
 import {Meteor} from 'meteor/meteor';
+// import WebApp from 'meteor/webapp';
+
 import {Schools} from '/imports/api/schools/schools.js';
 
 import '/imports/api/schools/server/publications.js';
 import '/imports/api/schools/methods.js';
 
 
-// if the database is empty on server start, create some sample data.
+// If the database is empty on server start, create some sample data.
 Meteor.startup( () => {
+
+  // Allow CORS
+  WebApp.connectHandlers.use(function(req, res, next) {
+    console.log( req );
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    return next();
+  });
+
   if ( Schools.find().count() === 0 ) {
     const data = [
       {
