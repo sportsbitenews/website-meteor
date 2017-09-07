@@ -17,7 +17,7 @@
    }
 
    HTTP.get(
-     'http://192.168.56.101/services/translated-strings', {
+     window.location.origin + '/services/translated-strings', {
        params: {
          keys: keys.join( ',' ),
          locale: locale

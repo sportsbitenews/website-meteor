@@ -14,11 +14,11 @@ import '/imports/api/schools/methods.js';
 Meteor.startup( () => {
 
   // Allow CORS
-  WebApp.connectHandlers.use(function(req, res, next) {
-    console.log( req );
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    return next();
-  });
+  // WebApp.connectHandlers.use(function(req, res, next) {
+  //   console.log( req );
+  //   res.setHeader("Access-Control-Allow-Origin", "*");
+  //   return next();
+  // });
 
   if ( Schools.find().count() === 0 ) {
     const data = [
