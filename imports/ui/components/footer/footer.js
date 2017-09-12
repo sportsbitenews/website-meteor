@@ -25,9 +25,10 @@ export class FooterPanel extends React.Component {
     window.addEventListener( 'message', ( message ) => {
       console.log( message );
       message = JSON.parse( message.data );
+
       if ( message.switchLocale ) {
         window.history.pushState("","",window.location.pathname.replace( this.state.locale, message.switchLocale));
-        this.setState({locale});
+        this.setState( { locale: message.switchLocale } );
         this.props.switchLocale( locale );
       }
 
