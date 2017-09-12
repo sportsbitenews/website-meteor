@@ -125,7 +125,7 @@ div.contact_info_panel span.twitter_input:before {
   content: "@";
   display: inline;
   margin-right: 5px;
-  color:#999;
+  color: #999;
 }
 
 div.contact_info_panel span.twitter_input input {
@@ -156,38 +156,37 @@ div.contact_info_panel div.email_header {
 }
 
 div.contact_info_panel div.helper_label {
-    font-size: x-small;
-    background-color: lightgray;
-    width: 278px;
-    padding: 10px;
+  font-size: x-small;
+  background-color: lightgray;
+  width: 278px;
+  padding: 10px;
 }
 
-
 div.organization_panel {
-    display: inline-block;
-    min-height: 600px;
+  display: inline-block;
+  min-height: 600px;
 }
 
 div.organization_panel div {
-    display: inline-block;
-    vertical-align: top;
+  display: inline-block;
+  vertical-align: top;
 }
 
 div.organization_panel input[type=number] {
-    width: 56px;
+  width: 56px;
 }
 
 div.organization_panel span.registration_warning {
-    position: absolute;
-    bottom: 7px;
-    margin: auto;
-    display: block;
-    right: 115px;
+  position: absolute;
+  bottom: 7px;
+  margin: auto;
+  display: block;
+  right: 115px;
 }
 
 div.organization_panel h4 {
-    margin: 5px 0px;
-    font-weight: inherit;
+  margin: 5px 0px;
+  font-weight: inherit;
 }
 
 div.organization_panel ul {
@@ -204,32 +203,32 @@ div.organization_panel input[type=text] {
 div.organization_panel div.col-1,
 div.organization_panel div.col-2,
 div.organization_panel div.col-3 {
-    padding-bottom: 25px
+  padding-bottom: 25px
 }
 
 div.organization_panel input.organization {
-    width: 66%;
+  width: 66%;
 }
 
 div.organization_panel input.experience {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 div.organization_panel div.col-1 {
-    width: 100%;
+  width: 100%;
 }
 
 div.organization_panel div.col-2 {
-    width: 50%;
+  width: 50%;
 }
 
 div.organization_panel div.col-3 {
-    width: 33%;
-    margin: 10px 0px;
+  width: 33%;
+  margin: 10px 0px;
 }
 
 iframe.footer {
-    width: 100%;
-    height: 330px;
-    border: none;
+  width: 100%;
+  height: 330px;
+  border: none;
 }

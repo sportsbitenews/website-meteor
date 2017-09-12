@@ -9,7 +9,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Helmet from 'react-helmet';
 
-import { PUBLIC_ORIGIN } from '/imports/api/data/constants.js';
+import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js';
 
 /**
  * @return {React.Component} the footer panel
@@ -27,7 +27,7 @@ export class FooterPanel extends React.Component {
       message = JSON.parse( message.data );
 
       if ( message.switchLocale ) {
-        window.history.pushState("","",window.location.pathname.replace( this.state.locale, message.switchLocale));
+        window.history.pushState( '', '', window.location.pathname.replace( this.state.locale, message.switchLocale ) );
         this.setState( { locale: message.switchLocale } );
         this.props.switchLocale( locale );
       }

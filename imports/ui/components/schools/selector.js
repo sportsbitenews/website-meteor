@@ -80,7 +80,7 @@ export default class SchoolSelector extends React.Component {
     const inputProps = {
       placeholder: 'Enter your school name, city, or state',
       value: this.state.value,
-      onChange: this.onChange.bind(this)
+      onChange: this.onChange.bind( this )
     };
 
     return (

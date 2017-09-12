@@ -1,9 +1,9 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
-  * Website Constants
-  * @author Matt Pennington
-  **/
+ * Website Constants
+ * @author Matt Pennington
+ **/
 
 let origin = window.location.origin;
 
