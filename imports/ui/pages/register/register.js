@@ -16,13 +16,14 @@ import Modal from 'react-modal';
 import Helmet from 'react-helmet';
 
 import SchoolSelector from '/imports/ui/components/schools/selector.js';
+import FooterPanel from '/imports/ui/components/footer/footer.js';
 import Strings from '/imports/api/strings/strings.js';
 import Locations from '/imports/api/data/countryState.js';
 import HeaderLine from './components/headerLine/headerLine.js';
 
 import './register.css';
 
-const PUBLIC_ORIGIN = window.location.protocol + '//' + window.location.hostname;
+import { PUBLIC_ORIGIN } from '/imports/api/data/constants.js';
 
 /**
  * @param {string} props.name - the name of the component, displayed in the label
@@ -586,24 +587,6 @@ class ClassroomPanel extends React.Component {
 }
 
 /**
- * @return {React.Component} the footer panel
- **/
-class FooterPanel extends React.Component {
-  render() {
-    window.addEventListener( 'message', ( message ) => {
-      console.log( message )
-      message = JSON.parse( message.data );
-      if ( message.switchLocale ) {
-        window.location = window.location.pathname.replace( this.props.locale, message.switchLocale)
-      }
-    } );
-    return (
-      <iframe className="footer" src={ PUBLIC_ORIGIN + '/' + this.props.locale + '/footer' }></iframe>
-    );
-  }
-}
-
-/**
  * @return {React.Component} main class
  **/
 class Layout extends React.Component {
@@ -611,6 +594,7 @@ class Layout extends React.Component {
     super( props );
 
     this.state = {
+      locale: this.props.locale,
       getString: Strings( [ 'nav.iPad' ], this.props.locale, this ),
       page: 1,
       types: [],
@@ -636,6 +620,13 @@ class Layout extends React.Component {
       lmsList: [],
       curriculumProviderList: []
     }
+  }
+
+  switchLocale( locale ) {
+    this.setState({
+      locale,
+      getString: Strings( [ 'nav.iPad' ], locale, this )
+    })
   }
 
   handleNext( userData ) {
@@ -711,7 +702,7 @@ class Layout extends React.Component {
         </div>
 
         <div id="header">
-          <img src="/img/phet_registration_logo.png" alt="PhET Logo"/>
+          <img src="/meteor/img/phet_registration_logo.png" alt="PhET Logo"/>
           <h1>{headerText}</h1>
           <HeaderLine page={this.state.page}/>
         </div>
@@ -721,7 +712,7 @@ class Layout extends React.Component {
         </div>
         <div>
           STRING: {this.state.getString( 'nav.iPad' )}</div>
-        <FooterPanel locale={ this.props.locale } />
+        <FooterPanel locale={ this.state.locale } switchLocale={ this.switchLocale.bind( this ) }/>
       </div>
     );
   }

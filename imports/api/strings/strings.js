@@ -5,7 +5,7 @@
  * @author Matt Pennington
  **/
 
- const ENGLISH_LOCALE = 'en';
+import { PUBLIC_ORIGIN, ENGLISH_LOCALE } from '/imports/api/data/constants.js'
 
  export default ( keys, locale, page ) => {
    page.setState( { stringsReady: false } );
@@ -17,7 +17,7 @@
    }
 
    HTTP.get(
-     window.location.origin + '/services/translated-strings', {
+     PUBLIC_ORIGIN + '/services/translated-strings', {
        params: {
          keys: keys.join( ',' ),
          locale: locale

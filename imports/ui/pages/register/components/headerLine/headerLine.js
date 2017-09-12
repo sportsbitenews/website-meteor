@@ -30,7 +30,7 @@ const diameter = 2 * radius;
 
 if ( props.active ) {
   return (
-    <img src="/img/yellow_paper_airplane.png" alt="" aria-hidden="true"/>
+    <img src="/meteor/img/yellow_paper_airplane.png" alt="" aria-hidden="true"/>
   )
 }
 else if ( props.enabled ) {
