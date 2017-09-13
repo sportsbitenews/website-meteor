@@ -27,16 +27,10 @@ export default class FooterPanel extends React.Component {
       }
 
       if ( message.switchLocale ) {
-        window.history.pushState( '', '', window.location.pathname.replace( this.state.locale, message.switchLocale ) );
+        window.history.pushState( '', '', window.location.pathname.replace( this.props.locale, message.switchLocale ) );
         this.props.switchLocale( message.switchLocale );
       }
-
-      // if ( message.setHeight ) {
-      //   this.setState( { height: message.setHeight } );
-      // }
     } );
-
-    // this.state = { height: '100%' };
   }
 
   render() {
