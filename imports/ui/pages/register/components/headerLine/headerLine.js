@@ -7,7 +7,7 @@
 
 import React from 'react';
 
-import Strings from '/imports/api/strings/strings.js';
+import {MOUNT_PATH} from '/imports/api/data/constants.js'
 
 import './headerLine.css'
 
@@ -30,7 +30,7 @@ function Node( props ) {
 
   if ( props.active ) {
     return (
-      <img src="/meteor/img/yellow_paper_airplane.png" alt="" aria-hidden="true"/>
+      <img src={ MOUNT_PATH + '/img/yellow_paper_airplane.png'} alt="" aria-hidden="true"/>
     )
   }
   else if ( props.enabled ) {

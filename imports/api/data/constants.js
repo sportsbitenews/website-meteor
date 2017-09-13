@@ -14,4 +14,5 @@ if ( secondColon !== -1 ) {
 }
 
 export const PUBLIC_ORIGIN = origin;
+export const MOUNT_PATH = '/_m';
 export const ENGLISH_LOCALE = 'en';

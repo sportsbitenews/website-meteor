@@ -23,7 +23,7 @@ import HeaderLine from './components/headerLine/headerLine.js';
 
 import './register.css';
 
-import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js';
+import {PUBLIC_ORIGIN, MOUNT_PATH} from '/imports/api/data/constants.js';
 
 /**
  * @param {string} props.name - the name of the component, displayed in the label
@@ -705,7 +705,7 @@ class Layout extends React.Component {
         </div>
 
         <div id="header">
-          <img src="/meteor/img/phet_registration_logo.png" alt="PhET Logo"/>
+          <img src={ MOUNT_PATH + '/img/phet_registration_logo.png' } alt="PhET Logo"/>
           <h1>{headerText}</h1>
           <HeaderLine page={this.state.page}/>
         </div>

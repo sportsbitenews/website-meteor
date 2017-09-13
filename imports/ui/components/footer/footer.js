@@ -16,8 +16,7 @@ export default class FooterPanel extends React.Component {
   constructor() {
     super();
 
-    console.log('footer constructor');
-    // Allows the footer panel to change the locale and set the iframe height
+    // Allows the footer panel to change the locale reactively
     window.addEventListener( 'message', ( message ) => {
       try {
         message = JSON.parse( message.data );
