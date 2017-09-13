@@ -30,7 +30,6 @@ export default class FooterPanel extends React.Component {
 
       if ( message.switchLocale ) {
         window.history.pushState( '', '', window.location.pathname.replace( this.state.locale, message.switchLocale ) );
-        this.setState( { locale: message.switchLocale } );
         this.props.switchLocale( { locale: message.switchLocale } );
       }
 

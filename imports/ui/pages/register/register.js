@@ -625,7 +625,7 @@ class Layout extends React.Component {
   }
 
   switchLocale( locale ) {
-    console.log( 'From SwitchLocale: ' + locale );
+    console.log( 'From SwitchLocale: ', locale );
     window.history.pushState(null, null, window.location.path.replace( '/' + this.state.locale + '/', '/' + locale + '/' ) );
     this.setState( {
       locale: locale,
