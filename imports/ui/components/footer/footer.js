@@ -40,7 +40,7 @@ export default class FooterPanel extends React.Component {
   }
 
   render() {
-    console.log('footer render');
+    console.log('footer render: ', this.state);
     return (
       <iframe
         className="footer"
