@@ -21,8 +21,12 @@ export default class FooterPanel extends React.Component {
   render() {
     // Allows the footer panel to change the locale
     window.addEventListener( 'message', ( message ) => {
-      console.log( message );
-      message = JSON.parse( message.data );
+      try {
+        message = JSON.parse( message.data );
+      }
+      catch ( e ) {
+        return;
+      }
 
       if ( message.switchLocale ) {
         window.history.pushState( '', '', window.location.pathname.replace( this.state.locale, message.switchLocale ) );

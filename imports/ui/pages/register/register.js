@@ -239,8 +239,11 @@ class ContactInfoPanel extends React.Component {
         }
       },
       ( error, result ) => {
-        console.log( 'err:', error );
-        console.log( 'res:', result );
+        if ( error ) {
+          console.log( 'err:', error );
+          return;
+        } 
+
 
         if ( result.data.userExists === "true" ) {
           errorMessages.push( "This email address has already been registered. Please check your inbox for a confirmation email." );

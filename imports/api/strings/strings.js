@@ -24,7 +24,10 @@ export default ( keys, locale, page ) => {
       }
     },
     ( error, result ) => {
-      console.log( result );
+      if ( error ) {
+        console.log( error );
+        return;
+      }
       stringData = result.data;
       page.setState( { stringsReady: true } );
     }
