@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Registration Page Progress Graphic
+ * PhET Registration Page - Progress Graphic Component
  * @author Matt Pennington
  **/
 
