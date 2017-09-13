@@ -15,10 +15,7 @@ import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js';
 export default class FooterPanel extends React.Component {
   constructor() {
     super();
-    this.state = { height: '100%' };
-  }
-
-  render() {
+    
     // Allows the footer panel to change the locale
     window.addEventListener( 'message', ( message ) => {
       try {
@@ -38,6 +35,10 @@ export default class FooterPanel extends React.Component {
       }
     } );
 
+    this.state = { height: '100%' };
+  }
+
+  render() {
     return (
       <iframe
         className="footer"
