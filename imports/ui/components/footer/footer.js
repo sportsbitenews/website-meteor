@@ -15,8 +15,9 @@ import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js';
 export default class FooterPanel extends React.Component {
   constructor() {
     super();
-    
-    // Allows the footer panel to change the locale
+
+    console.log('footer constructor');
+    // Allows the footer panel to change the locale and set the iframe height
     window.addEventListener( 'message', ( message ) => {
       try {
         message = JSON.parse( message.data );
@@ -39,6 +40,7 @@ export default class FooterPanel extends React.Component {
   }
 
   render() {
+    console.log('footer render');
     return (
       <iframe
         className="footer"
