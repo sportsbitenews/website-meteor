@@ -584,6 +584,7 @@ class ClassroomPanel extends React.Component {
   }
 }
 
+const registrationStrings = [];
 /**
  * @return {React.Component} main class
  **/
@@ -593,7 +594,7 @@ class Layout extends React.Component {
 
     this.state = {
       locale: this.props.locale,
-      getString: Strings( [ 'nav.iPad' ], this.props.locale, this ),
+      getString: Strings( registrationStrings, this.props.locale, this ),
       page: 1,
       types: [],
       primaryEmail: '',
@@ -621,9 +622,11 @@ class Layout extends React.Component {
   }
 
   switchLocale( locale ) {
+    console.log( 'From SwitchLocale: ' + locale );
+    window.history.pushState(null, null, window.location.path.replace( '/' + this.state.locale + '/', '/' + locale + '/' ) );
     this.setState( {
-      locale,
-      getString: Strings( [ 'nav.iPad' ], locale, this )
+      locale: locale,
+      getString: Strings( registrationStrings, locale, this )
     } )
   }
 
@@ -708,8 +711,7 @@ class Layout extends React.Component {
         <div id="content">
           {contentPanel}
         </div>
-        <div>
-          STRING: {this.state.getString( 'nav.iPad' )}</div>
+
         <FooterPanel locale={ this.state.locale } switchLocale={ this.switchLocale.bind( this ) }/>
       </div>
     );
