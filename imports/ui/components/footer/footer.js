@@ -6,15 +6,13 @@
  **/
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Helmet from 'react-helmet';
 
 import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js';
 
 /**
  * @return {React.Component} the footer panel
  **/
-export class FooterPanel extends React.Component {
+export default class FooterPanel extends React.Component {
   constructor() {
     super();
     this.state = { height: '100%' };
@@ -29,7 +27,7 @@ export class FooterPanel extends React.Component {
       if ( message.switchLocale ) {
         window.history.pushState( '', '', window.location.pathname.replace( this.state.locale, message.switchLocale ) );
         this.setState( { locale: message.switchLocale } );
-        this.props.switchLocale( locale );
+        this.props.switchLocale( { locale: message.switchLocale } );
       }
 
       if ( message.setHeight ) {
@@ -49,5 +47,3 @@ export class FooterPanel extends React.Component {
     );
   }
 }
-
-export default FooterPanel;
