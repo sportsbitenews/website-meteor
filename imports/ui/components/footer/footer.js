@@ -31,22 +31,19 @@ export default class FooterPanel extends React.Component {
         this.props.switchLocale( message.switchLocale );
       }
 
-      if ( message.setHeight ) {
-        this.setState( { height: message.setHeight } );
-      }
+      // if ( message.setHeight ) {
+      //   this.setState( { height: message.setHeight } );
+      // }
     } );
 
-    this.state = { height: '100%' };
+    // this.state = { height: '100%' };
   }
 
   render() {
-    console.log('footer render: ', this.state);
     return (
       <iframe
         className="footer"
-        style={ { height: this.state.height, overflow:'visible' } }
         src={ PUBLIC_ORIGIN + '/' + this.props.locale + '/footer' }
-        height={ this.state.height }
         scrolling="no"
         frameBorder="0"
       />
