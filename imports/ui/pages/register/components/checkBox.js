@@ -5,6 +5,8 @@
  * @author Matt Pennington
  **/
 
+import React from 'react';
+
 /**
  * @param {string} props.name - the name of the component, displayed in the label
  * @param {function} props.onChange - listener called when the checked state of this component changes
