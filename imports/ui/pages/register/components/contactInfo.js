@@ -12,6 +12,8 @@
 
 import React from 'react';
 
+import Locations from '/imports/api/data/countryState.js';
+
 import CheckBox from './checkBox.js';
 
 import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js'

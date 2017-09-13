@@ -12,6 +12,8 @@
 
 import React from 'react';
 
+import SchoolSelector from '/imports/ui/components/schools/selector.js';
+
 import CheckBox from './checkBox.js';
 
 import {SUBJECTS, GRADES, EXPERIENCE_LEVELS} from '/imports/ui/pages/register/register.js';

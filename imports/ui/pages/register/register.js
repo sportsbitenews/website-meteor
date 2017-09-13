@@ -14,10 +14,8 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 
-import SchoolSelector from '/imports/ui/components/schools/selector.js';
 import FooterPanel from '/imports/ui/components/footer/footer.js';
 import Strings from '/imports/api/strings/strings.js';
-import Locations from '/imports/api/data/countryState.js';
 
 import HeaderLine from './components/headerLine/headerLine.js';
 import AccountTypePanel from './components/accountType.js';
