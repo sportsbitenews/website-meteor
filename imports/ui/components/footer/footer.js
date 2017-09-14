@@ -25,9 +25,20 @@ export default class FooterPanel extends React.Component {
         return;
       }
 
+      // Handle locale switch
       if ( message.switchLocale ) {
         window.history.pushState( '', '', window.location.pathname.replace( this.props.locale, message.switchLocale ) );
         this.props.switchLocale( message.switchLocale );
+      }
+      // Handle anchor click
+      else if ( message.navigate ) {
+        if ( message.navigate.endsWith( 'footer' ) ) {
+          const locale = message.navigate.substr( 1, message.indexOf( '/', 1 ) - 1 );
+          this.props.switchLocale( locale );
+        }
+        else {
+          window.location = message.navigate;
+        }
       }
     } );
   }
