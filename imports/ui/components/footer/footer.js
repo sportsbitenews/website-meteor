@@ -33,7 +33,7 @@ export default class FooterPanel extends React.Component {
       // Handle anchor click
       else if ( message.navigate ) {
         if ( message.navigate.endsWith( 'footer' ) ) {
-          const locale = message.navigate.substr( 1, message.indexOf( '/', 1 ) - 1 );
+          const locale = message.navigate.substr( 1, message.navigate.indexOf( '/', 1 ) - 1 );
           this.props.switchLocale( locale );
         }
         else {
