@@ -55,6 +55,7 @@ export default class RegistrationPage extends React.Component {
   }
 
   handleNext( user ) {
+    console.log( 'handling next: ', user, this.state.page );
     if ( this.state.page < 3 ) {
       this.setState( {
         user,
@@ -62,21 +63,22 @@ export default class RegistrationPage extends React.Component {
       } );
     }
     else {
-      user.validate( (user, errorMessages) => {
+      user.validate( ( user, errorMessages ) => {
         if ( errorMessages === null ) {
-          console.log('finished without errors.');
+          console.log( 'finished without errors.' );
           //TODO: submit user to database
           window.location = this.props.dest;
         }
         else {
           //TODO: handle validation errors
-          console.log('finished with errors.')
+          console.log( 'finished with errors.' )
         }
       } )
     }
   }
 
   render() {
+    console.log('rendering page: ', this.state.page );
     let contentPanel;
     let headerText;
     switch( this.state.page ) {
@@ -89,7 +91,7 @@ export default class RegistrationPage extends React.Component {
         contentPanel = <ContactInfoPanel next={this.handleNext.bind(this)} user={this.state.user}/>;
         break;
       case 3:
-        if ( this.state.types.indexOf( 'Teacher' ) >= 0 || this.state.types.indexOf( 'Pre-service Teacher' ) >= 0 ) {
+        if ( this.state.user.types.indexOf( 'Teacher' ) >= 0 || this.state.user.types.indexOf( 'Pre-service Teacher' ) >= 0 ) {
           headerText = 'Tell Us About Your Classroom';
           contentPanel = <ClassroomPanel next={this.handleNext.bind(this)} user={this.state.user}/>;
         }

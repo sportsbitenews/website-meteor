@@ -66,7 +66,7 @@ export default class ContactInfoPanel extends React.Component {
     this.setState( { errorMessages: null } );
 
     newUser.validateContactInfo( ( user, errorMessages ) => {
-      console.log("finished validating contact info:", user);
+      console.log("finished validating contact info:", user, errorMessages);
       if ( errorMessages === null ) {
         this.props.next( user );
       }
