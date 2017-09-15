@@ -55,8 +55,11 @@ export default class RegistrationPage extends React.Component {
   }
 
   handleNext( user ) {
-    if ( page < 3 ) {
-      this.setState( { user, page: this.state.page + 1 } );
+    if ( this.state.page < 3 ) {
+      this.setState( {
+        user,
+        page: this.state.page + 1
+      } );
     }
     else {
       user.validate( (user, errorMessages) => {
