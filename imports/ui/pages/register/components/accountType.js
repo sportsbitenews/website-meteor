@@ -53,7 +53,7 @@ export default class AccountTypePanel extends React.Component {
 
   updateTypesSelected( userType ) {
     const typesSelected = this.state.typesSelected;
-    typesSelected[ USER_TYPES.indexOf( userType ) ] = !typesSelected[ USER_TYPES.indexOf( userType ) ];
+    typesSelected[ USER_TYPES_ARRAY.indexOf( userType ) ] = !typesSelected[ USER_TYPES_ARRAY.indexOf( userType ) ];
     this.setState( { typesSelected } );
   }
 
@@ -90,7 +90,7 @@ export default class AccountTypePanel extends React.Component {
   }
 
   render() {
-    const listItems = USER_TYPES.map( ( name ) => {
+    const listItems = USER_TYPES_ARRAY.map( ( name ) => {
       return (
         <li key={name}>
           <CheckBox name={name} onChange={() => this.updateTypesSelected( name )}/>
