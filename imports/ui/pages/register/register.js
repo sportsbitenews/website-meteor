@@ -79,20 +79,20 @@ export default class RegistrationPage extends React.Component {
     switch( this.state.page ) {
       case 1:
         headerText = 'Create Your PhET Account';
-        contentPanel = <AccountTypePanel next={this.handleNext.bind(this)}/>;
+        contentPanel = <AccountTypePanel next={this.handleNext.bind(this)} user={this.state.user}/>;
         break;
       case 2:
         headerText = 'Tell Us About You';
-        contentPanel = <ContactInfoPanel next={this.handleNext.bind(this)}/>;
+        contentPanel = <ContactInfoPanel next={this.handleNext.bind(this)} user={this.state.user}/>;
         break;
       case 3:
         if ( this.state.types.indexOf( 'Teacher' ) >= 0 || this.state.types.indexOf( 'Pre-service Teacher' ) >= 0 ) {
           headerText = 'Tell Us About Your Classroom';
-          contentPanel = <ClassroomPanel next={this.handleNext.bind(this)}/>;
+          contentPanel = <ClassroomPanel next={this.handleNext.bind(this)} user={this.state.user}/>;
         }
         else {
           headerText = 'Tell Us About Your Organization';
-          contentPanel = <OrganizationPanel next={this.handleNext.bind(this)}/>;
+          contentPanel = <OrganizationPanel next={this.handleNext.bind(this)} user={this.state.user}/>;
         }
         break;
       default:
