@@ -251,7 +251,7 @@ export default class User {
           errorMessages.primaryEmail = "This email address has already been registered. Please check your inbox for a confirmation email.";
         }
 
-        callback( this, errorMessages === {} ? null : errorMessages );
+        callback( this, Object.keys(errorMessages).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
       }
     );
   }
