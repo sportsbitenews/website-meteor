@@ -91,7 +91,7 @@ export default class RegistrationPage extends React.Component {
         contentPanel = <ContactInfoPanel next={this.handleNext.bind(this)} user={this.state.user}/>;
         break;
       case 3:
-        if ( this.state.user.types.indexOf( 'Teacher' ) >= 0 || this.state.user.types.indexOf( 'Pre-service Teacher' ) >= 0 ) {
+        if ( this.state.user.isTeacher() ) {
           headerText = 'Tell Us About Your Classroom';
           contentPanel = <ClassroomPanel next={this.handleNext.bind(this)} user={this.state.user}/>;
         }
