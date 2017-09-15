@@ -66,7 +66,7 @@ export default class AccountTypePanel extends React.Component {
       this.setState( { errorMessages: { types: 'Please select a type' } } );
     }
     else {
-      typesSelected.forEach( ( isSelected, index ) => {
+      this.state.typesSelected.forEach( ( isSelected, index ) => {
         if ( isSelected ) {
           this.props.user.types.push( USER_TYPES_ARRAY[ index ] );
         }
