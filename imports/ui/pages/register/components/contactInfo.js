@@ -16,10 +16,9 @@ import Locations from '/imports/api/data/countryState.js';
 
 import CheckBox from './checkBox.js';
 
-import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js'
-
 /**
- * @param {function} next Callback for moving to the next screen
+ * @param {Function} this.props.next - Callback for moving to the next screen
+ * @param {User} this.props.user - Callback for moving to the next screen
  *
  * @return {React.Component} the second screen in the registration page activity
  **/
@@ -40,8 +39,7 @@ export default class ContactInfoPanel extends React.Component {
       zipCode: '',
       twitterHandle: '',
       receiveEmail: true,
-      errorMessages: [],
-      errorFields: {}
+      errorMessages: {}
     }
   }
 
@@ -49,116 +47,44 @@ export default class ContactInfoPanel extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    let errorMessages = [];
-    let errorFields = {};
+    const newUser = this.props.user;
 
-    if ( !( this.state.primaryEmail.indexOf( '@' ) > 0 ) || this.state.primaryEmail.length < 5 ) {
-      errorMessages.push( "Please enter a valid email address" );
-      errorFields.primaryEmail = 1;
-    }
-    else if ( this.state.primaryEmail !== this.state.confirmEmail ) {
-      errorMessages.push( "Please confirm email address" );
-      errorFields.confirmEmail = 1;
-    }
+    newUser.primaryEmail = this.state.primaryEmail;
+    newUser.confirmEmail = this.state.confirmEmail;
+    newUser.secondaryEmail = this.state.secondaryEmail;
+    newUser.password = this.state.password;
+    newUser.confirmPassword = this.state.confirmPassword;
+    newUser.firstName = this.state.firstName;
+    newUser.lastName = this.state.lastName;
+    newUser.country = this.state.country;
+    newUser.state = this.state.state;
+    newUser.city = this.state.city;
+    newUser.zipCode = this.state.zipCode;
+    newUser.twitterHandle = this.state.twitterHandle;
+    newUser.receiveEmail = this.state.receiveEmail;
 
-    if ( this.state.secondaryEmail.length > 0 && ( !( this.state.secondaryEmail.indexOf( '@' ) > 0 ) || this.state.secondaryEmail.length < 5 ) ) {
-      errorMessages.push( "Please enter a valid secondary email address" );
-      errorFields.secondaryEmail = 1;
-    }
+    this.setState( { errorMessages: null } );
 
-    //TODO: check if either email already exists in the database
-
-    if ( this.state.password.length < 8 ) {
-      errorMessages.push( "Password should be at least 8 characters" );
-      errorFields.password = 1;
-    }
-    else if ( this.state.password !== this.state.confirmPassword ) {
-      errorMessages.push( "Please confirm password" );
-      errorFields.confirmPassword = 1;
-    }
-
-    if ( this.state.firstName.length <= 0 ) {
-      errorMessages.push( "Please enter your first name" );
-      errorFields.firstName = 1;
-    }
-
-    if ( this.state.lastName.length <= 0 ) {
-      errorMessages.push( "Please enter your last name" );
-      errorFields.lastName = 1;
-    }
-
-    if ( this.state.country === 'default' ) {
-      errorMessages.push( "Please select a country" );
-      errorFields.country = 1;
-    }
-
-    if ( this.state.state === 'default' ) {
-      errorMessages.push( "Please select a state or province" );
-      errorFields.state = 1;
-    }
-
-    if ( this.state.city.length <= 0 ) {
-      errorMessages.push( "Please enter a city" );
-      errorFields.city = 1;
-    }
-
-    if ( this.state.country === 'United States' && this.state.zipCode.length != 5 ) {
-      errorMessages.push( "Please enter your 5 digit zip code" );
-      errorFields.zipCode = 1;
-    }
-
-    HTTP.get(
-      PUBLIC_ORIGIN + '/services/users',
-      {
-        params: {
-          email: this.state.primaryEmail
-        }
-      },
-      ( error, result ) => {
-        if ( error ) {
-          console.log( 'err:', error );
-          return;
-        }
-
-
-        if ( result.data.userExists === "true" ) {
-          errorMessages.push( "This email address has already been registered. Please check your inbox for a confirmation email." );
-          errorFields.primaryEmail = 1;
-        }
-
-        if ( errorMessages.length > 0 ) {
-          this.setState( { errorMessages, errorFields } );
-          return;
-        }
-
-        this.props.next( {
-          primaryEmail: this.state.primaryEmail,
-          secondaryEmail: this.state.secondaryEmail,
-          password: this.state.password,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          country: this.state.country,
-          state: this.state.state,
-          city: this.state.city,
-          zipCode: this.state.zipCode,
-          twitterHandle: this.state.twitterHandle,
-          receiveEmail: this.state.receiveEmail,
-          showEmailHelper: false
-        } );
+    newUser.validateContactInfo( ( user, errorMessages ) => {
+      if ( errorMessages === null ) {
+        this.props.next( user );
       }
-    );
+      else {
+        this.setState( { errorMessages } );
+      }
+    } );
   }
 
   render() {
     return (
       <div className="contact_info_panel">
-        <form
-          onSubmit={ this.next.bind( this ) }>
+        <form onSubmit={ this.next.bind( this ) }>
           <div>
             <label>
               <span>Primary Email address</span>
+              <span className="error">{ this.state.errorMessages.primaryEmail }</span>
               <input
-                className={ this.state.errorFields.primaryEmail ? 'error' : '' }
+                className={ this.state.errorMessages.primaryEmail ? 'error' : '' }
                 type="text"
                 value={ this.state.primaryEmail }
                 onChange={ (event) => { this.setState( { primaryEmail: event.target.value } ); } }
@@ -166,8 +92,9 @@ export default class ContactInfoPanel extends React.Component {
             </label>
             <label>
               <span>Re-enter Primary Email address</span>
+              <span className="error">{ this.state.errorMessages.confirmEmail }</span>
               <input
-                className={ this.state.errorFields.confirmEmail ? 'error' : '' }
+                className={ this.state.errorMessages.confirmEmail ? 'error' : '' }
                 type="text"
                 value={ this.state.confirmEmail }
                 onChange={ (event) => { this.setState( { confirmEmail: event.target.value } ); } }
@@ -180,34 +107,38 @@ export default class ContactInfoPanel extends React.Component {
               <span style={{float: 'right', color: 'navy'}} onClick={ () => { this.setState( { showEmailHelper: !this.state.showEmailHelper } ); } }>
                 <i className="fa fa-info-circle" aria-hidden="true"></i>
               </span>
+              <span className="error">{ this.state.errorMessages.secondaryEmail }</span>
               <input
-                className={ this.state.errorFields.secondaryEmail ? 'error' : '' }
+                className={ this.state.errorMessages.secondaryEmail ? 'error' : '' }
                 type="text"
                 value={ this.state.secondary }
                 onChange={ (event) => { this.setState( { secondary: event.target.value } ); } }
               />
-              {
-                this.state.showEmailHelper
-                  ?
-                <div className="helper_label">To ensure you can always access your account, we recommend adding a second personal email address</div>
-                  : ''
-              }
+              { this.state.showEmailHelper ?
+                <div className="helper_label">To ensure you can always access your account, we recommend adding a second personal email
+                  address</div> : '' }
             </label>
           </div>
           <div>
             <label>
               <span>Password</span>
+              <span style={{float: 'right', color: 'navy'}} onClick={ () => { this.setState( { showEmailHelper: !this.state.showEmailHelper } ); } }>
+                <i className="fa fa-info-circle" aria-hidden="true"></i>
+              </span>
+              <span className="error">{ this.state.errorMessages.password }</span>
               <input
-                className={ this.state.errorFields.password ? 'error' : '' }
+                className={ this.state.errorMessages.password ? 'error' : '' }
                 type="password"
                 value={ this.state.password }
                 onChange={ (event) => { this.setState( { password: event.target.value } ); } }
               />
+              { this.state.showPasswordHelper ? <div className="helper_label">Passwords must be at least 8 characters long.</div> : '' }
             </label>
             <label>
               <span>Confirm Password</span>
+              <span className="error">{ this.state.errorMessages.confirmPassword }</span>
               <input
-                className={ this.state.errorFields.confirmPassword ? 'error' : '' }
+                className={ this.state.errorMessages.confirmPassword ? 'error' : '' }
                 type="password"
                 value={ this.state.confirmPassword }
                 onChange={ (event) => { this.setState( { confirmPassword: event.target.value } ); } }
@@ -218,8 +149,9 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>First Name</span>
+              <span className="error">{ this.state.errorMessages.firstName }</span>
               <input
-                className={ this.state.errorFields.firstName ? 'error' : '' }
+                className={ this.state.errorMessages.firstName ? 'error' : '' }
                 type="text"
                 value={ this.state.firstName }
                 onChange={ (event) => { this.setState( { firstName: event.target.value } ); } }
@@ -229,7 +161,8 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>Last Name</span>
-              <input className={ this.state.errorFields.lastName ? 'error' : '' }
+              <span className="error">{ this.state.errorMessages.lastName }</span>
+              <input className={ this.state.errorMessages.lastName ? 'error' : '' }
                      type="text"
                      value={ this.state.lastName }
                      onChange={ (event) => { this.setState( { lastName: event.target.value } ); } }
@@ -240,8 +173,9 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>Country</span>
+              <span className="error">{ this.state.errorMessages.country }</span>
               <select
-                className={ this.state.errorFields.country ? 'error' : '' }
+                className={ this.state.errorMessages.country ? 'error' : '' }
                 value={ this.state.country }
                 onChange={ (event) => { this.setState( { country: event.target.value } ); } }>
                 <option value="default" disabled>Select your country</option>
@@ -256,8 +190,9 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>State/Province</span>
+              <span className="error">{ this.state.errorMessages.state }</span>
               <select
-                className={ this.state.errorFields.state ? 'error' : '' }
+                className={ this.state.errorMessages.state ? 'error' : '' }
                 value={ this.state.state }
                 onChange={ (event) => { this.setState( { state: event.target.value } ); } }>
                 <option value="default" disabled>Select your state</option>
@@ -274,8 +209,9 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>City</span>
+              <span className="error">{ this.state.errorMessages.city }</span>
               <input
-                className={ this.state.errorFields.city ? 'error' : '' }
+                className={ this.state.errorMessages.city ? 'error' : '' }
                 type="text"
                 value={ this.state.city }
                 onChange={ (event) => { this.setState( { city: event.target.value } ); } }
@@ -286,8 +222,9 @@ export default class ContactInfoPanel extends React.Component {
             <label className={this.state.country === 'United States of America' || this.state.country === 'default' ? 'hidden' : ''}>
               {/*TODO: hide if country !== USA */}
               <span>Zip code</span>
+              <span className="error">{ this.state.errorMessages.zipCode }</span>
               <input
-                className={ this.state.errorFields.zipCode ? 'error' : '' }
+                className={ this.state.errorMessages.zipCode ? 'error' : '' }
                 type="text"
                 value={ this.state.zipCode }
                 onChange={ (event) => { this.setState( { zipCode: event.target.value } ); } }
@@ -317,21 +254,8 @@ export default class ContactInfoPanel extends React.Component {
                 onChange={() => this.setState( { receiveEmail: !this.state.receiveEmail } )}/>
             </label>
           </div>
-          <div>{/*spacer*/}</div>
-          <div className="error">
-            {
-              this.state.errorMessages.map( ( error, i ) => (
-                <div key={'contact_error' + i }>
-                  {error}
-                </div> )
-              )
-            }
-          </div>
-          <button
-            className="enabled"
-            type="submit">
-            NEXT
-          </button>
+
+          <button className="enabled" type="submit">NEXT</button>
         </form>
       </div>
     );

@@ -57,25 +57,31 @@ export default class AccountTypePanel extends React.Component {
     this.setState( { typesSelected } );
   }
 
-  next() {
-    // If user only selects student, display confirmation dialg
-    if ( this.state.typesSelected[ USER_TYPES.indexOf( 'Student' ) ]
-         && this.state.typesSelected.filter( ( i ) => { return i; } ).length === 1 ) {
-      this.setState( { dialogIsOpen: true } );
+  next( event ) {
+    event.preventDefault();
+    event.stopPropagation();
+
+
+    if ( this.state.typesSelected.filter( ( i ) => { return i; } ).length === 0 ) {
+      this.setState( { errorMessages: { types: 'Please select a type' } } );
     }
-    // If no type is selected add an error message
-    else if ( this.state.typesSelected.filter( ( i ) => { return i; } ).length === 0 ) {
-      this.setState( { errorMessage: 'Please select a type' } );
-    }
-    // Otherwise continue to the next screen
     else {
-      this.props.next(
-        {
-          types: this.state.typesSelected
-            .map( ( type, i ) => type ? USER_TYPES[ i ] : type )
-            .filter( ( type ) => {return type} )
+      const newUser = this.props.user;
+      newUser.validateAccountTypes( ( user, errorMessages ) => {
+        if ( errorMessages === null ) {
+          // If user only selects student, display confirmation dialg
+          if ( this.state.typesSelected[ USER_TYPES.indexOf( 'Student' ) ]
+               && this.state.typesSelected.filter( ( i ) => { return i; } ).length === 1 ) {
+            this.setState( { dialogIsOpen: true, user } );
+          }
+          else {
+            this.props.next( user );
+          }
         }
-      );
+        else {
+          this.setState( { errorMessages } );
+        }
+      } ).bind( this );
     }
   }
 
@@ -90,12 +96,15 @@ export default class AccountTypePanel extends React.Component {
 
     return (
       <div>
-        <div><span className="error">{this.state.errorMessage ? '* ' : ''}</span>I am a...</div>
-        <ul id={this.props.id + '-checkbox-list'}>
-          {listItems}
-        </ul>
-        <span className="error">{this.state.errorMessage ? this.state.errorMessage : ''}</span>
-        <button className="enabled" onClick={() => { this.next() }}>NEXT</button>
+        <form onSubmit={ this.next.bind( this ) }>
+          <div><span className="error">{this.state.errorMessages.types ? '* ' : ''}</span>I am a...</div>
+          <ul id={this.props.id + '-checkbox-list'}>
+            {listItems}
+          </ul>
+          <span className="error">{this.state.errorMessages.types}</span>
+          <button className="enabled" type="submit">NEXT</button>
+        </form>
+
 
         <Modal
           isOpen={this.state.dialogIsOpen}
@@ -105,7 +114,7 @@ export default class AccountTypePanel extends React.Component {
           <div>Students do not need to register for a PhET account in order to use the PhET sims.</div>
           <br /><br />
           <a className="enabled button" href={ PUBLIC_ORIGIN + '/' + this.props.locale + '/simulations/category/new' }>PLAY WITH SIMS</a>
-          <button className="disabled" onClick={() => this.props.next({types: this.state.typesSelected})}>CONTINUE ANYWAY</button>
+          <button className="disabled" onClick={() => this.props.next(this.state.user)}>CONTINUE ANYWAY</button>
         </Modal>
       </div>
     );
