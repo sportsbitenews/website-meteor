@@ -85,7 +85,7 @@ export default class AccountTypePanel extends React.Component {
         else {
           this.setState( { errorMessages } );
         }
-      } ).bind( this );
+      } );
     }
   }
 
