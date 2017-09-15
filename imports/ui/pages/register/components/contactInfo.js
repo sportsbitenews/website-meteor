@@ -66,6 +66,7 @@ export default class ContactInfoPanel extends React.Component {
     this.setState( { errorMessages: null } );
 
     newUser.validateContactInfo( ( user, errorMessages ) => {
+      console.log("finished validating contact info:", user);
       if ( errorMessages === null ) {
         this.props.next( user );
       }
@@ -121,8 +122,8 @@ export default class ContactInfoPanel extends React.Component {
           </div>
           <div>
             <label>
-              <span>Password</span>
-              <span style={{float: 'right', color: 'navy'}} onClick={ () => { this.setState( { showEmailHelper: !this.state.showEmailHelper } ); } }>
+              <span {{float: 'left'}}>Password</span>
+              <span style={{float: 'right', color: 'navy'}} onClick={ () => { this.setState( { showPasswordHelper: !this.state.showPasswordHelper } ); } }>
                 <i className="fa fa-info-circle" aria-hidden="true"></i>
               </span>
               <span className="error">{ this.state.errorMessages && this.state.errorMessages.password }</span>
