@@ -112,8 +112,8 @@ export default class ContactInfoPanel extends React.Component {
               <input
                 className={ this.state.errorMessages && this.state.errorMessages.secondaryEmail ? 'error' : '' }
                 type="text"
-                value={ this.state.secondary }
-                onChange={ (event) => { this.setState( { secondary: event.target.value } ); } }
+                value={ this.state.secondaryEmail }
+                onChange={ (event) => { this.setState( { secondaryEmail: event.target.value } ); } }
               />
               { this.state.showEmailHelper ?
                 <div className="helper_label">To ensure you can always access your account, we recommend adding a second personal email
