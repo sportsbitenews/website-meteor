@@ -42,6 +42,7 @@ export default class ClassroomPanel extends React.Component {
         this.props.next( user );
       }
       else {
+        window.scrollTo( 0, 340 );
         this.setState( { errorMessages } );
       }
     } );

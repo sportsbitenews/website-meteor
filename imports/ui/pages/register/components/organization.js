@@ -38,6 +38,7 @@ export default class OrganizationPanel extends React.Component {
         this.props.next( user );
       }
       else {
+        window.scrollTo( 0, 340 );
         this.setState( { errorMessages } );
       }
     } );

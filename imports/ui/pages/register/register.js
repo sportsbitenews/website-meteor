@@ -55,7 +55,6 @@ export default class RegistrationPage extends React.Component {
   }
 
   handleNext( user ) {
-    console.log( 'handling next: ', user, this.state.page );
     if ( this.state.page < 3 ) {
       this.setState( {
         user,
@@ -65,20 +64,20 @@ export default class RegistrationPage extends React.Component {
     else {
       user.validate( ( user, errorMessages ) => {
         if ( errorMessages === null ) {
-          console.log( 'finished without errors.' );
           //TODO: submit user to database
-          window.location = this.props.dest;
+          //TODO: fix redirection to confirmation page based on ID, e.g. https://phet.colorado.edu/?wicket:bookmarkablePage=:edu.colorado.phet.website.newsletter.ConfirmEmailSentPage&userId=472867
+          window.alert( 'Registration finished.  Confirmation page would be displayed here.' );
+          window.location = PUBLIC_ORIGIN;
         }
         else {
           //TODO: handle validation errors
-          console.log( 'finished with errors.' )
+          console.log( 'finished with errors:', errorMessages );
         }
       } )
     }
   }
 
   render() {
-    console.log('rendering page: ', this.state.page );
     let contentPanel;
     let headerText;
     switch( this.state.page ) {

@@ -47,30 +47,28 @@ export default class ContactInfoPanel extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    const newUser = this.props.user;
-
-    newUser.primaryEmail = this.state.primaryEmail;
-    newUser.confirmEmail = this.state.confirmEmail;
-    newUser.secondaryEmail = this.state.secondaryEmail;
-    newUser.password = this.state.password;
-    newUser.confirmPassword = this.state.confirmPassword;
-    newUser.firstName = this.state.firstName;
-    newUser.lastName = this.state.lastName;
-    newUser.country = this.state.country;
-    newUser.state = this.state.state;
-    newUser.city = this.state.city;
-    newUser.zipCode = this.state.zipCode;
-    newUser.twitterHandle = this.state.twitterHandle;
-    newUser.receiveEmail = this.state.receiveEmail;
-
     this.setState( { errorMessages: null } );
 
-    newUser.validateContactInfo( ( user, errorMessages ) => {
-      console.log("finished validating contact info:", user, errorMessages);
+    this.props.user.primaryEmail = this.state.primaryEmail;
+    this.props.user.confirmEmail = this.state.confirmEmail;
+    this.props.user.secondaryEmail = this.state.secondaryEmail;
+    this.props.user.password = this.state.password;
+    this.props.user.confirmPassword = this.state.confirmPassword;
+    this.props.user.firstName = this.state.firstName;
+    this.props.user.lastName = this.state.lastName;
+    this.props.user.country = this.state.country;
+    this.props.user.state = this.state.state;
+    this.props.user.city = this.state.city;
+    this.props.user.zipCode = this.state.zipCode;
+    this.props.user.twitterHandle = this.state.twitterHandle;
+    this.props.user.receiveEmail = this.state.receiveEmail;
+
+    this.props.user.validateContactInfo( ( user, errorMessages ) => {
       if ( errorMessages === null ) {
         this.props.next( user );
       }
       else {
+        window.scrollTo( 0, 340 );
         this.setState( { errorMessages } );
       }
     } );
@@ -123,7 +121,8 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span style={{float: 'left'}}>Password</span>
-              <span style={{float: 'right', color: 'navy'}} onClick={ () => { this.setState( { showPasswordHelper: !this.state.showPasswordHelper } ); } }>
+              <span style={{float: 'right', color: 'navy'}}
+                    onClick={ () => { this.setState( { showPasswordHelper: !this.state.showPasswordHelper } ); } }>
                 <i className="fa fa-info-circle" aria-hidden="true"></i>
               </span>
               <span className="error">{ this.state.errorMessages && this.state.errorMessages.password }</span>

@@ -62,6 +62,7 @@ export default class AccountTypePanel extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
+    this.setState( { errorMessages: null } );
 
     if ( this.state.typesSelected.filter( ( i ) => { return i; } ).length === 0 ) {
       this.setState( { errorMessages: { types: 'Please select a type' } } );
@@ -84,6 +85,7 @@ export default class AccountTypePanel extends React.Component {
           }
         }
         else {
+          window.scrollTo( 0, 340 );
           this.setState( { errorMessages } );
         }
       } );
