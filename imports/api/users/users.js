@@ -143,7 +143,7 @@ export default class User {
    * @param {validationCallback} callback
    */
   validateAdditionalInfo( callback ) {
-    if ( this.types.indexOf( USER_TYPES_CONSTANTS.TEACHER ) >= 0 || this.types.indexOf( USER_TYPES_CONSTANTS.PRE_SERVICE_TEACHER ) >= 0 ) {
+    if ( this.isTeacher() ) {
       this.validateClassroom( callback );
     }
     else {
@@ -159,7 +159,7 @@ export default class User {
    */
   validateAccountTypes( callback ) {
     let isValid = true;
-    if ( this.isTeacher() ) {
+    if ( this.types.length && this.types.length > 0 ) {
       this.types.forEach( ( type ) => {
         if ( USER_TYPES_ARRAY.indexOf( type ) < 0 ) {
           isValid = false;

@@ -53,7 +53,8 @@ export default class AccountTypePanel extends React.Component {
 
   updateTypesSelected( userType ) {
     const typesSelected = this.state.typesSelected;
-    typesSelected[ USER_TYPES_ARRAY.indexOf( userType ) ] = !typesSelected[ USER_TYPES_ARRAY.indexOf( userType ) ];
+    const index = USER_TYPES_ARRAY.indexOf( userType );
+    typesSelected[ index ] = !typesSelected[ index ];
     this.setState( { typesSelected } );
   }
 
