@@ -142,6 +142,7 @@ div.contact_info_panel hr {
 }
 
 div.contact_info_panel label span {
+  clear: right;
   margin-bottom: 5px;
   display: block;
 }
