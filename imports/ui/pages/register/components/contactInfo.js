@@ -82,9 +82,9 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>Primary Email address</span>
-              <span className="error">{ this.state.errorMessages.primaryEmail }</span>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.primaryEmail }</span>
               <input
-                className={ this.state.errorMessages.primaryEmail ? 'error' : '' }
+                className={ this.state.errorMessages && this.state.errorMessages.primaryEmail ? 'error' : '' }
                 type="text"
                 value={ this.state.primaryEmail }
                 onChange={ (event) => { this.setState( { primaryEmail: event.target.value } ); } }
@@ -92,9 +92,9 @@ export default class ContactInfoPanel extends React.Component {
             </label>
             <label>
               <span>Re-enter Primary Email address</span>
-              <span className="error">{ this.state.errorMessages.confirmEmail }</span>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.confirmEmail }</span>
               <input
-                className={ this.state.errorMessages.confirmEmail ? 'error' : '' }
+                className={ this.state.errorMessages && this.state.errorMessages.confirmEmail ? 'error' : '' }
                 type="text"
                 value={ this.state.confirmEmail }
                 onChange={ (event) => { this.setState( { confirmEmail: event.target.value } ); } }
@@ -107,9 +107,9 @@ export default class ContactInfoPanel extends React.Component {
               <span style={{float: 'right', color: 'navy'}} onClick={ () => { this.setState( { showEmailHelper: !this.state.showEmailHelper } ); } }>
                 <i className="fa fa-info-circle" aria-hidden="true"></i>
               </span>
-              <span className="error">{ this.state.errorMessages.secondaryEmail }</span>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.secondaryEmail }</span>
               <input
-                className={ this.state.errorMessages.secondaryEmail ? 'error' : '' }
+                className={ this.state.errorMessages && this.state.errorMessages.secondaryEmail ? 'error' : '' }
                 type="text"
                 value={ this.state.secondary }
                 onChange={ (event) => { this.setState( { secondary: event.target.value } ); } }
@@ -125,9 +125,9 @@ export default class ContactInfoPanel extends React.Component {
               <span style={{float: 'right', color: 'navy'}} onClick={ () => { this.setState( { showEmailHelper: !this.state.showEmailHelper } ); } }>
                 <i className="fa fa-info-circle" aria-hidden="true"></i>
               </span>
-              <span className="error">{ this.state.errorMessages.password }</span>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.password }</span>
               <input
-                className={ this.state.errorMessages.password ? 'error' : '' }
+                className={ this.state.errorMessages && this.state.errorMessages.password ? 'error' : '' }
                 type="password"
                 value={ this.state.password }
                 onChange={ (event) => { this.setState( { password: event.target.value } ); } }
@@ -136,9 +136,9 @@ export default class ContactInfoPanel extends React.Component {
             </label>
             <label>
               <span>Confirm Password</span>
-              <span className="error">{ this.state.errorMessages.confirmPassword }</span>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.confirmPassword }</span>
               <input
-                className={ this.state.errorMessages.confirmPassword ? 'error' : '' }
+                className={ this.state.errorMessages && this.state.errorMessages.confirmPassword ? 'error' : '' }
                 type="password"
                 value={ this.state.confirmPassword }
                 onChange={ (event) => { this.setState( { confirmPassword: event.target.value } ); } }
@@ -149,9 +149,9 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>First Name</span>
-              <span className="error">{ this.state.errorMessages.firstName }</span>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.firstName }</span>
               <input
-                className={ this.state.errorMessages.firstName ? 'error' : '' }
+                className={ this.state.errorMessages && this.state.errorMessages.firstName ? 'error' : '' }
                 type="text"
                 value={ this.state.firstName }
                 onChange={ (event) => { this.setState( { firstName: event.target.value } ); } }
@@ -161,8 +161,8 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>Last Name</span>
-              <span className="error">{ this.state.errorMessages.lastName }</span>
-              <input className={ this.state.errorMessages.lastName ? 'error' : '' }
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.lastName }</span>
+              <input className={ this.state.errorMessages && this.state.errorMessages.lastName ? 'error' : '' }
                      type="text"
                      value={ this.state.lastName }
                      onChange={ (event) => { this.setState( { lastName: event.target.value } ); } }
@@ -173,9 +173,9 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>Country</span>
-              <span className="error">{ this.state.errorMessages.country }</span>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.country }</span>
               <select
-                className={ this.state.errorMessages.country ? 'error' : '' }
+                className={ this.state.errorMessages && this.state.errorMessages.country ? 'error' : '' }
                 value={ this.state.country }
                 onChange={ (event) => { this.setState( { country: event.target.value } ); } }>
                 <option value="default" disabled>Select your country</option>
@@ -190,9 +190,9 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>State/Province</span>
-              <span className="error">{ this.state.errorMessages.state }</span>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.state }</span>
               <select
-                className={ this.state.errorMessages.state ? 'error' : '' }
+                className={ this.state.errorMessages && this.state.errorMessages.state ? 'error' : '' }
                 value={ this.state.state }
                 onChange={ (event) => { this.setState( { state: event.target.value } ); } }>
                 <option value="default" disabled>Select your state</option>
@@ -209,9 +209,9 @@ export default class ContactInfoPanel extends React.Component {
           <div>
             <label>
               <span>City</span>
-              <span className="error">{ this.state.errorMessages.city }</span>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.city }</span>
               <input
-                className={ this.state.errorMessages.city ? 'error' : '' }
+                className={ this.state.errorMessages && this.state.errorMessages.city ? 'error' : '' }
                 type="text"
                 value={ this.state.city }
                 onChange={ (event) => { this.setState( { city: event.target.value } ); } }
@@ -222,9 +222,9 @@ export default class ContactInfoPanel extends React.Component {
             <label className={this.state.country === 'United States of America' || this.state.country === 'default' ? 'hidden' : ''}>
               {/*TODO: hide if country !== USA */}
               <span>Zip code</span>
-              <span className="error">{ this.state.errorMessages.zipCode }</span>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.zipCode }</span>
               <input
-                className={ this.state.errorMessages.zipCode ? 'error' : '' }
+                className={ this.state.errorMessages && this.state.errorMessages.zipCode ? 'error' : '' }
                 type="text"
                 value={ this.state.zipCode }
                 onChange={ (event) => { this.setState( { zipCode: event.target.value } ); } }

@@ -101,7 +101,7 @@ export default class AccountTypePanel extends React.Component {
     return (
       <div>
         <form onSubmit={ this.next.bind( this ) }>
-          <div><span className="error">{this.state.errorMessages.types ? '* ' : ''}</span>I am a...</div>
+          <div><span className="error">{this.state.errorMessages && this.state.errorMessages.types ? '* ' : ''}</span>I am a...</div>
           <ul id={this.props.id + '-checkbox-list'}>
             {listItems}
           </ul>
