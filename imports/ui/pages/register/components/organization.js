@@ -14,7 +14,7 @@ import React from 'react';
 
 import CheckBox from './checkBox.js';
 
-import {SUBJECTS, GRADES, EXPERIENCE_LEVELS} from '/imports/ui/pages/register/register.js';
+import {SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY} from '/imports/api/users/users.js';
 
 /**
  * @param {function} next Callback for moving to the next screen
@@ -30,13 +30,21 @@ export default class OrganizationPanel extends React.Component {
   next( event ) {
     event.preventDefault();
     event.stopPropagation();
-    //TODO: validation
-    //TODO: prepare state for return
-    this.props.next();
+
+    this.setState( { errorMessages: null } );
+
+    this.props.user.validateOrganization( ( user, errorMessages ) => {
+      if ( errorMessages === null ) {
+        this.props.next( user );
+      }
+      else {
+        this.setState( { errorMessages } );
+      }
+    } );
   }
 
   render() {
-    const subjectItems = SUBJECTS.map( ( subject ) => {
+    const subjectItems = SUBJECTS_ARRAY.map( ( subject ) => {
       return (
         <li key={subject}>
           <CheckBox name={subject} onChange={() => this.updateSubjectsSelected( subject )}/>
@@ -44,7 +52,7 @@ export default class OrganizationPanel extends React.Component {
       );
     } );
 
-    const gradeItems = GRADES.map( ( grade ) => {
+    const gradeItems = GRADES_ARRAY.map( ( grade ) => {
       return (
         <li key={grade}>
           <CheckBox name={grade} onChange={() => this.updateGradesSelected( grade )}/>
@@ -52,7 +60,7 @@ export default class OrganizationPanel extends React.Component {
       );
     } );
 
-    const experienceItems = EXPERIENCE_LEVELS.map( ( experience ) => {
+    const experienceItems = EXPERIENCE_LEVELS_ARRAY.map( ( experience ) => {
       return (
         <li key={experience}>
           <label>

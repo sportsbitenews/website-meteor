@@ -72,7 +72,7 @@ export default class SchoolSelector extends React.Component {
 
   onSuggestionSelected( event, { suggestion } ) {
     this.setState( { selection: suggestion } );
-    // TODO: trigger callback passing this value to parent
+    this.props.callback( suggestion );
   };
 
   render() {

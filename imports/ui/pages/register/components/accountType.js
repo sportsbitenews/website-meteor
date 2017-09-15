@@ -15,7 +15,7 @@ import Modal from 'react-modal';
 
 import CheckBox from './checkBox.js';
 
-import {USER_TYPES} from '/imports/ui/pages/register/register.js';
+import {USER_TYPES_ARRAY,USER_TYPES_CONSTANTS} from '/imports/api/users/users';
 import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js';
 
 /**
@@ -45,7 +45,7 @@ export default class AccountTypePanel extends React.Component {
   constructor() {
     super();
     this.state = {
-      typesSelected: new Array( USER_TYPES.length ).fill( false ),
+      typesSelected: new Array( USER_TYPES_ARRAY.length ).fill( false ),
       dialogIsOpen: false,
       errorMessage: null
     }
@@ -66,12 +66,16 @@ export default class AccountTypePanel extends React.Component {
       this.setState( { errorMessages: { types: 'Please select a type' } } );
     }
     else {
-      const newUser = this.props.user;
-      newUser.validateAccountTypes( ( user, errorMessages ) => {
+      typesSelected.forEach( ( isSelected, index ) => {
+        if ( isSelected ) {
+          this.props.user.types.push( USER_TYPES_ARRAY[ index ] );
+        }
+      } );
+
+      this.props.user.validateAccountTypes( ( user, errorMessages ) => {
         if ( errorMessages === null ) {
-          // If user only selects student, display confirmation dialg
-          if ( this.state.typesSelected[ USER_TYPES.indexOf( 'Student' ) ]
-               && this.state.typesSelected.filter( ( i ) => { return i; } ).length === 1 ) {
+          // If user only selects student, display confirmation dialog
+          if ( user.types.length === 1 && user.types[0] === USER_TYPES_CONSTANTS.STUDENT ) {
             this.setState( { dialogIsOpen: true, user } );
           }
           else {

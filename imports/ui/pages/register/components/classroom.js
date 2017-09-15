@@ -16,7 +16,7 @@ import SchoolSelector from '/imports/ui/components/schools/selector.js';
 
 import CheckBox from './checkBox.js';
 
-import {SUBJECTS, GRADES, EXPERIENCE_LEVELS} from '/imports/ui/pages/register/register.js';
+import {SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY} from '/imports/api/users/users.js';
 
 /**
  * @param {function} next Callback for moving to the next screen
@@ -26,17 +26,35 @@ import {SUBJECTS, GRADES, EXPERIENCE_LEVELS} from '/imports/ui/pages/register/re
 export default class ClassroomPanel extends React.Component {
   constructor() {
     super();
-    this.state = { SUBJECTS, GRADES, EXPERIENCE_LEVELS };
+    this.state = { SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY };
   }
 
   handleSchool() {}
 
+  next( event ) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.setState( { errorMessages: null } );
+
+    this.props.user.validateOrganization( ( user, errorMessages ) => {
+      if ( errorMessages === null ) {
+        this.props.next( user );
+      }
+      else {
+        this.setState( { errorMessages } );
+      }
+    } );
+  }
+
   render() {
     return (
       <div>
-        <CheckBox />
-        <SchoolSelector onClick={this.handleSchool}/>
-        <button className="enabled" onClick={this.props.onClick}>REGISTER NOW</button>
+        <form onSubmit={this.next.bind(this)}>
+          <CheckBox />
+          <SchoolSelector callback={ this.handleSchool.bind(this) } />
+          <button className="enabled" type="submit">REGISTER NOW</button>
+        </form>
       </div>
     );
   }
