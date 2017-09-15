@@ -122,7 +122,7 @@ export default class ContactInfoPanel extends React.Component {
           </div>
           <div>
             <label>
-              <span {{float: 'left'}}>Password</span>
+              <span style={{float: 'left'}}>Password</span>
               <span style={{float: 'right', color: 'navy'}} onClick={ () => { this.setState( { showPasswordHelper: !this.state.showPasswordHelper } ); } }>
                 <i className="fa fa-info-circle" aria-hidden="true"></i>
               </span>
