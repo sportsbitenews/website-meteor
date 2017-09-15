@@ -105,7 +105,7 @@ export default class AccountTypePanel extends React.Component {
           <ul id={this.props.id + '-checkbox-list'}>
             {listItems}
           </ul>
-          <span className="error">{this.state.errorMessages.types}</span>
+          <span className="error">{this.state.errorMessages && this.state.errorMessages.types}</span>
           <button className="enabled" type="submit">NEXT</button>
         </form>
 
