@@ -13,8 +13,8 @@
  * @param {ErrorMessages} errors - this parameter will be null if the user passed the current validation step
  **/
 
-import Locations from "../data/countryState";
-import {PUBLIC_ORIGIN} from "../data/constants";
+import Locations from '../data/countryState';
+import {PUBLIC_ORIGIN} from '../data/constants';
 
 export const USER_TYPES_CONSTANTS = {
   TEACHER: 'Teacher',
@@ -90,6 +90,22 @@ export const EXPERIENCE_LEVELS_ARRAY = [
   EXPERIENCE_LEVELS_CONSTANTS.POWER
 ];
 
+const arrayIsValid = ( candidate, model ) => {
+  let isValid = true;
+  if ( candidate.length && candidate.length > 0 ) {
+    candidate.forEach( ( type ) => {
+      if ( model.indexOf( type ) < 0 ) {
+        isValid = false;
+      }
+    } );
+  }
+  else {
+    isValid = false;
+  }
+
+  return isValid;
+};
+
 export default class User {
   constructor() {
     this.types = [];
@@ -114,7 +130,6 @@ export default class User {
     this.lmsList = [];
     this.curriculumProviderList = [];
   }
-
 
   /**
    * Checks if this user is valid.  If validation fails at any step, the callback is called.
@@ -146,26 +161,13 @@ export default class User {
     this.isTeacher() ? this.validateClassroom( callback ) : this.validateOrganization( callback );
   }
 
-
   /**
    * Checks if user.types is an array with non-zero length and all members of the array are members of USER_TYPES_CONSTANTS
    *
    * @param {validationCallback} callback
    */
   validateAccountTypes( callback ) {
-    let isValid = true;
-    if ( this.types.length && this.types.length > 0 ) {
-      this.types.forEach( ( type ) => {
-        if ( USER_TYPES_ARRAY.indexOf( type ) < 0 ) {
-          isValid = false;
-        }
-      } );
-    }
-    else {
-      isValid = false;
-    }
-
-    callback( this, isValid ? null : { types: 'Please select at least one type.' } )
+    callback( this, arrayIsValid( this.types, USER_TYPES_ARRAY ) ? null : { types: 'Please select at least one type.' } )
   }
 
   /**
@@ -188,44 +190,44 @@ export default class User {
     let errorMessages = {};
 
     if ( !( this.primaryEmail.indexOf( '@' ) > 0 ) || this.primaryEmail.length < 5 ) {
-      errorMessages.primaryEmail = "Please enter a valid email address";
+      errorMessages.primaryEmail = 'Please enter a valid email address';
     }
     else if ( this.primaryEmail !== this.confirmEmail ) {
-      errorMessages.confirmEmail = "Please confirm email address";
+      errorMessages.confirmEmail = 'Please confirm email address';
     }
 
     if ( this.secondaryEmail.length > 0 && ( !( this.secondaryEmail.indexOf( '@' ) > 0 ) || this.secondaryEmail.length < 5 ) ) {
-      errorMessages.secondaryEmail = "Please enter a valid secondary email address";
+      errorMessages.secondaryEmail = 'Please enter a valid secondary email address';
     }
 
     if ( this.password.length < 8 ) {
-      errorMessages.password = "Password should be at least 8 characters";
+      errorMessages.password = 'Password should be at least 8 characters';
     }
     else if ( this.password !== this.confirmPassword ) {
-      errorMessages.confirmPassword = "Please confirm password";
+      errorMessages.confirmPassword = 'Please confirm password';
     }
 
     if ( this.firstName.length <= 0 ) {
-      errorMessages.firstName = "Please enter your first name";
+      errorMessages.firstName = 'Please enter your first name';
     }
 
     if ( this.lastName.length <= 0 ) {
-      errorMessages.lastName = "Please enter your last name";
+      errorMessages.lastName = 'Please enter your last name';
     }
 
     if ( this.country === 'default' || Locations.countries.indexOf( this.country ) < 0 ) {
-      errorMessages.country = "Please select a country";
+      errorMessages.country = 'Please select a country';
     }
     else if ( this.state === 'default' || Locations.states[ Locations.countries.indexOf( this.country ) ].indexOf( this.state ) < 0 ) {
-      errorMessages.state = "Please select a state or province";
+      errorMessages.state = 'Please select a state or province';
     }
 
     if ( this.city.length <= 0 ) {
-      errorMessages.city = "Please enter a city";
+      errorMessages.city = 'Please enter a city';
     }
 
     if ( this.country === 'United States' && this.zipCode.length != 5 ) {
-      errorMessages.zipCode = "Please enter your 5 digit zip code";
+      errorMessages.zipCode = 'Please enter your 5 digit zip code';
     }
 
     this.validateEmail( errorMessages, true, callback );
@@ -250,12 +252,12 @@ export default class User {
           return;
         }
 
-        if ( result.data.userExists && result.data.userExists === "true" ) {
+        if ( result.data.userExists && result.data.userExists === 'true' ) {
           if ( isValidatingPrimaryEmail ) {
-            errorMessages.primaryEmail = "This email address has already been registered. Please check your inbox for a confirmation email.";
+            errorMessages.primaryEmail = 'This email address has already been registered. Please check your inbox for a confirmation email.';
           }
           else {
-            errorMessages.secondaryEmail = "This email address has already been registered. Please choose a different address.";
+            errorMessages.secondaryEmail = 'This email address has already been registered. Please choose a different address.';
           }
         }
 
@@ -269,12 +271,41 @@ export default class User {
     );
   }
 
-
   /**
+   * Fields validated:
+   * organization
+   * subjects
+   * grades
+   * phetExperience
+   * teachingExperience
+   *
    * @param {validationCallback} callback
    */
   validateOrganization( callback ) {
-    callback( this, null );
+    const errorMessages = {};
+
+    if ( typeof this.organization === 'string' && this.organization.length <= 0 ) {
+      errorMessages.organization = 'Please enter your organization';
+    }
+
+    if ( !arrayIsValid( this.subjects, SUBJECTS_ARRAY ) ) {
+      errorMessages.subjects = 'Please select a subject';
+    }
+
+    if ( !arrayIsValid( this.grades, GRADES_ARRAY ) ) {
+      errorMessages.grades = 'Please select a grade';
+    }
+
+    this.teachingExperience = parseInt( this.teachingExperience );
+    if ( this.teachingExperience < 0 || this.teachingExperience > 100 ) {
+      errorMessages.teachingExperience = 'Please enter a number between 0 and 100';
+    }
+
+    if ( EXPERIENCE_LEVELS_ARRAY.indexOf( this.phetExperience ) < 0 ) {
+      errorMessages.phetExperience = 'Please indicate your experience with PhET Simulations';
+    }
+
+    callback( this, errorMessages );
   }
 
   /**

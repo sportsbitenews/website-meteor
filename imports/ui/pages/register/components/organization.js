@@ -24,7 +24,26 @@ import {SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY} from '/imports/ap
 export default class OrganizationPanel extends React.Component {
   constructor( props ) {
     super( props );
-    this.state = {}
+    this.state = {
+      subjectsSelected: new Array( SUBJECTS_ARRAY.length ).fill( false ),
+      gradesSelected: new Array( SUBJECTS_ARRAY.length ).fill( false ),
+      phetExperience: '',
+      teachingExperience: null
+    }
+  }
+
+  updateSubjectsSelected( subjectName ) {
+    const subjectsSelected = this.state.subjectsSelected;
+    const index = SUBJECTS_ARRAY.indexOf( subjectName );
+    subjectsSelected[ index ] = !subjectsSelected[ index ];
+    this.setState( { subjectsSelected } );
+  }
+
+  updateGradesSelected( gradeName ) {
+    const gradesSelected = this.state.gradesSelected;
+    const index = GRADES_ARRAY.indexOf( gradeName );
+    gradesSelected[ index ] = !gradesSelected[ index ];
+    this.setState( { gradesSelected } );
   }
 
   next( event ) {
@@ -33,6 +52,20 @@ export default class OrganizationPanel extends React.Component {
 
     this.setState( { errorMessages: null } );
 
+    this.props.user.organization = this.state.organization;
+    this.state.subjectsSelected.forEach( ( isSelected, index ) => {
+      if ( isSelected ) {
+        this.props.user.subjects.push( SUBJECTS_ARRAY[ index ] );
+      }
+    } );
+    this.state.gradesSelected.forEach( ( isSelected, index ) => {
+      if ( isSelected ) {
+        this.props.user.grades.push( GRADES_ARRAY[ index ] );
+      }
+    } );
+    this.props.user.teachingExperience = this.state.teachingExperience;
+    this.props.user.phetExperience = this.state.phetExperience;
+    
     this.props.user.validateOrganization( ( user, errorMessages ) => {
       if ( errorMessages === null ) {
         this.props.next( user );
@@ -65,8 +98,8 @@ export default class OrganizationPanel extends React.Component {
       return (
         <li key={experience}>
           <label>
-            <input type="radio" name="experience" onClick={() => this.updateExperienceSelected(experience)}/>
-            {experience}
+            <input type="radio" name="experience" onClick={ () => this.setState( { experience } ) }/>
+            { experience }
           </label>
         </li>
       );
@@ -83,7 +116,7 @@ export default class OrganizationPanel extends React.Component {
                 type="text"
                 value={ this.state.organization }
                 className="organization"
-                onChange={ (event) => { this.setState( { organization: event.target.value } ); } }
+                onChange={ (event) => { this.setState( { organization: event.target.value.trim() } ); } }
               />
             </label>
           </div>
@@ -107,9 +140,10 @@ export default class OrganizationPanel extends React.Component {
               <span className="error">{ this.state.errorMessages && this.state.errorMessages.teachingExperience }</span>
               <input
                 type="number"
+                min="0"
                 value={ this.state.teachingExperience }
                 className="experience"
-                onChange={ (event) => { this.setState( { teachingExperience: event.target.value } ); } }
+                onChange={ (event) => { this.setState( { teachingExperience: parseInt( event.target.value ) } ); } }
               />
               <span>years</span>
             </label>

@@ -80,10 +80,12 @@ export default class AccountTypePanel extends React.Component {
           if ( user.types.length === 1 && user.types[0] === USER_TYPES_CONSTANTS.STUDENT ) {
             this.setState( { dialogIsOpen: true, user } );
           }
+          // If no error and user selects at least one non-student type, forward to next screen
           else {
             this.props.next( user );
           }
         }
+        // If there is an error show it and scroll to the top
         else {
           window.scrollTo( 0, 340 );
           this.setState( { errorMessages } );
