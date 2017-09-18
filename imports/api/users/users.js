@@ -237,13 +237,11 @@ export default class User {
    * @param {validationCallback} callback
    */
   validateEmail( errorMessages, isValidatingPrimaryEmail, callback ) {
-    const parameter = isValidatingPrimaryEmail ? 'primaryEmail' : 'secondaryEmail';
-
     HTTP.get(
       PUBLIC_ORIGIN + '/services/users',
       {
         params: {
-          email: this[ parameter ]
+          email: this[ isValidatingPrimaryEmail ? 'primaryEmail' : 'secondaryEmail' ]
         }
       },
       ( error, result ) => {
@@ -253,11 +251,19 @@ export default class User {
         }
 
         if ( result.data.userExists && result.data.userExists === "true" ) {
-          errorMessages[ parameter ] = "This email address has already been registered. Please check your inbox for a confirmation email.";
-          callback( this, Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
+          if ( isValidatingPrimaryEmail ) {
+            errorMessages.primaryEmail = "This email address has already been registered. Please check your inbox for a confirmation email.";
+          }
+          else {
+            errorMessages.secondaryEmail = "This email address has already been registered. Please choose a different address.";
+          }
+        }
+
+        if ( isValidatingPrimaryEmail && this.secondaryEmail ) {
+          this.validateEmail( errorMessages, false, callback );
         }
         else {
-          this.validateEmail( errorMessages, false, callback );
+          callback( this, Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
         }
       }
     );
