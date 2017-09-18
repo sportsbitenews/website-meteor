@@ -237,7 +237,7 @@ export default class User {
       PUBLIC_ORIGIN + '/services/users',
       {
         params: {
-          email: this.primaryEmail
+          emails: this.primaryEmail + this.secondaryEmail ? ';' + this.secondaryEmail : ''
         }
       },
       ( error, result ) => {

@@ -78,6 +78,7 @@ export default class OrganizationPanel extends React.Component {
           <div className="col-1">
             <label>
               <h4>Organization</h4>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.organization }</span>
               <input
                 type="text"
                 value={ this.state.organization }
@@ -88,12 +89,14 @@ export default class OrganizationPanel extends React.Component {
           </div>
           <div className="col-3">
             <h4>Subject(s)</h4>
+            <span className="error">{ this.state.errorMessages && this.state.errorMessages.subjects }</span>
             <ul id={'subject-checkbox-list'}>
               {subjectItems}
             </ul>
           </div>
           <div className="col-3">
             <h4>Grade(s)</h4>
+            <span className="error">{ this.state.errorMessages && this.state.errorMessages.grades }</span>
             <ul id={'grade-checkbox-list'}>
               {gradeItems}
             </ul>
@@ -101,6 +104,7 @@ export default class OrganizationPanel extends React.Component {
           <div className="col-3">
             <label>
               <h4>Teaching Experience</h4>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.teachingExperience }</span>
               <input
                 type="number"
                 value={ this.state.teachingExperience }
@@ -113,6 +117,7 @@ export default class OrganizationPanel extends React.Component {
           <div className="col-2">
             <label>
               <h4>PhET Experience</h4>
+              <span className="error">{ this.state.errorMessages && this.state.errorMessages.phetExperience }</span>
               <ul>
                 {experienceItems}
               </ul>
