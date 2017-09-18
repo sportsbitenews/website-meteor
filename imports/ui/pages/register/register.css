@@ -90,6 +90,10 @@ div.error {
   color: red;
 }
 
+div.organization_panel div.error {
+  display: block;
+}
+
 input.error,
 select.error {
   background-color: #ff9999
