@@ -118,7 +118,7 @@ export default class User {
 
   /**
    * Checks if this user is valid.  If validation fails at any step, the callback is called.
-   * 
+   *
    * @param {validationCallback} callback
    */
   validate( callback ) {
@@ -143,12 +143,7 @@ export default class User {
    * @param {validationCallback} callback
    */
   validateAdditionalInfo( callback ) {
-    if ( this.isTeacher() ) {
-      this.validateClassroom( callback );
-    }
-    else {
-      this.validateOrganization( callback );
-    }
+    this.isTeacher() ? this.validateClassroom( callback ) : this.validateOrganization( callback );
   }
 
 
@@ -233,11 +228,22 @@ export default class User {
       errorMessages.zipCode = "Please enter your 5 digit zip code";
     }
 
+    this.validateEmail( errorMessages, true, callback );
+  }
+
+  /**
+   * @param {ErrorMessages} errorMessages
+   * @param {boolean} isValidatingPrimaryEmail
+   * @param {validationCallback} callback
+   */
+  validateEmail( errorMessages, isValidatingPrimaryEmail, callback ) {
+    const parameter = isValidatingPrimaryEmail ? 'primaryEmail' : 'secondaryEmail';
+
     HTTP.get(
       PUBLIC_ORIGIN + '/services/users',
       {
         params: {
-          emails: this.primaryEmail + this.secondaryEmail ? ';' + this.secondaryEmail : ''
+          email: this[ parameter ]
         }
       },
       ( error, result ) => {
@@ -246,12 +252,13 @@ export default class User {
           return;
         }
 
-
-        if ( result.data.userExists === "true" ) {
-          errorMessages.primaryEmail = "This email address has already been registered. Please check your inbox for a confirmation email.";
+        if ( result.data.userExists && result.data.userExists === "true" ) {
+          errorMessages[ parameter ] = "This email address has already been registered. Please check your inbox for a confirmation email.";
+          callback( this, Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
         }
-
-        callback( this, Object.keys(errorMessages).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
+        else {
+          this.validateEmail( errorMessages, false, callback );
+        }
       }
     );
   }
