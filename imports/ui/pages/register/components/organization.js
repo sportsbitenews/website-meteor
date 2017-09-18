@@ -68,7 +68,6 @@ export default class OrganizationPanel extends React.Component {
     this.props.user.phetExperience = this.state.phetExperience;
     
     this.props.user.validateOrganization( ( user, errorMessages ) => {
-      console.log('finished validating organization');
       if ( errorMessages === null ) {
         this.props.next( user );
       }

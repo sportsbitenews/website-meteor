@@ -305,14 +305,15 @@ export default class User {
       errorMessages.phetExperience = 'Please indicate your experience with PhET Simulations';
     }
 
-    callback( this, errorMessages );
+    callback( this, Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
   }
 
   /**
    * @param {validationCallback} callback
    */
   validateClassroom( callback ) {
-    callback( this, null );
+    const errorMessages = {};
+    callback( this, Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
   }
 
   /**

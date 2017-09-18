@@ -55,7 +55,6 @@ export default class RegistrationPage extends React.Component {
   }
 
   handleNext( user ) {
-    console.log( 'called handleNext for page: ', this.state.page );
     if ( this.state.page < 3 ) {
       this.setState( {
         user,
