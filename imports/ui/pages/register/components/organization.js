@@ -28,7 +28,7 @@ export default class OrganizationPanel extends React.Component {
       subjectsSelected: new Array( SUBJECTS_ARRAY.length ).fill( false ),
       gradesSelected: new Array( SUBJECTS_ARRAY.length ).fill( false ),
       phetExperience: '',
-      teachingExperience: null
+      teachingExperience: ''
     }
   }
 
@@ -52,7 +52,7 @@ export default class OrganizationPanel extends React.Component {
 
     this.setState( { errorMessages: null } );
 
-    this.props.user.organization = this.state.organization;
+    this.props.user.organization = this.state.organization.trim();
     this.state.subjectsSelected.forEach( ( isSelected, index ) => {
       if ( isSelected ) {
         this.props.user.subjects.push( SUBJECTS_ARRAY[ index ] );
@@ -63,7 +63,7 @@ export default class OrganizationPanel extends React.Component {
         this.props.user.grades.push( GRADES_ARRAY[ index ] );
       }
     } );
-    this.props.user.teachingExperience = this.state.teachingExperience;
+    this.props.user.teachingExperience = parseInt( this.state.teachingExperience.trim() );
     this.props.user.phetExperience = this.state.phetExperience;
     
     this.props.user.validateOrganization( ( user, errorMessages ) => {
@@ -111,25 +111,25 @@ export default class OrganizationPanel extends React.Component {
           <div className="col-1">
             <label>
               <h4>Organization</h4>
-              <span className="error">{ this.state.errorMessages && this.state.errorMessages.organization }</span>
+              <div className="error">{ this.state.errorMessages && this.state.errorMessages.organization }</div>
               <input
                 type="text"
                 value={ this.state.organization }
                 className="organization"
-                onChange={ (event) => { this.setState( { organization: event.target.value.trim() } ); } }
+                onChange={ (event) => { this.setState( { organization: event.target.value } ); } }
               />
             </label>
           </div>
           <div className="col-3">
             <h4>Subject(s)</h4>
-            <span className="error">{ this.state.errorMessages && this.state.errorMessages.subjects }</span>
+            <div className="error">{ this.state.errorMessages && this.state.errorMessages.subjects }</div>
             <ul id={'subject-checkbox-list'}>
               {subjectItems}
             </ul>
           </div>
           <div className="col-3">
             <h4>Grade(s)</h4>
-            <span className="error">{ this.state.errorMessages && this.state.errorMessages.grades }</span>
+            <div className="error">{ this.state.errorMessages && this.state.errorMessages.grades }</div>
             <ul id={'grade-checkbox-list'}>
               {gradeItems}
             </ul>
@@ -137,10 +137,9 @@ export default class OrganizationPanel extends React.Component {
           <div className="col-3">
             <label>
               <h4>Teaching Experience</h4>
-              <span className="error">{ this.state.errorMessages && this.state.errorMessages.teachingExperience }</span>
+              <div className="error">{ this.state.errorMessages && this.state.errorMessages.teachingExperience }</div>
               <input
                 type="number"
-                min="0"
                 value={ this.state.teachingExperience }
                 className="experience"
                 onChange={ (event) => { this.setState( { teachingExperience: parseInt( event.target.value ) } ); } }
@@ -151,7 +150,7 @@ export default class OrganizationPanel extends React.Component {
           <div className="col-2">
             <label>
               <h4>PhET Experience</h4>
-              <span className="error">{ this.state.errorMessages && this.state.errorMessages.phetExperience }</span>
+              <div className="error">{ this.state.errorMessages && this.state.errorMessages.phetExperience }</div>
               <ul>
                 {experienceItems}
               </ul>
