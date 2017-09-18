@@ -25,6 +25,7 @@ export default class OrganizationPanel extends React.Component {
   constructor( props ) {
     super( props );
     this.state = {
+      organization: '',
       subjectsSelected: new Array( SUBJECTS_ARRAY.length ).fill( false ),
       gradesSelected: new Array( SUBJECTS_ARRAY.length ).fill( false ),
       phetExperience: '',
