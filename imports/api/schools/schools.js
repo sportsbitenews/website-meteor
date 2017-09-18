@@ -30,14 +30,16 @@ Schools.deny( {
 
 Schools.schema = new SimpleSchema( {
   _id: { type: String, regEx: SimpleSchema.RegEx.Id },
-  ncesId: { type: String },
+  ncesId: { type: String, defaultValue: null },
   name: { type: String },
-  name2: { type: String, optional: true },
+  name2: { type: String, defaultValue: null },
   city: { type: String },
   state: { type: String },
   country: { type: String },
-  enabled: { type: Boolean, defaultValue: false },
-  phetUser: { type: Number }
+  validatedDate: { type: Date, defaultValue: null },
+  phetUser: { type: Number, defaultValue: null },
+  editDate: {type: Date, defaultValue: null },
+  parent: { type: String, regEx: SimpleSchema.RegEx.Id, defaultValue: null }
 } );
 
 Schools.attachSchema( Schools.schema );

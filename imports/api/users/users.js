@@ -90,11 +90,16 @@ export const EXPERIENCE_LEVELS_ARRAY = [
   EXPERIENCE_LEVELS_CONSTANTS.POWER
 ];
 
+/**
+ * @param {Array} candidate
+ * @param {Array} model
+ * @returns {boolean} - returns true if candidate is a subset of model
+ */
 const arrayIsValid = ( candidate, model ) => {
   let isValid = true;
   if ( candidate.length && candidate.length > 0 ) {
     candidate.forEach( ( type ) => {
-      if ( model.indexOf( type ) < 0 ) {
+      if ( model.includes( type ) ) {
         isValid = false;
       }
     } );
@@ -272,7 +277,7 @@ export default class User {
   }
 
   /**
-   * Fields validated:
+   * Members validated:
    * organization
    * subjects
    * grades

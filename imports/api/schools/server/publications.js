@@ -74,18 +74,19 @@ const stateStringMap = {
 Meteor.publish( 'schools.public', ( search ) => {
 
   // Split the search string into tokens
-  const searchTerm = search.toLowerCase();
+  const searchTerms = search.toLowerCase().split( ' ' );
+  const searchOptions = [];
+  searchTerms.forEach( ( searchTerm ) => {
+    searchOptions.push( { name: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } } );
+    searchOptions.push( { name2: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } } );
+    searchOptions.push( { city: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } } );
+    searchOptions.push( { state: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } } );
+  } );
 
   return Schools.find(
     {
       enabled: { $eq: true },
-      $or: [
-        { name: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
-        { name2: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
-        { city: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
-        { state: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } }
-      ]
-
+      $or: searchOptions
     }, {
       fields: Schools.publicFields,
       sort: { name: -1 },
