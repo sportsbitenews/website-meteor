@@ -64,7 +64,7 @@ export default class OrganizationPanel extends React.Component {
         this.props.user.grades.push( GRADES_ARRAY[ index ] );
       }
     } );
-    this.props.user.teachingExperience = parseInt( this.state.teachingExperience.trim() );
+    this.props.user.teachingExperience = parseInt( this.state.teachingExperience );
     this.props.user.phetExperience = this.state.phetExperience;
     
     this.props.user.validateOrganization( ( user, errorMessages ) => {
