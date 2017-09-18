@@ -99,7 +99,7 @@ export default class OrganizationPanel extends React.Component {
       return (
         <li key={experience}>
           <label>
-            <input type="radio" name="experience" onClick={ () => this.setState( { experience } ) }/>
+            <input type="radio" name="experience" onClick={ () => { this.setState( { experience } );  console.log(experience, this.state.experience) } }/>
             { experience }
           </label>
         </li>
