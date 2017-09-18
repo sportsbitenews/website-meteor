@@ -298,7 +298,7 @@ export default class User {
 
     this.teachingExperience = parseInt( this.teachingExperience );
     console.log( this.teachingExperience );
-    if ( this.teachingExperience < 0 || this.teachingExperience > 100 ) {
+    if ( isNan( this.teachingExperience) || this.teachingExperience < 0 || this.teachingExperience > 100 ) {
       errorMessages.teachingExperience = 'Please enter a number between 0 and 100';
     }
 
