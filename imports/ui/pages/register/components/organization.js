@@ -95,12 +95,12 @@ export default class OrganizationPanel extends React.Component {
       );
     } );
 
-    const experienceItems = EXPERIENCE_LEVELS_ARRAY.map( ( experience ) => {
+    const experienceItems = EXPERIENCE_LEVELS_ARRAY.map( ( phetExperience ) => {
       return (
-        <li key={experience}>
+        <li key={phetExperience}>
           <label>
-            <input type="radio" name="experience" onClick={ () => { this.setState( { experience } );  console.log(experience, this.state.experience) } }/>
-            { experience }
+            <input type="radio" name="phetExperience" onClick={ () => { this.setState( { phetExperience } );  console.log(phetExperience, this.state.phetExperience) } }/>
+            { phetExperience }
           </label>
         </li>
       );
