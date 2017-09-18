@@ -86,7 +86,7 @@ export default class ContactInfoPanel extends React.Component {
                 className={ this.state.errorMessages && this.state.errorMessages.primaryEmail ? 'error' : '' }
                 type="text"
                 value={ this.state.primaryEmail }
-                onChange={ (event) => { this.setState( { primaryEmail: event.target.value } ); } }
+                onChange={ (event) => { this.setState( { primaryEmail: event.target.value.trim() } ); } }
               />
             </label>
             <label>
@@ -96,7 +96,7 @@ export default class ContactInfoPanel extends React.Component {
                 className={ this.state.errorMessages && this.state.errorMessages.confirmEmail ? 'error' : '' }
                 type="text"
                 value={ this.state.confirmEmail }
-                onChange={ (event) => { this.setState( { confirmEmail: event.target.value } ); } }
+                onChange={ (event) => { this.setState( { confirmEmail: event.target.value.trim() } ); } }
               />
             </label>
           </div>
@@ -111,7 +111,7 @@ export default class ContactInfoPanel extends React.Component {
                 className={ this.state.errorMessages && this.state.errorMessages.secondaryEmail ? 'error' : '' }
                 type="text"
                 value={ this.state.secondaryEmail }
-                onChange={ (event) => { this.setState( { secondaryEmail: event.target.value } ); } }
+                onChange={ (event) => { this.setState( { secondaryEmail: event.target.value.trim() } ); } }
               />
               { this.state.showEmailHelper ?
                 <div className="helper_label">To ensure you can always access your account, we recommend adding a second personal email
@@ -154,7 +154,7 @@ export default class ContactInfoPanel extends React.Component {
                 className={ this.state.errorMessages && this.state.errorMessages.firstName ? 'error' : '' }
                 type="text"
                 value={ this.state.firstName }
-                onChange={ (event) => { this.setState( { firstName: event.target.value } ); } }
+                onChange={ (event) => { this.setState( { firstName: event.target.value.trim() } ); } }
               />
             </label>
           </div>
@@ -165,7 +165,7 @@ export default class ContactInfoPanel extends React.Component {
               <input className={ this.state.errorMessages && this.state.errorMessages.lastName ? 'error' : '' }
                      type="text"
                      value={ this.state.lastName }
-                     onChange={ (event) => { this.setState( { lastName: event.target.value } ); } }
+                     onChange={ (event) => { this.setState( { lastName: event.target.value.trim() } ); } }
               />
             </label>
           </div>
@@ -214,7 +214,7 @@ export default class ContactInfoPanel extends React.Component {
                 className={ this.state.errorMessages && this.state.errorMessages.city ? 'error' : '' }
                 type="text"
                 value={ this.state.city }
-                onChange={ (event) => { this.setState( { city: event.target.value } ); } }
+                onChange={ (event) => { this.setState( { city: event.target.value.trim() } ); } }
               />
             </label>
           </div>
@@ -227,7 +227,7 @@ export default class ContactInfoPanel extends React.Component {
                 className={ this.state.errorMessages && this.state.errorMessages.zipCode ? 'error' : '' }
                 type="text"
                 value={ this.state.zipCode }
-                onChange={ (event) => { this.setState( { zipCode: event.target.value } ); } }
+                onChange={ (event) => { this.setState( { zipCode: event.target.value.trim() } ); } }
               />
             </label>
           </div>
@@ -238,7 +238,7 @@ export default class ContactInfoPanel extends React.Component {
               <input
                 type="text"
                 value={ this.state.twitterHandle }
-                onChange={ (event) => { this.setState( { twitterHandle: event.target.value } ); } }
+                onChange={ (event) => { this.setState( { twitterHandle: event.target.value.trim() } ); } }
               />
             </span>
             </label>
