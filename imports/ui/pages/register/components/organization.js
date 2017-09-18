@@ -68,6 +68,7 @@ export default class OrganizationPanel extends React.Component {
     this.props.user.phetExperience = this.state.phetExperience;
     
     this.props.user.validateOrganization( ( user, errorMessages ) => {
+      console.log('finished validating organization');
       if ( errorMessages === null ) {
         this.props.next( user );
       }
@@ -99,7 +100,7 @@ export default class OrganizationPanel extends React.Component {
       return (
         <li key={phetExperience}>
           <label>
-            <input type="radio" name="phetExperience" onClick={ () => { this.setState( { phetExperience } );  console.log(phetExperience, this.state.phetExperience) } }/>
+            <input type="radio" name="phetExperience" onClick={ () => this.setState( { phetExperience } ) }/>
             { phetExperience }
           </label>
         </li>
