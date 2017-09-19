@@ -9,32 +9,34 @@
 import React from 'react';
 import { mount } from 'react-mounter';
 
-import { IndexPage } from '/imports/ui/pages/index/index.js';
 import RegistrationPage from '/imports/ui/pages/register/register.js';
 
-FlowRouter.route( '/', {
-  action() {
-    mount( IndexPage,
-      { locale: 'en' }
-    );
-  }
-} );
-
-FlowRouter.route( '/:locale', {
-  action() {
-    mount( IndexPage,
-      { locale: FlowRouter.getParam( 'locale' ) }
-    );
-  }
-} );
+import { MOUNT_PATH } from '/imports/api/data/constants';
 
 FlowRouter.route( '/:locale/register', {
   action() {
-    mount( RegistrationPage,
-      {
-        locale: FlowRouter.getParam( 'locale' ),
-        dest: FlowRouter.getQueryParam( 'dest' )
+    HTTP.get(
+      MOUNT_PATH + '/services/users',
+      {},
+      ( error, result )=> {
+        const data = JSON.parse( result.data );
+        const isSignedIn = data.signedIn === "true";
+
+        if ( isSignedIn ) {
+          console.log( 'already signed in' );
+          window.location = MOUNT_PATH;
+        }
+        else {
+          console.log( 'not signed in' );
+          mount( RegistrationPage,
+            {
+              locale: FlowRouter.getParam( 'locale' ),
+              dest: FlowRouter.getQueryParam( 'dest' )
+            }
+          );
+        }
       }
     );
   }
 } );
+
