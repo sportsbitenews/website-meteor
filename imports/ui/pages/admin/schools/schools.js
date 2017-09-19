@@ -170,7 +170,7 @@ export default class SchoolsAdministrationPage extends React.Component {
 
   render() {
     return (
-      <thead className="schools admin">
+      <div className="schools admin">
         <Helmet>
           <title>School Administration</title>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
