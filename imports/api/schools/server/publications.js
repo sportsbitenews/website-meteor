@@ -42,24 +42,62 @@ Meteor.publish( 'schools.public', ( search ) => {
   );
 } );
 
-Meteor.publish( 'schools.admin', ( search, pageNumber ) => {
-  // Split the search string into tokens
-  const searchTerm = search.toLowerCase();
+Meteor.publish( 'schools.admin', ( searchOptions ) => {
 
-  return Schools.find(
-    {
+  const searchParameters = [];
+  const searchTerms = searchOptions.searchTerm.toLowerCase().split( ' ' );
+  searchTerms.forEach( ( searchTerm ) => {
+    searchParameters.push({
       $or: [
         { name: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
         { name2: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
-        { city: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
-        { state: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } }
       ]
+    } )
+  } );
 
+  return Schools.find(
+    {
+      $and: [
+        
+        { city: { $regex: '\.*' + searchOptions.city + '\.*', $options: 'i' } },
+        { state: searchOptions.state },
+        { country: searchOptions.country }
+      ]
     }, {
       fields: Schools.adminFields,
       sort: { name: -1 },
-      skip: ( 20 * ( pageNumber - 1 ) ),
-      limit: ( 20 * pageNumber )
+      skip: ( 20 * ( searchOptions.pageNumber - 1 ) ),
+      limit: ( 20 * searchOptions.pageNumber )
+    }
+  );
+} );
+
+Meteor.publish( 'schools.admin', ( searchOptions ) => {
+
+  const searchParameters = [];
+  const searchTerms = searchOptions.searchTerm.toLowerCase().split( ' ' );
+  searchTerms.forEach( ( searchTerm ) => {
+    searchParameters.push({
+      $or: [
+        { name: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
+        { name2: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
+      ]
+    } )
+  } );
+
+  return Schools.find(
+    {
+      $and: [
+
+        { city: { $regex: '\.*' + searchOptions.city + '\.*', $options: 'i' } },
+        { state: searchOptions.state },
+        { country: searchOptions.country }
+      ]
+    }, {
+      fields: Schools.adminFields,
+      sort: { name: -1 },
+      skip: ( 20 * ( searchOptions.pageNumber - 1 ) ),
+      limit: ( 20 * searchOptions.pageNumber )
     }
   );
 } );

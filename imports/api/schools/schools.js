@@ -64,8 +64,10 @@ Schools.adminFields = {
   city: 1,
   state: 1,
   country: 1,
-  enabled: 1,
-  phetUser: 1
+  validatedDate: 1,
+  phetUser: 1,
+  editDate: 1,
+  parent: 1
 };
 
 // Schools.helpers( {

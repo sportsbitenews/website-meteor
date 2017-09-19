@@ -105,7 +105,7 @@ export default class RegistrationPage extends React.Component {
     }
 
     return (
-      <div>
+      <div className="registration-page">
         <Helmet>
           <title>Register</title>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
