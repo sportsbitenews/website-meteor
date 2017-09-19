@@ -19,6 +19,7 @@ FlowRouter.route( '/:locale/register', {
       MOUNT_PATH + '/services/users',
       {},
       ( error, result )=> {
+        console.log(result, result.data);
         const data = JSON.parse( result.data );
         const isSignedIn = data.signedIn === "true";
 
