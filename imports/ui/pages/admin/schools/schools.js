@@ -37,10 +37,11 @@ export default class SchoolsAdministrationPage extends React.Component {
 
     // Refresh the autocomplete options when new data is ready
     Tracker.autorun( () => {
-      this.setState( {
-        schools: Schools.find().fetch(),
-        count: Counts.get('schools.admin.count')
-       } );
+      this.setState( { schools: Schools.find().fetch() } );
+    } );
+
+    Tracker.autorun( () => {
+      this.setState( { count: Counts.get( 'schools.admin.count' ) } );
     } );
   }
 
