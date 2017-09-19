@@ -48,7 +48,7 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
   const searchParameters = [];
   const searchTerms = searchOptions.searchTerm.toLowerCase().split( ' ' );
   searchTerms.forEach( ( searchTerm ) => {
-    searchParameters.push({
+    searchParameters.push( {
       $or: [
         { name: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
         { name2: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
@@ -57,15 +57,15 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
   } );
 
   if ( searchOptions.city && searchOptions.city.length > 1 ) {
-    searchParameters.push ( { city: { $regex: '\.*' + searchOptions.city + '\.*', $options: 'i' } } );
+    searchParameters.push( { city: { $regex: '\.*' + searchOptions.city + '\.*', $options: 'i' } } );
   }
 
   if ( searchOptions.state && searchOptions.state !== 'default' ) {
-    searchParameters.push({ state: searchOptions.state });
+    searchParameters.push( { state: searchOptions.state } );
   }
 
   if ( searchOptions.country && searchOptions.country !== 'default' ) {
-    searchParameters.push({ country: searchOptions.country });
+    searchParameters.push( { country: searchOptions.country } );
   }
 
   const searchLimits = {
@@ -77,6 +77,6 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
 
   console.log( searchParameters, searchLimits );
 
-  Counts.publish( this, 'schools.admin_count', Schools.find( { $and: searchParameters }, null ) );
+  Counts.publish( this, 'schools.admin_count', Schools.find( { $and: searchParameters }, { fields: Schools.adminFields } ) );
   return Schools.find( { $and: searchParameters }, searchLimits );
 } );
