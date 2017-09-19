@@ -20,8 +20,7 @@ FlowRouter.route( '/:locale/register', {
       {},
       ( error, result )=> {
         console.log(result, result.data);
-        const data = JSON.parse( result.data );
-        const isSignedIn = data.signedIn === "true";
+        const isSignedIn = result.data && result.data.signedIn === "true";
 
         if ( isSignedIn ) {
           console.log( 'already signed in' );
