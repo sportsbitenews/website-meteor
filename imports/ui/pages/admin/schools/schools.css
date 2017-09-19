@@ -1,0 +1,17 @@
+/* Copyright 2017, University of Colorado Boulder */
+
+div.schools.admin th,
+div.schools.admin td {
+  border: 1px solid black;
+  text-align: left;
+}
+
+div.schools.admin th.icon,
+div.schools.admin td.icon {
+  border: none;
+}
+
+div.schools.admin table.search-results {
+  border-collapse: collapse;
+  min-width: 1400px;
+}
