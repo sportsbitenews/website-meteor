@@ -17,27 +17,30 @@ export default class AddSchoolModal extends React.Component {
     super();
     this.state = {
       name: '',
-      country: '',
-      state: '',
+      country: 'default',
+      state: 'default',
       city: ''
     }
   }
 
-  onSubmit() {
+  onSubmit( event ) {
+    event.preventDefault();
+    event.stopPropagation();
+
     const errorMessages = {};
 
     if ( this.state.name.length < 1 ) {
       errorMessages.name = 'Please enter a name';
     }
 
-    if ( this.country === 'default' || Locations.countries.indexOf( this.country ) < 0 ) {
+    if ( this.state.country === 'default' || Locations.countries.indexOf( this.state.country ) < 0 ) {
       errorMessages.country = 'Please select a country';
     }
-    else if ( this.state === 'default' || Locations.states[ Locations.countries.indexOf( this.country ) ].indexOf( this.state ) < 0 ) {
+    else if ( this.state.state === 'default' || Locations.states[ Locations.countries.indexOf( this.state.country ) ].indexOf( this.state.state ) < 0 ) {
       errorMessages.state = 'Please select a state or province';
     }
 
-    if ( this.city.length <= 0 ) {
+    if ( this.state.city.length <= 0 ) {
       errorMessages.city = 'Please enter a city';
     }
 
@@ -70,9 +73,9 @@ export default class AddSchoolModal extends React.Component {
               <div className="error">{ this.state.errorMessages && this.state.errorMessages.name }</div>
               <input
                 type="text"
-                value={ this.state.organization }
+                value={ this.state.name }
                 className="organization"
-                onChange={ (event) => { this.setState( { organization: event.target.value } ); } }
+                onChange={ (event) => { this.setState( { name: event.target.value } ); } }
               />
             </label>
           </div>
@@ -126,6 +129,7 @@ export default class AddSchoolModal extends React.Component {
             </label>
           </div>
           <button className="enabled" type="submit">ADD YOUR SCHOOL</button>
+          <button className="disabled" onClick={ () => this.props.addSchool( null ) }>CANCEL</button>
 
         </form>
       </Modal>

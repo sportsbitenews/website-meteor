@@ -93,8 +93,18 @@ export default class SchoolSelector extends React.Component {
 
     let content = '';
 
-    if ( this.props.school.isNew ) {
-      content = (
+    if ( this.props.school && this.props.school.isNew ) {
+      return (
+        <input
+          type="text"
+          value={ this.props.school.name }
+          className="organization"
+          disabled="disabled"
+        />
+      )
+    }
+    else {
+      return (
         <Autosuggest
           suggestions={this.state.suggestions}
           onSuggestionSelected={this.onSuggestionSelected.bind(this)}
@@ -106,17 +116,5 @@ export default class SchoolSelector extends React.Component {
         />
       )
     }
-    else {
-      content = (
-        <input
-          type="text"
-          value={ this.props.school.name }
-          className="organization"
-          disabled="disabled"
-        />
-      )
-    }
-
-    return ( { content } );
   }
 }
