@@ -248,7 +248,7 @@ export default class SchoolsAdministrationPage extends React.Component {
             <span className="header-cell">Parent ID</span>
           </div>
           <div className="table-body">
-            { schools.map( ( school ) => { return this.renderSchool( school ) } ) }
+            { this.state.schools.map( ( school ) => { return this.renderSchool( school ) } ) }
           </div>
           <button className="previous" onClick={ this.pageBack.bind( this ) }>PREVIOUS</button>
           <button className="next" onClick={ this.pageForward.bind( this ) }>NEXT</button>
