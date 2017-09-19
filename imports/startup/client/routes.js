@@ -11,12 +11,12 @@ import { mount } from 'react-mounter';
 
 import RegistrationPage from '/imports/ui/pages/register/register.js';
 
-import { MOUNT_PATH } from '/imports/api/data/constants';
+import { PUBLIC_ORIGIN } from '/imports/api/data/constants';
 
 FlowRouter.route( '/:locale/register', {
   action() {
     HTTP.get(
-      MOUNT_PATH + '/services/users',
+      PUBLIC_ORIGIN + '/services/users',
       {},
       ( error, result )=> {
         console.log(result, result.data);
@@ -25,7 +25,7 @@ FlowRouter.route( '/:locale/register', {
 
         if ( isSignedIn ) {
           console.log( 'already signed in' );
-          window.location = MOUNT_PATH;
+          window.location = PUBLIC_ORIGIN;
         }
         else {
           console.log( 'not signed in' );
