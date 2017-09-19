@@ -85,7 +85,7 @@ export default class ClassroomPanel extends React.Component {
               <h4>School</h4>
               <div className="error">{ this.state.errorMessages && this.state.errorMessages.school }</div>
               <SchoolSelector callback={ this.handleSchoolSelection.bind( this ) } school={ this.state.school } />
-              <a onClick={ this.openAddSchoolModal.bind( this ) }>Can&quot;t find your school?</a>
+              <a onClick={ this.openAddSchoolModal.bind( this ) }>Can&#39;t find your school?</a>
             </label>
           </div>
 

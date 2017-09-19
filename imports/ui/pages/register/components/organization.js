@@ -158,7 +158,7 @@ export default class OrganizationPanel extends React.Component {
             </label>
           </div>
           <button className="enabled register" type="submit">REGISTER NOW</button>
-          <span className="registration_warning">By clicking register, you agree to the University of Colorado&quot;s privacy policy</span>
+          <span className="registration_warning">By clicking register, you agree to the University of Colorado&#39;s privacy policy</span>
         </form>
       </div>
     );
