@@ -18,6 +18,8 @@ import Helmet from 'react-helmet';
 import {Schools} from '/imports/api/schools/schools.js';
 import Locations from '/imports/api/data/countryState.js';
 
+import './schools.css';
+
 const PAGE_SIZE = 20;
 
 /**
