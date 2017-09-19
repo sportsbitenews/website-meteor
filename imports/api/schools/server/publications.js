@@ -77,6 +77,6 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
 
   console.log( searchParameters, searchLimits );
 
-  // Counts.publish( this, 'schools.admin_count', Schools.find( { $and: searchParameters }, null ) );
+  Counts.publish( this, 'schools.admin_count', Schools.find( { $and: searchParameters }, null ) );
   return Schools.find( { $and: searchParameters }, searchLimits );
 } );

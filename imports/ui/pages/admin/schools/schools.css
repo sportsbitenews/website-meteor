@@ -4,14 +4,26 @@ div.schools.admin th,
 div.schools.admin td {
   border: 1px solid black;
   text-align: left;
+  min-width: 20px;
+  padding: 5px;
 }
 
 div.schools.admin th.icon,
 div.schools.admin td.icon {
   border: none;
+  text-align: center;
+}
+
+div.schools.admin td.icon:hover {
+  cursor: pointer;
+}
+
+div.schools.admin tbody tr {
+  border: 1px solid black;
 }
 
 div.schools.admin table.search-results {
   border-collapse: collapse;
   min-width: 1400px;
+  margin: 5px;
 }

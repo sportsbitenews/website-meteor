@@ -102,16 +102,16 @@ export default class SchoolsAdministrationPage extends React.Component {
     return (
       <tr className={className} key={school._id}>
         <td className="edit icon"
-              title="Edit School"
-              onClick={ () => this.editSchool(school) }>
+            title="Edit School"
+            onClick={ () => this.editSchool(school) }>
           <i className="fa fa-pencil" aria-hidden="true"></i></td>
         <td className="replace icon"
-              title={ ( school.parent ? 'Restore' : 'Replace' ) + ' School' }
-              onClick={ () => this.replaceSchool(school) }>
+            title={ ( school.parent ? 'Restore' : 'Replace' ) + ' School' }
+            onClick={ () => this.replaceSchool(school) }>
           <i className={ 'fa fa-' + ( school.parent ? 'unlink' : 'link' ) } aria-hidden="true"></i></td>
         <td className="delete icon"
-              title="Delete School"
-              onClick={ () => this.deleteSchool(school) }>
+            title="Delete School"
+            onClick={ () => this.deleteSchool(school) }>
           <i className="fa fa-trash" aria-hidden="true"></i></td>
         <td className="id">{school._id}</td>
         <td className="ncesId">{school.ncesId}</td>
@@ -236,6 +236,7 @@ export default class SchoolsAdministrationPage extends React.Component {
 
         <table className="search-results">
           <thead>
+          <tr>
             <th className="icon"></th>
             <th className="icon"></th>
             <th className="icon"></th>
@@ -250,8 +251,11 @@ export default class SchoolsAdministrationPage extends React.Component {
             <th>User</th>
             <th>Edited Date</th>
             <th>Parent ID</th>
+          </tr>
           </thead>
-          { this.state.schools.map( ( school ) => { return this.renderSchool( school ) } ) }
+          <tbody>
+            { this.state.schools.map( ( school ) => { return this.renderSchool( school ) } ) }
+          </tbody>
         </table>
         <button className="previous" onClick={ this.pageBack.bind( this ) }>PREVIOUS</button>
         <button className="next" onClick={ this.pageForward.bind( this ) }>NEXT</button>
