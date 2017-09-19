@@ -55,21 +55,27 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
     } )
   } );
 
-  return Schools.find(
-    {
-      $and: [
-        
-        { city: { $regex: '\.*' + searchOptions.city + '\.*', $options: 'i' } },
-        { state: searchOptions.state },
-        { country: searchOptions.country }
-      ]
-    }, {
-      fields: Schools.adminFields,
-      sort: { name: -1 },
-      skip: ( 20 * ( searchOptions.pageNumber - 1 ) ),
-      limit: ( 20 * searchOptions.pageNumber )
-    }
-  );
+  if ( searchOptions.city && searchOptions.city.length > 1 ) {
+    searchParameters.push ( { city: { $regex: '\.*' + searchOptions.city + '\.*', $options: 'i' } } );
+  }
+
+  if ( searchOptions.state && searchOptions.state !== 'default' ) {
+    searchParameters.push({ state: searchOptions.state });
+  }
+  
+  if ( searchOptions.country && searchOptions.country !== 'default' ) {
+    searchParameters.push({ country: searchOptions.country });
+  }
+
+  const searchLimits = {
+    fields: Schools.adminFields,
+    sort: { name: -1 },
+    skip: ( 20 * ( searchOptions.pageNumber - 1 ) ),
+    limit: ( 20 * searchOptions.pageNumber )
+  };
+
+  Counts.publish( this, 'schools.admin.count', Schools.find( { $and: searchParameters }, searchLimits ) );
+  return Schools.find( { $and: searchParameters }, searchLimits );
 } );
 
 Meteor.publish( 'schools.admin', ( searchOptions ) => {
