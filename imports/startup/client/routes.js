@@ -27,7 +27,7 @@ FlowRouter.route( '/admin/schools', {
 
         if ( isSignedIn && isTeamMember ) {
           console.log( 'already signed in' );
-          mount( SchoolsAdministrationPage, { locale, dest } );
+          mount( SchoolsAdministrationPage );
 
         }
         else {
