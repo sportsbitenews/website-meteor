@@ -42,10 +42,10 @@ export default class SchoolSelector extends React.Component {
         this.setState( { value: this.state.search.get() } );
       }
       else {
-        this.setState({
+        this.setState( {
           suggestions: [],
           value: this.state.search.get()
-        });
+        } );
       }
     } );
 
@@ -91,16 +91,32 @@ export default class SchoolSelector extends React.Component {
       onChange: this.onChange.bind( this )
     };
 
-    return (
-      <Autosuggest
-        suggestions={this.state.suggestions}
-        onSuggestionSelected={this.onSuggestionSelected.bind(this)}
-        onSuggestionsFetchRequested={()=>{}} // fetch handled by search tracker
-        onSuggestionsClearRequested={() => {}} // clear handled by search tracker
-        getSuggestionValue={suggestion => suggestion.name}
-        renderSuggestion={renderSuggestion}
-        inputProps={inputProps}
-      />
-    );
+    let content = '';
+
+    if ( this.props.school.isNew ) {
+      content = (
+        <Autosuggest
+          suggestions={this.state.suggestions}
+          onSuggestionSelected={this.onSuggestionSelected.bind(this)}
+          onSuggestionsFetchRequested={()=>{}} // fetch handled by search tracker
+          onSuggestionsClearRequested={() => {}} // clear handled by search tracker
+          getSuggestionValue={suggestion => suggestion.name}
+          renderSuggestion={renderSuggestion}
+          inputProps={inputProps}
+        />
+      )
+    }
+    else {
+      content = (
+        <input
+          type="text"
+          value={ this.props.school.name }
+          className="organization"
+          disabled="disabled"
+        />
+      )
+    }
+
+    return ( { content } );
   }
 }

@@ -11,33 +11,55 @@
  **/
 
 import React from 'react';
+import Modal from 'react-modal';
 
-import SchoolSelector from '/imports/ui/components/schools/selector.js';
+import SchoolSelector from '/imports/ui/components/schools/selector';
+import AddSchoolModal from './addSchoolModal';
 
-import CheckBox from './checkBox.js';
-
-import {SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY} from '/imports/api/users/users.js';
+// import CheckBox from './checkBox.js';
+// import {SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY} from '/imports/api/users/users.js';
 
 /**
- * @param {function} next Callback for moving to the next screen
+ * @param {Function} props.next - Callback for moving to the next screen
  *
  * @return {React.Component} the third screen in the registration page activity
  **/
 export default class ClassroomPanel extends React.Component {
   constructor() {
     super();
-    this.state = { SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY };
+    this.state = {
+      school: null,
+      showSchoolCreateDialog: false
+    };
   }
 
-  handleSchool() {}
+  /**
+   * @param {School} school - called when user has selected a school in the SchoolSelector element
+   */
+  handleSchoolSelection( school ) {
+    this.setState( { school } );
+  }
 
-  next( event ) {
+  /**
+   * Add school form onSubmit callback
+   */
+  addSchool( school ) {
+    this.setState({school});
+  }
+
+  /**
+   * Main form onSubmit callback
+   * @param event
+   */
+  onSubmit( event ) {
     event.preventDefault();
     event.stopPropagation();
 
     this.setState( { errorMessages: null } );
 
-    this.props.user.validateOrganization( ( user, errorMessages ) => {
+    this.props.user.school = this.state.school;
+
+    this.props.user.validateClassroom( ( user, errorMessages ) => {
       if ( errorMessages === null ) {
         this.props.next( user );
       }
@@ -51,10 +73,22 @@ export default class ClassroomPanel extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.next.bind(this)}>
-          <CheckBox />
-          <SchoolSelector callback={ this.handleSchool.bind(this) } />
+        <form onSubmit={ this.onSubmit.bind( this ) }>
+          <div className="col-1">
+            <label>
+              <h4>School</h4>
+              <div className="error">{ this.state.errorMessages && this.state.errorMessages.school }</div>
+              <SchoolSelector callback={ this.handleSchoolSelection.bind( this ) } school={ this.state.school } />
+              <a onClick={ this.setState( { showSchoolCreateDialog: true } ) }>Can&quot;t find your school?</a>
+            </label>
+          </div>
+
           <button className="enabled" type="submit">REGISTER NOW</button>
+
+          <AddSchoolModal
+            isOpen={ this.state.showSchoolCreateDialog }
+            addSchool={ this.addSchool.bind( this ) }
+          />
         </form>
       </div>
     );

@@ -14,27 +14,10 @@ import React from 'react';
 import Modal from 'react-modal';
 
 import CheckBox from './checkBox.js';
+import { ModalStyle } from './modalStyle.js'
 
 import {USER_TYPES_ARRAY,USER_TYPES_CONSTANTS} from '/imports/api/users/users';
 import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js';
-
-/**
- * Styles used in the modal dialog urging students not to register
- **/
-const studentConfirmationStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    padding: '40px',
-    transform: 'translate(-50%, -50%)',
-    background: '#EEEEEE',
-    border: '1px solid #000000',
-    textAlign: 'center'
-  }
-};
 
 /**
  * @param {function} next Callback for moving to the next screen
@@ -117,8 +100,8 @@ export default class AccountTypePanel extends React.Component {
 
         <Modal
           isOpen={this.state.dialogIsOpen}
-          style={studentConfirmationStyles}
-          contentLabel="Example Modal">
+          style={ModalStyle}
+          contentLabel="Student confirmation">
 
           <div>Students do not need to register for a PhET account in order to use the PhET sims.</div>
           <br /><br />
