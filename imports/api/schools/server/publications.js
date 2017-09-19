@@ -69,7 +69,6 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
   }
 
   const searchLimits = {
-    fields: Schools.adminFields,
     sort: { name: -1 },
     skip: parseInt( 20 * ( searchOptions.pageNumber - 1 ) ),
     limit: parseInt( 20 * searchOptions.pageNumber )
