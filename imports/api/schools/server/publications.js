@@ -75,6 +75,8 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
     limit: ( 20 * searchOptions.pageNumber )
   };
 
+  console.log( searchParameters, searchLimits );
+
   Counts.publish( this, 'schools.admin_count', Schools.find( { $and: searchParameters }, null ) );
   return Schools.find( { $and: searchParameters }, searchLimits );
 } );
