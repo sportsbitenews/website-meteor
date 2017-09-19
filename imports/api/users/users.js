@@ -96,7 +96,7 @@ export const EXPERIENCE_LEVELS_ARRAY = [
  * @returns {boolean} - returns true if candidate is a subset of model
  */
 const arrayIsValid = ( candidate, model ) => {
-  console.log('verifying array:',candidate, model);
+  console.log( 'verifying array:', candidate, model );
   let isValid = true;
   if ( candidate.length && candidate.length > 0 ) {
     candidate.forEach( ( type ) => {
@@ -108,7 +108,7 @@ const arrayIsValid = ( candidate, model ) => {
   else {
     isValid = false;
   }
-  console.log('array is valid?', isValid);
+  console.log( 'array is valid?', isValid );
   return isValid;
 };
 
@@ -303,7 +303,7 @@ export default class User {
     }
 
     this.teachingExperience = parseInt( this.teachingExperience );
-    if ( isNaN( this.teachingExperience) || this.teachingExperience < 0 || this.teachingExperience > 100 ) {
+    if ( isNaN( this.teachingExperience ) || this.teachingExperience < 0 || this.teachingExperience > 100 ) {
       errorMessages.teachingExperience = 'Please enter a number between 0 and 100';
     }
 

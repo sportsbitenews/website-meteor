@@ -4,4 +4,5 @@
 import './routes.js';
 import {MOUNT_PATH} from '/imports/api/data/constants.js';
 
+// Remove _m from path in the client window
 window.onload = () => { window.history.replaceState( null, null, window.location.href.replace( MOUNT_PATH, '' ) ); };

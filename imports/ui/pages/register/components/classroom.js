@@ -50,7 +50,7 @@ export default class ClassroomPanel extends React.Component {
    * Add school form onSubmit callback
    */
   addSchool( school ) {
-    this.setState({school, showSchoolCreateDialog: false});
+    this.setState( { school, showSchoolCreateDialog: false } );
   }
 
   /**
@@ -84,7 +84,7 @@ export default class ClassroomPanel extends React.Component {
             <label>
               <h4>School</h4>
               <div className="error">{ this.state.errorMessages && this.state.errorMessages.school }</div>
-              <SchoolSelector callback={ this.handleSchoolSelection.bind( this ) } school={ this.state.school } />
+              <SchoolSelector callback={ this.handleSchoolSelection.bind( this ) } school={ this.state.school }/>
               <a onClick={ this.openAddSchoolModal.bind( this ) }>Can&#39;t find your school?</a>
             </label>
           </div>

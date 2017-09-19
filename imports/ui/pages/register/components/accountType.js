@@ -14,9 +14,9 @@ import React from 'react';
 import Modal from 'react-modal';
 
 import CheckBox from './checkBox.js';
-import { ModalStyle } from './modalStyle.js'
+import {ModalStyle} from './modalStyle.js'
 
-import {USER_TYPES_ARRAY,USER_TYPES_CONSTANTS} from '/imports/api/users/users';
+import {USER_TYPES_ARRAY, USER_TYPES_CONSTANTS} from '/imports/api/users/users';
 import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js';
 
 /**
@@ -60,7 +60,7 @@ export default class AccountTypePanel extends React.Component {
       this.props.user.validateAccountTypes( ( user, errorMessages ) => {
         if ( errorMessages === null ) {
           // If user only selects student, display confirmation dialog
-          if ( user.types.length === 1 && user.types[0] === USER_TYPES_CONSTANTS.STUDENT ) {
+          if ( user.types.length === 1 && user.types[ 0 ] === USER_TYPES_CONSTANTS.STUDENT ) {
             this.setState( { dialogIsOpen: true, user } );
           }
           // If no error and user selects at least one non-student type, forward to next screen

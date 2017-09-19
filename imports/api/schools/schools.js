@@ -5,9 +5,9 @@
  * @author Matt Pennington
  **/
 
-import { Mongo } from 'meteor/mongo';
+import {Mongo} from 'meteor/mongo';
 import 'meteor/aldeed:collection2';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import {SimpleSchema} from 'meteor/aldeed:simple-schema';
 
 // class SchoolsCollection extends Mongo.Collection {
 //   insert( school, callback, language = 'en' ) {
@@ -38,7 +38,7 @@ Schools.schema = new SimpleSchema( {
   country: { type: String },
   validatedDate: { type: Date, optional: true },
   phetUser: { type: Number, optional: true },
-  editDate: {type: Date, optional: true },
+  editDate: { type: Date, optional: true },
   parent: { type: String, regEx: SimpleSchema.RegEx.Id, optional: true }
 } );
 

@@ -26,7 +26,7 @@ Meteor.publish( 'schools.public', ( search ) => {
 
   } );
 
-  console.log('search starting:', searchOptions);
+  console.log( 'search starting:', searchOptions );
   return Schools.find(
     {
       $or: [

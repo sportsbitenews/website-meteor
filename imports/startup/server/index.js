@@ -22,23 +22,23 @@ Meteor.startup( () => {
 
   // Read initial data in if this is the first installation
   if ( Schools.find().count() === 0 ) {
-    const data = JSON.parse( fs.readFileSync( '/data/share/website-meteor/private/schools.new.json'));
+    const data = JSON.parse( fs.readFileSync( '/data/share/website-meteor/private/schools.new.json' ) );
     const out = [];
-    data.forEach( (oldSchool) =>{
-      out.push({
+    data.forEach( ( oldSchool ) => {
+      out.push( {
         ncesId: oldSchool.ID,
         name: oldSchool.Name,
         name2: oldSchool.Name2,
         city: oldSchool.City,
         state: stateStringMapUS[ oldSchool.State.toUpperCase() ] ? stateStringMapUS[ oldSchool.State.toUpperCase() ] : oldSchool.State,
         country: 'USA',
-      })
-    });
+      } )
+    } );
     out.forEach( ( school ) => {
       try {
         Schools.insert( school );
       }
-      catch ( error ) {
+      catch( error ) {
         console.log( error.message, school );
       }
     } );
