@@ -10,6 +10,8 @@
  * @typedef {Object} component - a jsx component
  **/
 
+import {Counts} from 'meteor/tmeasday:publish-counts';
+
 import React from 'react';
 import Helmet from 'react-helmet';
 

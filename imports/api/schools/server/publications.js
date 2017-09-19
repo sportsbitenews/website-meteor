@@ -6,6 +6,7 @@
  **/
 
 import {Meteor} from 'meteor/meteor';
+import {Counts} from 'meteor/tmeasday:publish-counts';
 
 import {Schools} from '../schools.js';
 
@@ -74,36 +75,6 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
     limit: ( 20 * searchOptions.pageNumber )
   };
 
-  Counts.publish( this, 'schools.admin.count', Schools.find( { $and: searchParameters }, null ) );
+  Counts.publish( this, 'schools.admin_count', Schools.find( { $and: searchParameters }, null ) );
   return Schools.find( { $and: searchParameters }, searchLimits );
-} );
-
-Meteor.publish( 'schools.admin', ( searchOptions ) => {
-
-  const searchParameters = [];
-  const searchTerms = searchOptions.searchTerm.toLowerCase().split( ' ' );
-  searchTerms.forEach( ( searchTerm ) => {
-    searchParameters.push({
-      $or: [
-        { name: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
-        { name2: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
-      ]
-    } )
-  } );
-
-  return Schools.find(
-    {
-      $and: [
-
-        { city: { $regex: '\.*' + searchOptions.city + '\.*', $options: 'i' } },
-        { state: searchOptions.state },
-        { country: searchOptions.country }
-      ]
-    }, {
-      fields: Schools.adminFields,
-      sort: { name: -1 },
-      skip: ( 20 * ( searchOptions.pageNumber - 1 ) ),
-      limit: ( 20 * searchOptions.pageNumber )
-    }
-  );
 } );
