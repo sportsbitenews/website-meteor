@@ -96,10 +96,11 @@ export const EXPERIENCE_LEVELS_ARRAY = [
  * @returns {boolean} - returns true if candidate is a subset of model
  */
 const arrayIsValid = ( candidate, model ) => {
+  console.log('verifying array:',candidate, model);
   let isValid = true;
   if ( candidate.length && candidate.length > 0 ) {
     candidate.forEach( ( type ) => {
-      if ( model.includes( type ) ) {
+      if ( !model.includes( type ) ) {
         isValid = false;
       }
     } );
@@ -107,7 +108,7 @@ const arrayIsValid = ( candidate, model ) => {
   else {
     isValid = false;
   }
-
+  console.log('array is valid?', isValid);
   return isValid;
 };
 
@@ -328,4 +329,3 @@ export default class User {
     return this.types.indexOf( USER_TYPES_CONSTANTS.TEACHER ) >= 0 || this.types.indexOf( USER_TYPES_CONSTANTS.PRE_SERVICE_TEACHER ) >= 0;
   }
 }
-

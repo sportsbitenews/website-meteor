@@ -37,8 +37,16 @@ export default class SchoolSelector extends React.Component {
     // Change the subscription parameter whenever the user changes the selection text
     // and change state.value to show typed value in the textarea
     Tracker.autorun( ()=> {
-      Meteor.subscribe( 'schools.public', this.state.search.get() );
-      this.setState( { value: this.state.search.get() } );
+      if ( this.state.search.get().length >= 3 ) {
+        Meteor.subscribe( 'schools.public', this.state.search.get() );
+        this.setState( { value: this.state.search.get() } );
+      }
+      else {
+        this.setState({
+          suggestions: [],
+          value: this.state.search.get()
+        });
+      }
     } );
 
     // Refresh the autocomplete options when new data is ready

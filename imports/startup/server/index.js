@@ -1,12 +1,12 @@
 // Copyright 2017, University of Colorado Boulder
 
-
+import fs from 'fs';
 import {Meteor} from 'meteor/meteor';
-// import WebApp from 'meteor/webapp';
 
 import {Schools} from '/imports/api/schools/schools.js';
 
 import '/imports/api/schools/server/publications.js';
+import {stateStringMapUS} from '/imports/api/data/countryState.js';
 import '/imports/api/schools/methods.js';
 
 
@@ -97,8 +97,26 @@ Meteor.startup( () => {
     //   }
     // ];
 
-    const data = JSON.parse( fs.readFileSync( './private') );
-    data.forEach( ( school ) => { Schools.insert( school ) } );
+    const data = JSON.parse( fs.readFileSync( '/data/share/website-meteor/private/schools.new.json'));
+    const out = [];
+    data.forEach( (oldSchool) =>{
+      out.push({
+        ncesId: oldSchool.ID,
+        name: oldSchool.Name,
+        name2: oldSchool.Name2,
+        city: oldSchool.City,
+        state: stateStringMapUS[ oldSchool.State.toUpperCase() ] ? stateStringMapUS[ oldSchool.State.toUpperCase() ] : oldSchool.State,
+        country: 'USA',
+      })
+    });
+    out.forEach( ( school ) => {
+      try {
+        Schools.insert( school );
+      }
+      catch ( error ) {
+        console.log( error.message, school );
+      }
+    } );
   }
 
 
