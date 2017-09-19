@@ -98,31 +98,31 @@ export default class SchoolsAdministrationPage extends React.Component {
     }
 
     return (
-      <div className={className}>
-        <span className="table-cell edit"
+      <tr className={className} key={school._id}>
+        <td className="edit"
               title="Edit School"
               onClick={ () => this.editSchool(school) }>
-          <i className="fa fa-pencil" aria-hidden="true"></i></span>
-        <span className="table-cell replace"
+          <i className="fa fa-pencil" aria-hidden="true"></i></td>
+        <td className="replace"
               title={ ( school.parent ? 'Restore' : 'Replace' ) + ' School' }
               onClick={ () => this.replaceSchool(school) }>
-          <i className={ 'fa fa-' + ( school.parent ? 'unlink' : 'link' ) } aria-hidden="true"></i></span>
-        <span className="table-cell delete"
+          <i className={ 'fa fa-' + ( school.parent ? 'unlink' : 'link' ) } aria-hidden="true"></i></td>
+        <td className="delete"
               title="Delete School"
               onClick={ () => this.deleteSchool(school) }>
-          <i className="fa fa-trash" aria-hidden="true"></i></span>
-        <span className="table-cell id">{school._id}</span>
-        <span className="table-cell ncesId">{school.ncesId}</span>
-        <span className="table-cell name">{school.name}</span>
-        <span className="table-cell name2">{school.name2}</span>
-        <span className="table-cell city">{school.city}</span>
-        <span className="table-cell state">{school.state}</span>
-        <span className="table-cell country">{school.country}</span>
-        <span className="table-cell validatedDate">{school.validatedDate}</span>
-        <span className="table-cell user">{school.user}</span>
-        <span className="table-cell editDate">{school.editDate}</span>
-        <span className="table-cell parent">{school.parent}</span>
-      </div>
+          <i className="fa fa-trash" aria-hidden="true"></i></td>
+        <td className="id">{school._id}</td>
+        <td className="ncesId">{school.ncesId}</td>
+        <td className="name">{school.name}</td>
+        <td className="name2">{school.name2}</td>
+        <td className="city">{school.city}</td>
+        <td className="state">{school.state}</td>
+        <td className="country">{school.country}</td>
+        <td className="validatedDate">{school.validatedDate}</td>
+        <td className="user">{school.user}</td>
+        <td className="editDate">{school.editDate}</td>
+        <td className="parent">{school.parent}</td>
+      </tr>
     )
   }
 
@@ -170,7 +170,7 @@ export default class SchoolsAdministrationPage extends React.Component {
 
   render() {
     return (
-      <div className="schools admin">
+      <thead className="schools admin">
         <Helmet>
           <title>School Administration</title>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -232,29 +232,27 @@ export default class SchoolsAdministrationPage extends React.Component {
           <button className="enabled" type="submit">Search</button>
         </form>
 
-        <div className="Search Results">
-          <div className="table-header">
-            <span className="header-cell">Edit</span>
-            <span className="header-cell">Replace</span>
-            <span className="header-cell">Delete</span>
-            <span className="header-cell">ID</span>
-            <span className="header-cell">NCES ID</span>
-            <span className="header-cell">Name</span>
-            <span className="header-cell">Name2</span>
-            <span className="header-cell">City</span>
-            <span className="header-cell">State</span>
-            <span className="header-cell">Country</span>
-            <span className="header-cell">Validated Date</span>
-            <span className="header-cell">User</span>
-            <span className="header-cell">Edited Date</span>
-            <span className="header-cell">Parent ID</span>
-          </div>
-          <div className="table-body">
-            { this.state.schools.map( ( school ) => { return this.renderSchool( school ) } ) }
-          </div>
-          <button className="previous" onClick={ this.pageBack.bind( this ) }>PREVIOUS</button>
-          <button className="next" onClick={ this.pageForward.bind( this ) }>NEXT</button>
-        </div>
+        <table className="search-results">
+          <thead>
+            <th>Edit</th>
+            <th>Replace</th>
+            <th>Delete</th>
+            <th>ID</th>
+            <th>NCES ID</th>
+            <th>Name</th>
+            <th>Name2</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Validated Date</th>
+            <th>User</th>
+            <th>Edited Date</th>
+            <th>Parent ID</th>
+          </thead>
+          { this.state.schools.map( ( school ) => { return this.renderSchool( school ) } ) }
+        </table>
+        <button className="previous" onClick={ this.pageBack.bind( this ) }>PREVIOUS</button>
+        <button className="next" onClick={ this.pageForward.bind( this ) }>NEXT</button>
       </div>
     );
   }
