@@ -62,7 +62,7 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
   if ( searchOptions.state && searchOptions.state !== 'default' ) {
     searchParameters.push({ state: searchOptions.state });
   }
-  
+
   if ( searchOptions.country && searchOptions.country !== 'default' ) {
     searchParameters.push({ country: searchOptions.country });
   }
@@ -74,7 +74,7 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
     limit: ( 20 * searchOptions.pageNumber )
   };
 
-  Counts.publish( this, 'schools.admin.count', Schools.find( { $and: searchParameters }, searchLimits ) );
+  Counts.publish( this, 'schools.admin.count', Schools.find( { $and: searchParameters }, null ) );
   return Schools.find( { $and: searchParameters }, searchLimits );
 } );
 

@@ -34,9 +34,13 @@ export default class SchoolsAdministrationPage extends React.Component {
       count: 0
     };
 
+
     // Refresh the autocomplete options when new data is ready
     Tracker.autorun( () => {
-      this.setState( { schools: Schools.find().fetch() } );
+      this.setState( {
+        schools: Schools.find().fetch(),
+        count: Counts.get('schools.admin.count')
+       } );
     } );
   }
 
@@ -149,7 +153,7 @@ export default class SchoolsAdministrationPage extends React.Component {
   }
 
   pageForward() {
-    if ( this.state.pageNumber * PAGE_SIZE < this.state.schools.size ) {
+    if ( this.state.pageNumber * PAGE_SIZE < this.state.count ) {
       this.setState( { pageNumber: this.state.pageNumber - 1 } );
       Meteor.subscribe( 'schools.admin', {
         searchTerm: this.state.searchTerm,
