@@ -109,13 +109,6 @@ const arrayIsValid = ( candidate, model ) => {
   return isValid;
 };
 
-/**
- * @returns {boolean} - true if user is considered a classroom teacher
- */
-const isTeacher = () => {
-  return this.types.indexOf( USER_TYPES_CONSTANTS.TEACHER ) >= 0 || this.types.indexOf( USER_TYPES_CONSTANTS.PRE_SERVICE_TEACHER ) >= 0;
-};
-
 export default class User {
   constructor( user ) {
     if ( user ) {
@@ -164,9 +157,14 @@ export default class User {
       this.lmsList = [];
       this.curriculumProviderList = [];
     }
-
-    this.isTeacher = isTeacher;
   }
+
+  /**
+   * @returns {boolean} - true if user is considered a classroom teacher
+   */
+  isTeacher() {
+    return this.types.indexOf( USER_TYPES_CONSTANTS.TEACHER ) >= 0 || this.types.indexOf( USER_TYPES_CONSTANTS.PRE_SERVICE_TEACHER ) >= 0;
+  };
 }
 
 /**
