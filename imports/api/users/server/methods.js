@@ -1,9 +1,10 @@
 // Copyright 2017, University of Colorado Boulder
 
 // import {PUBLIC_ORIGIN} from '/imports/api/data/constants';
-import {validate} from '/imports/api/users/users';
+import {validate, User} from '/imports/api/users/users';
 
 export const saveUser = ( user ) => {
+  user = new User( user );
   validate( user, ( errorMessages ) => {
     if ( errorMessages === null ) {
       console.log( 'Theoretically posting to wicket' );
