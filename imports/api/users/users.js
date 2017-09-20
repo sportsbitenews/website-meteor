@@ -132,13 +132,13 @@ export default class User {
     this.deviceList = [];
     this.lmsList = [];
     this.curriculumProviderList = [];
-  }
 
-  /**
-   * @returns {boolean} - true if user is considered a classroom teacher
-   */
-  isTeacher() {
-    return this.types.indexOf( USER_TYPES_CONSTANTS.TEACHER ) >= 0 || this.types.indexOf( USER_TYPES_CONSTANTS.PRE_SERVICE_TEACHER ) >= 0;
+    /**
+     * @returns {boolean} - true if user is considered a classroom teacher
+     */
+    this.isTeacher = () => {
+      return this.types.indexOf( USER_TYPES_CONSTANTS.TEACHER ) >= 0 || this.types.indexOf( USER_TYPES_CONSTANTS.PRE_SERVICE_TEACHER ) >= 0;
+    };
   }
 }
 
