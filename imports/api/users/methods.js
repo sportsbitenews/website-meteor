@@ -2,10 +2,11 @@
 
 import {Meteor} from 'meteor/meteor';
 
-import {validate} from '/imports/api/users/users';
+import {validate, User} from '/imports/api/users/users';
 
 Meteor.methods( {
   'users.saveUser'( { user } ) {
+    user = new User( user );
     console.log('from method:', user);
     validate( user, ( errorMessages ) => {
       if ( errorMessages !== null ) {
