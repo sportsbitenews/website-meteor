@@ -109,7 +109,7 @@ const arrayIsValid = ( candidate, model ) => {
   return isValid;
 };
 
-export default class User {
+export class User {
   constructor( user ) {
     if ( user ) {
       this.types = user.types;
