@@ -4,7 +4,7 @@ import {Meteor} from 'meteor/meteor';
 
 import {validate, User} from '/imports/api/users/users';
 
-const Future = require( 'fibers/future' );
+import Future from 'fibers/future';
 
 Meteor.methods( {
   'users.saveUser'( { user } ) {
