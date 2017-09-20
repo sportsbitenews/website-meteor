@@ -26,7 +26,7 @@ import ContactInfoPanel from './components/contactInfo.js';
 import OrganizationPanel from './components/organization.js';
 import ClassroomPanel from './components/classroom.js';
 
-import '/imports/api/users/methods'
+import '/imports/api/users/methods';
 
 import {PUBLIC_ORIGIN, MOUNT_PATH} from '/imports/api/data/constants.js';
 
