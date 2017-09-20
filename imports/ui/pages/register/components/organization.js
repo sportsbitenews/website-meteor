@@ -14,7 +14,7 @@ import React from 'react';
 
 import CheckBox from './checkBox.js';
 
-import {SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY} from '/imports/api/users/users.js';
+import {validateOrganization, SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY} from '/imports/api/users/users.js';
 
 /**
  * @param {function} next Callback for moving to the next screen
@@ -67,9 +67,9 @@ export default class OrganizationPanel extends React.Component {
     this.props.user.teachingExperience = parseInt( this.state.teachingExperience );
     this.props.user.phetExperience = this.state.phetExperience;
 
-    this.props.user.validateOrganization( ( user, errorMessages ) => {
+    validateOrganization( this.props.user, ( errorMessages ) => {
       if ( errorMessages === null ) {
-        this.props.next( user );
+        this.props.next( this.props.user );
       }
       else {
         window.scrollTo( 0, 340 );

@@ -17,7 +17,7 @@ import SchoolSelector from '/imports/ui/components/schools/selector';
 import AddSchoolModal from './addSchoolModal';
 
 // import CheckBox from './checkBox.js';
-// import {SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY} from '/imports/api/users/users.js';
+import {validateClassroom, SUBJECTS_ARRAY, GRADES_ARRAY, EXPERIENCE_LEVELS_ARRAY} from '/imports/api/users/users.js';
 
 /**
  * @param {Function} props.next - Callback for moving to the next screen
@@ -65,9 +65,9 @@ export default class ClassroomPanel extends React.Component {
 
     this.props.user.school = this.state.school;
 
-    this.props.user.validateClassroom( ( user, errorMessages ) => {
+    validateClassroom( this.props.user, ( errorMessages ) => {
       if ( errorMessages === null ) {
-        this.props.next( user );
+        this.props.next( this.props.user );
       }
       else {
         window.scrollTo( 0, 340 );

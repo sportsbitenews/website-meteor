@@ -1,13 +1,17 @@
 // Copyright 2017, University of Colorado Boulder
 
 import fs from 'fs';
+
 import {Meteor} from 'meteor/meteor';
 
 import {Schools} from '/imports/api/schools/schools.js';
-
-import '/imports/api/schools/server/publications.js';
-import {stateStringMapUS} from '/imports/api/data/countryState.js';
 import '/imports/api/schools/methods.js';
+import '/imports/api/schools/server/publications.js';
+
+import {stateStringMapUS} from '/imports/api/data/countryState.js';
+
+import '/imports/api/users/server/methods.js';
+import '/imports/api/users/methods.js';
 
 
 // If the database is empty on server start, create some sample data.
@@ -31,7 +35,7 @@ Meteor.startup( () => {
         name2: oldSchool.Name2,
         city: oldSchool.City,
         state: stateStringMapUS[ oldSchool.State.toUpperCase() ] ? stateStringMapUS[ oldSchool.State.toUpperCase() ] : oldSchool.State,
-        country: 'USA',
+        country: 'USA'
       } )
     } );
     out.forEach( ( school ) => {

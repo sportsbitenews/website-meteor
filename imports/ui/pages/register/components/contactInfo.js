@@ -13,7 +13,7 @@
 import React from 'react';
 
 import Locations from '/imports/api/data/countryState.js';
-
+import {validateContactInfo} from '/imports/api/users/users'
 import CheckBox from './checkBox.js';
 
 /**
@@ -63,9 +63,9 @@ export default class ContactInfoPanel extends React.Component {
     this.props.user.twitterHandle = this.state.twitterHandle.trim();
     this.props.user.receiveEmail = this.state.receiveEmail;
 
-    this.props.user.validateContactInfo( ( user, errorMessages ) => {
+    validateContactInfo( this.props.user, ( errorMessages ) => {
       if ( errorMessages === null ) {
-        this.props.next( user );
+        this.props.next( this.props.user );
       }
       else {
         window.scrollTo( 0, 340 );

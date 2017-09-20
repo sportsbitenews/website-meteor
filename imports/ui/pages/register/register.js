@@ -11,6 +11,8 @@
  * @typedef {Object} component - a jsx component
  **/
 
+import {Meteor} from 'meteor/meteor';
+
 import React from 'react';
 import Helmet from 'react-helmet';
 
@@ -24,6 +26,7 @@ import ContactInfoPanel from './components/contactInfo.js';
 import OrganizationPanel from './components/organization.js';
 import ClassroomPanel from './components/classroom.js';
 
+import '/imports/api/users/methods'
 
 import {PUBLIC_ORIGIN, MOUNT_PATH} from '/imports/api/data/constants.js';
 
@@ -62,18 +65,16 @@ export default class RegistrationPage extends React.Component {
       } );
     }
     else {
-      user.validate( ( user, errorMessages ) => {
-        if ( errorMessages === null ) {
-          //TODO: submit user to database
-          //TODO: fix redirection to confirmation page based on ID, e.g. https://phet.colorado.edu/?wicket:bookmarkablePage=:edu.colorado.phet.website.newsletter.ConfirmEmailSentPage&userId=472867
-          window.alert( 'Registration finished.  Confirmation page would be displayed here.' );
-          window.location = PUBLIC_ORIGIN;
+      Meteor.call( 'users.saveUser', { user }, ( error, result ) => {
+        if ( error ) {
+          console.log( 'Registration finished with errors:', error, user );
+          // TODO: handle errors
         }
         else {
-          //TODO: handle validation errors
-          console.log( 'finished with errors:', errorMessages );
+          console.log( result );
+          window.alert( 'Registration finished.  Eventually we\'ll show the donation dialog and then redirect to the confirmation page.' );
         }
-      } )
+      } );
     }
   }
 

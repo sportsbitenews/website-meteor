@@ -18,6 +18,7 @@ import {ModalStyle} from './modalStyle.js'
 
 import {USER_TYPES_ARRAY, USER_TYPES_CONSTANTS} from '/imports/api/users/users';
 import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js';
+import {validateAccountType} from '/imports/api/users/users'
 
 /**
  * @param {function} next Callback for moving to the next screen
@@ -57,7 +58,8 @@ export default class AccountTypePanel extends React.Component {
         }
       } );
 
-      this.props.user.validateAccountTypes( ( user, errorMessages ) => {
+      const user = this.props.user;
+      validateAccountTypes( user, ( errorMessages ) => {
         if ( errorMessages === null ) {
           // If user only selects student, display confirmation dialog
           if ( user.types.length === 1 && user.types[ 0 ] === USER_TYPES_CONSTANTS.STUDENT ) {

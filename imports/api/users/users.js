@@ -9,7 +9,6 @@
  * @property {String} fieldName - there is one member for each field that has an error
  *
  * @callback validationCallback
- * @param {User} user - a member of the class defined by this file
  * @param {ErrorMessages} errors - this parameter will be null if the user passed the current validation step
  **/
 
@@ -96,7 +95,6 @@ export const EXPERIENCE_LEVELS_ARRAY = [
  * @returns {boolean} - returns true if candidate is a subset of model
  */
 const arrayIsValid = ( candidate, model ) => {
-  console.log( 'verifying array:', candidate, model );
   let isValid = true;
   if ( candidate.length && candidate.length > 0 ) {
     candidate.forEach( ( type ) => {
@@ -108,7 +106,6 @@ const arrayIsValid = ( candidate, model ) => {
   else {
     isValid = false;
   }
-  console.log( 'array is valid?', isValid );
   return isValid;
 };
 
@@ -138,194 +135,201 @@ export default class User {
   }
 
   /**
-   * Checks if this user is valid.  If validation fails at any step, the callback is called.
-   *
-   * @param {validationCallback} callback
-   */
-  validate( callback ) {
-    this.validateAccountTypes( ( user, errorMessages ) => {
-      if ( errorMessages === null ) {
-        this.validateContactInfo( ( user, errorMessages ) => {
-          if ( errorMessages === null ) {
-            this.validateAdditionalInfo( callback );
-          }
-          else {
-            callback( user, errorMessages );
-          }
-        } );
-      }
-      else {
-        callback( user, errorMessages );
-      }
-    } );
-  }
-
-  /**
-   * @param {validationCallback} callback
-   */
-  validateAdditionalInfo( callback ) {
-    this.isTeacher() ? this.validateClassroom( callback ) : this.validateOrganization( callback );
-  }
-
-  /**
-   * Checks if user.types is an array with non-zero length and all members of the array are members of USER_TYPES_CONSTANTS
-   *
-   * @param {validationCallback} callback
-   */
-  validateAccountTypes( callback ) {
-    callback( this, arrayIsValid( this.types, USER_TYPES_ARRAY ) ? null : { types: 'Please select at least one type.' } )
-  }
-
-  /**
-   * Members validated:
-   *   primaryEmail
-   *   secondaryEmail
-   *   password
-   *   firstName
-   *   lastName
-   *   country
-   *   state
-   *   city
-   *   zipCode
-   *   twitterHandle
-   *   receiveEmail
-   *
-   * @param {validationCallback} callback
-   */
-  validateContactInfo( callback ) {
-    let errorMessages = {};
-
-    if ( !( this.primaryEmail.indexOf( '@' ) > 0 ) || this.primaryEmail.length < 5 ) {
-      errorMessages.primaryEmail = 'Please enter a valid email address';
-    }
-    else if ( this.primaryEmail !== this.confirmEmail ) {
-      errorMessages.confirmEmail = 'Please confirm email address';
-    }
-
-    if ( this.secondaryEmail.length > 0 && ( !( this.secondaryEmail.indexOf( '@' ) > 0 ) || this.secondaryEmail.length < 5 ) ) {
-      errorMessages.secondaryEmail = 'Please enter a valid secondary email address';
-    }
-
-    if ( this.password.length < 8 ) {
-      errorMessages.password = 'Password should be at least 8 characters';
-    }
-    else if ( this.password !== this.confirmPassword ) {
-      errorMessages.confirmPassword = 'Please confirm password';
-    }
-
-    if ( this.firstName.length <= 0 ) {
-      errorMessages.firstName = 'Please enter your first name';
-    }
-
-    if ( this.lastName.length <= 0 ) {
-      errorMessages.lastName = 'Please enter your last name';
-    }
-
-    if ( this.country === 'default' || Locations.countries.indexOf( this.country ) < 0 ) {
-      errorMessages.country = 'Please select a country';
-    }
-    else if ( this.state === 'default' || Locations.states[ Locations.countries.indexOf( this.country ) ].indexOf( this.state ) < 0 ) {
-      errorMessages.state = 'Please select a state or province';
-    }
-
-    if ( this.city.length <= 0 ) {
-      errorMessages.city = 'Please enter a city';
-    }
-
-    if ( this.country === 'United States' && this.zipCode.length != 5 ) {
-      errorMessages.zipCode = 'Please enter your 5 digit zip code';
-    }
-
-    this.validateEmail( errorMessages, true, callback );
-  }
-
-  /**
-   * @param {ErrorMessages} errorMessages
-   * @param {boolean} isValidatingPrimaryEmail
-   * @param {validationCallback} callback
-   */
-  validateEmail( errorMessages, isValidatingPrimaryEmail, callback ) {
-    HTTP.get(
-      PUBLIC_ORIGIN + '/services/users',
-      {
-        params: {
-          email: this[ isValidatingPrimaryEmail ? 'primaryEmail' : 'secondaryEmail' ]
-        }
-      },
-      ( error, result ) => {
-        if ( error ) {
-          console.log( 'err:', error );
-          return;
-        }
-
-        if ( result.data.userExists && result.data.userExists === 'true' ) {
-          if ( isValidatingPrimaryEmail ) {
-            errorMessages.primaryEmail = 'This email address has already been registered. Please check your inbox for a confirmation email.';
-          }
-          else {
-            errorMessages.secondaryEmail = 'This email address has already been registered. Please choose a different address.';
-          }
-        }
-
-        if ( isValidatingPrimaryEmail && this.secondaryEmail ) {
-          this.validateEmail( errorMessages, false, callback );
-        }
-        else {
-          callback( this, Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
-        }
-      }
-    );
-  }
-
-  /**
-   * Members validated:
-   * organization
-   * subjects
-   * grades
-   * phetExperience
-   * teachingExperience
-   *
-   * @param {validationCallback} callback
-   */
-  validateOrganization( callback ) {
-    const errorMessages = {};
-
-    if ( typeof this.organization === 'string' && this.organization.length <= 0 ) {
-      errorMessages.organization = 'Please enter your organization';
-    }
-
-    if ( !arrayIsValid( this.subjects, SUBJECTS_ARRAY ) ) {
-      errorMessages.subjects = 'Please select a subject';
-    }
-
-    if ( !arrayIsValid( this.grades, GRADES_ARRAY ) ) {
-      errorMessages.grades = 'Please select a grade';
-    }
-
-    this.teachingExperience = parseInt( this.teachingExperience );
-    if ( isNaN( this.teachingExperience ) || this.teachingExperience < 0 || this.teachingExperience > 100 ) {
-      errorMessages.teachingExperience = 'Please enter a number between 0 and 100';
-    }
-
-    if ( EXPERIENCE_LEVELS_ARRAY.indexOf( this.phetExperience ) < 0 ) {
-      errorMessages.phetExperience = 'Please indicate your experience with PhET Simulations';
-    }
-
-    callback( this, Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
-  }
-
-  /**
-   * @param {validationCallback} callback
-   */
-  validateClassroom( callback ) {
-    const errorMessages = {};
-    callback( this, Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
-  }
-
-  /**
    * @returns {boolean} - true if user is considered a classroom teacher
    */
   isTeacher() {
     return this.types.indexOf( USER_TYPES_CONSTANTS.TEACHER ) >= 0 || this.types.indexOf( USER_TYPES_CONSTANTS.PRE_SERVICE_TEACHER ) >= 0;
   }
 }
+
+/**
+ * Checks if this user is valid.  If validation fails at any step, the callback is called.
+ *
+ * @param {User} user
+ * @param {validationCallback} callback
+ */
+export const validate = ( user, callback ) => {
+  validateAccountTypes( user, ( errorMessages ) => {
+    if ( errorMessages === null ) {
+      validateContactInfo( user, ( errorMessages ) => {
+        if ( errorMessages === null ) {
+          validateAdditionalInfo( callback );
+        }
+        else {
+          callback( errorMessages );
+        }
+      } );
+    }
+    else {
+      callback( errorMessages );
+    }
+  } );
+};
+
+/**
+ * @param {User} user
+ * @param {validationCallback} callback
+ */
+export const validateAdditionalInfo = ( user, callback ) => {
+  this.isTeacher() ? validateClassroom( user, callback ) : validateOrganization( user, callback );
+};
+
+/**
+ * Checks if user.types is an array with non-zero length and all members of the array are members of USER_TYPES_CONSTANTS
+ *
+ * @param {User} user
+ * @param {validationCallback} callback
+ */
+export const validateAccountTypes = ( user, callback ) => {
+  callback( arrayIsValid( user.types, USER_TYPES_ARRAY ) ? null : { types: 'Please select at least one type.' } )
+};
+
+/**
+ * Members validated:
+ *   primaryEmail
+ *   secondaryEmail
+ *   password
+ *   firstName
+ *   lastName
+ *   country
+ *   state
+ *   city
+ *   zipCode
+ *   twitterHandle
+ *   receiveEmail
+ *
+ * @param {User} user
+ * @param {validationCallback} callback
+ */
+export const validateContactInfo = ( user, callback ) => {
+  let errorMessages = {};
+
+  if ( !( user.primaryEmail.indexOf( '@' ) > 0 ) || user.primaryEmail.length < 5 ) {
+    errorMessages.primaryEmail = 'Please enter a valid email address';
+  }
+  else if ( user.primaryEmail !== user.confirmEmail ) {
+    errorMessages.confirmEmail = 'Please confirm email address';
+  }
+
+  if ( user.secondaryEmail.length > 0 && ( !( user.secondaryEmail.indexOf( '@' ) > 0 ) || user.secondaryEmail.length < 5 ) ) {
+    errorMessages.secondaryEmail = 'Please enter a valid secondary email address';
+  }
+
+  if ( user.password.length < 8 ) {
+    errorMessages.password = 'Password should be at least 8 characters';
+  }
+  else if ( user.password !== user.confirmPassword ) {
+    errorMessages.confirmPassword = 'Please confirm password';
+  }
+
+  if ( user.firstName.length <= 0 ) {
+    errorMessages.firstName = 'Please enter your first name';
+  }
+
+  if ( user.lastName.length <= 0 ) {
+    errorMessages.lastName = 'Please enter your last name';
+  }
+
+  if ( user.country === 'default' || Locations.countries.indexOf( user.country ) < 0 ) {
+    errorMessages.country = 'Please select a country';
+  }
+  else if ( user.state === 'default' || Locations.states[ Locations.countries.indexOf( user.country ) ].indexOf( user.state ) < 0 ) {
+    errorMessages.state = 'Please select a state or province';
+  }
+
+  if ( user.city.length <= 0 ) {
+    errorMessages.city = 'Please enter a city';
+  }
+
+  if ( user.country === 'United States' && user.zipCode.length != 5 ) {
+    errorMessages.zipCode = 'Please enter your 5 digit zip code';
+  }
+
+  validateEmail( user, errorMessages, true, callback );
+};
+
+/**
+ * @param {User} user
+ * @param {ErrorMessages} errorMessages
+ * @param {boolean} isValidatingPrimaryEmail
+ * @param {validationCallback} callback
+ */
+export const validateEmail = ( user, errorMessages, isValidatingPrimaryEmail, callback ) => {
+  HTTP.get(
+    PUBLIC_ORIGIN + '/services/users',
+    {
+      params: {
+        email: user[ isValidatingPrimaryEmail ? 'primaryEmail' : 'secondaryEmail' ]
+      }
+    },
+    ( error, result ) => {
+      if ( error ) {
+        console.log( 'err:', error );
+        return;
+      }
+
+      if ( result.data.userExists && result.data.userExists === 'true' ) {
+        if ( isValidatingPrimaryEmail ) {
+          errorMessages.primaryEmail = 'This email address has already been registered. Please check your inbox for a confirmation email.';
+        }
+        else {
+          errorMessages.secondaryEmail = 'This email address has already been registered. Please choose a different address.';
+        }
+      }
+
+      if ( isValidatingPrimaryEmail && user.secondaryEmail ) {
+        validateEmail( user, errorMessages, false, callback );
+      }
+      else {
+        callback( Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
+      }
+    }
+  );
+}
+
+/**
+ * Members validated:
+ * organization
+ * subjects
+ * grades
+ * phetExperience
+ * teachingExperience
+ *
+ * @param {User} user
+ * @param {validationCallback} callback
+ */
+export const validateOrganization = ( user, callback ) => {
+  const errorMessages = {};
+
+  if ( typeof user.organization === 'string' && user.organization.length <= 0 ) {
+    errorMessages.organization = 'Please enter your organization';
+  }
+
+  if ( !arrayIsValid( user.subjects, SUBJECTS_ARRAY ) ) {
+    errorMessages.subjects = 'Please select a subject';
+  }
+
+  if ( !arrayIsValid( user.grades, GRADES_ARRAY ) ) {
+    errorMessages.grades = 'Please select a grade';
+  }
+
+  user.teachingExperience = parseInt( user.teachingExperience );
+  if ( isNaN( user.teachingExperience ) || user.teachingExperience < 0 || user.teachingExperience > 100 ) {
+    errorMessages.teachingExperience = 'Please enter a number between 0 and 100';
+  }
+
+  if ( EXPERIENCE_LEVELS_ARRAY.indexOf( user.phetExperience ) < 0 ) {
+    errorMessages.phetExperience = 'Please indicate your experience with PhET Simulations';
+  }
+
+  callback( Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
+};
+
+/**
+ * @param {User} user
+ * @param {validationCallback} callback
+ */
+export const validateClassroom = ( user, callback ) => {
+  const errorMessages = {};
+  callback( Object.keys( errorMessages ).length === 0 && errorMessages.constructor === Object ? null : errorMessages );
+};
