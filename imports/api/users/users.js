@@ -171,6 +171,7 @@ export const validate = ( user, callback ) => {
  * @param {validationCallback} callback
  */
 export const validateAdditionalInfo = ( user, callback ) => {
+  console.log( user );
   user.isTeacher() ? validateClassroom( user, callback ) : validateOrganization( user, callback );
 };
 
