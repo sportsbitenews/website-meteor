@@ -18,7 +18,7 @@ import {ModalStyle} from './modalStyle.js'
 
 import {USER_TYPES_ARRAY, USER_TYPES_CONSTANTS} from '/imports/api/users/users';
 import {PUBLIC_ORIGIN} from '/imports/api/data/constants.js';
-import {validateAccountType} from '/imports/api/users/users'
+import {validateAccountTypes} from '/imports/api/users/users'
 
 /**
  * @param {function} next Callback for moving to the next screen
