@@ -74,7 +74,7 @@ export default class RegistrationPage extends React.Component {
           // TODO: handle async errors from method, they don't appear to be caught here
         }
         else {
-          console.log( result );
+          console.log( 'method result: ', result );
           window.alert( 'Registration finished.  Eventually we\'ll show the donation dialog and then redirect to the confirmation page.' );
         }
       } );
