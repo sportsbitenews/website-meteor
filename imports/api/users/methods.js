@@ -15,7 +15,8 @@ Meteor.methods( {
       } );
     }
     else {
-      saveUser( user )
+      import {saveUser} from '/imports/api/user';
+      saveUser( user );
     }
   }
 });

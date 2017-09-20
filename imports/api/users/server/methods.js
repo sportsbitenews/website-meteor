@@ -2,7 +2,7 @@
 
 // import {PUBLIC_ORIGIN} from '/imports/api/data/constants';
 
-const saveUser = ( user ) => {
+export const saveUser = ( user ) => {
   validate( user, ( errorMessages ) => {
     if ( errorMessages === null ) {
       console.log( 'Theoretically posting to wicket' );
