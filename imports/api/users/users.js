@@ -114,8 +114,10 @@ export class User {
     if ( user ) {
       this.types = user.types;
       this.primaryEmail = user.primaryEmail;
+      this.confirmEmail = user.confirmEmail;
       this.secondaryEmail = user.secondaryEmail;
       this.password = user.password;
+      this.confirmPassword = user.confirmPassword;
       this.firstName = user.firstName;
       this.lastName = user.lastName;
       this.country = user.country;
