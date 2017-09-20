@@ -69,6 +69,7 @@ export default class RegistrationPage extends React.Component {
         if ( error ) {
           console.log( 'Registration finished with errors:', error, user );
           // TODO: handle errors
+          // TODO: handle async errors from method, they don't appear to be caught here
         }
         else {
           console.log( result );

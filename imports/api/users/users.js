@@ -153,7 +153,7 @@ export const validate = ( user, callback ) => {
     if ( errorMessages === null ) {
       validateContactInfo( user, ( errorMessages ) => {
         if ( errorMessages === null ) {
-          validateAdditionalInfo( callback );
+          validateAdditionalInfo( user, callback );
         }
         else {
           callback( errorMessages );
