@@ -47,6 +47,7 @@ export default class RegistrationPage extends React.Component {
       page: 1,
       user: new User()
     }
+    console.log('from RP constructor:', this.state.user);
   }
 
   switchLocale( locale ) {
@@ -58,6 +59,7 @@ export default class RegistrationPage extends React.Component {
   }
 
   handleNext( user ) {
+    console.log('from RP handleNext:', user);
     if ( this.state.page < 3 ) {
       this.setState( {
         user,

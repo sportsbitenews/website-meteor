@@ -6,6 +6,7 @@ import {validate} from '/imports/api/users/users';
 
 Meteor.methods( {
   'users.saveUser'( { user } ) {
+    console.log('from method:', user);
     validate( user, ( errorMessages ) => {
       if ( errorMessages !== null ) {
         throw new Meteor.Error(
