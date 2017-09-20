@@ -117,57 +117,54 @@ const isTeacher = () => {
 };
 
 export default class User {
-  constructor() {
-    this.types = [];
-    this.primaryEmail = '';
-    this.secondaryEmail = '';
-    this.password = '';
-    this.firstName = '';
-    this.lastName = '';
-    this.country = '';
-    this.state = '';
-    this.city = '';
-    this.zipCode = '';
-    this.twitterHandle = '';
-    this.receiveEmail = true;
-    this.organization = '';
-    this.subjects = [];
-    this.grades = [];
-    this.teachingExperience = 0;
-    this.phetExperience = null;
-    this.school = '';
-    this.deviceList = [];
-    this.lmsList = [];
-    this.curriculumProviderList = [];
-    this.isTeacher = isTeacher;
-  }
-
-  /**
-   * Copy Constructor - used to recreate a user after serialization/deserialization
-   * @param {User} user
-   */
   constructor( user ) {
-    this.types = user.types,
-    this.primaryEmail = user.primaryEmail,
-    this.secondaryEmail = user.secondaryEmail,
-    this.password = user.password,
-    this.firstName = user.firstName,
-    this.lastName = user.lastName,
-    this.country = user.country,
-    this.state = user.state,
-    this.city = user.city,
-    this.zipCode = user.zipCode,
-    this.twitterHandle = user.twitterHandle,
-    this.receiveEmail = user.receiveEmail,
-    this.organization = user.organization,
-    this.subjects = user.subjects,
-    this.grades = user.grades,
-    this.teachingExperience = user.teachingExperience,
-    this.phetExperience = user.phetExperience,
-    this.school = user.school,
-    this.deviceList = user.deviceList,
-    this.lmsList = user.lmsList,
-    this.curriculumProviderList = user.curriculumProviderList,
+    if ( user ) {
+      this.types = user.types;
+      this.primaryEmail = user.primaryEmail;
+      this.secondaryEmail = user.secondaryEmail;
+      this.password = user.password;
+      this.firstName = user.firstName;
+      this.lastName = user.lastName;
+      this.country = user.country;
+      this.state = user.state;
+      this.city = user.city;
+      this.zipCode = user.zipCode;
+      this.twitterHandle = user.twitterHandle;
+      this.receiveEmail = user.receiveEmail;
+      this.organization = user.organization;
+      this.subjects = user.subjects;
+      this.grades = user.grades;
+      this.teachingExperience = user.teachingExperience;
+      this.phetExperience = user.phetExperience;
+      this.school = user.school;
+      this.deviceList = user.deviceList;
+      this.lmsList = user.lmsList;
+      this.curriculumProviderList = user.curriculumProviderList;
+    }
+    else {
+      this.types = [];
+      this.primaryEmail = '';
+      this.secondaryEmail = '';
+      this.password = '';
+      this.firstName = '';
+      this.lastName = '';
+      this.country = '';
+      this.state = '';
+      this.city = '';
+      this.zipCode = '';
+      this.twitterHandle = '';
+      this.receiveEmail = true;
+      this.organization = '';
+      this.subjects = [];
+      this.grades = [];
+      this.teachingExperience = 0;
+      this.phetExperience = null;
+      this.school = '';
+      this.deviceList = [];
+      this.lmsList = [];
+      this.curriculumProviderList = [];
+    }
+
     this.isTeacher = isTeacher;
   }
 }
