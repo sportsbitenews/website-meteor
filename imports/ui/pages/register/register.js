@@ -66,19 +66,49 @@ export default class RegistrationPage extends React.Component {
     }
     else {
       validate( user, ( errorMessages ) => {
-        Meteor.call( 'users.saveUser', { user }, ( error, result ) => {
-          if ( error ) {
-            console.log( 'Registration finished with errors:', error, user );
-            // TODO: handle errors
-            // TODO: handle async errors from method, they don't appear to be caught here
-          }
-          else {
-            console.log( 'method result: ', result );
-            window.alert( 'Registration finished.  Eventually we\'ll show the donation dialog and then redirect to the confirmation page.' );
-          }
-        } );
-      });
+        if ( errorMessages === null ) {
+          Meteor.call( 'users.saveUser', { user }, ( error, userResult ) => {
+            if ( error ) {
+              console.log( 'Registration finished with errors:', error, user );
+              // TODO: handle errors with server validation
+            }
+            else {
+              console.log( 'method result: ', userResult );
+              if ( !user.school._id || user.school._id === '' ) {
+                Meteor.call( 'schools.insert', { userResult, school: user.school }, ( error, schoolResult ) => {
+                  if ( error ) {
+                    console.log( 'Registration finished with errors:', error, user );
+                    // TODO: handle errors with school creation
+                  }
+                  else {
+                    console.log( 'School added, result:', schoolResult );
+                    Meteor.call( 'users.addSchool', { user, schoolId: schoolResult }, ( error, result ) => {
+                      if ( error ) {
+                        console.log( 'Registration finished with errors:', error, user );
+                        // TODO: handle errors with user update after school creation
+                      }
+                      else {
+                        this.redirectToConfirmationPage( userResult );
+                      }
+                    } );
+                  }
+                } );
+              }
+              else {
+                this.redirectToConfirmationPage( userResult );
+              }
+            }
+          } );
+        }
+        else {
+          // TODO: handle errors with client validation
+        }
+      } );
     }
+  }
+
+  redirectToConfirmationPage( userResult ) {
+    window.alert( 'Registration finished.  We will eventually redirect to the confirmation page now.' + userResult );
   }
 
   render() {

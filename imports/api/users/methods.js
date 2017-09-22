@@ -14,7 +14,17 @@ Meteor.methods( {
       return saveUser( user );
     }
     else {
-      return ( { simulation: 'complete' } );
+      return ( true );
+    }
+  },
+  
+  'users.addSchool'( { userId, schoolId } ) {
+    if ( !this.isSimulation ) {
+      import {addSchool} from '/imports/api/users/server/methods';
+      return addSchool( userId, schoolId );
+    }
+    else {
+      return ( true );
     }
   }
 } );

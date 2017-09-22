@@ -9,11 +9,14 @@ export const saveUser = ( user ) => {
   const future = new Future();
   validate( user, ( errorMessages ) => {
     if ( errorMessages === null ) {
-      console.log( 'Theoretically posting to wicket' );
+      console.log( 'Theoretically posting user to wicket' );
       future.return( {user:'123456'} );
       // HTTP.post(
       //   PUBLIC_ORIGIN + '/services/users',
-      //   { data: user },
+      //   {
+      //     data: user
+      //     // TODO: add authorization code for local server api call
+      //   },
       //   ( error, result ) => {
       //     if ( error ) {
       //       console.log( 'Error adding user to the website:', error );
@@ -37,5 +40,19 @@ export const saveUser = ( user ) => {
       );
     }
   } );
+  return future.wait();
+};
+
+
+export const addSchool = ( userId, schoolId ) => {
+  const future = new Future();
+  if ( userId && schoolId ) {
+    // TODO: replace with call to wicket
+    console.log( 'Theoretically updating user in wicket' );
+    future.return( true );
+  }
+  else {
+    future.return( false );
+  }
   return future.wait();
 };

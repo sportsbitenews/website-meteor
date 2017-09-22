@@ -45,6 +45,11 @@ Meteor.publish( 'schools.public', ( search ) => {
 
 Meteor.publish( 'schools.admin', ( searchOptions ) => {
 
+  console.log( searchOptions.searchTerm );
+  console.log( searchOptions.city );
+  console.log( searchOptions.state );
+  console.log( searchOptions.country );
+  
   const searchParameters = [];
   const searchTerms = searchOptions.searchTerm.toLowerCase().split( ' ' );
   searchTerms.forEach( ( searchTerm ) => {
@@ -77,6 +82,6 @@ Meteor.publish( 'schools.admin', ( searchOptions ) => {
 
   console.log( searchParameters, searchLimits );
 
-  Counts.publish( this, 'schools.admin_count', Schools.find( { $and: searchParameters }, { fields: Schools.adminFields } ) );
+  // Counts.publish( this, 'schools.admin_count', Schools.find( { $and: searchParameters }, { fields: Schools.adminFields } ) );
   return Schools.find( { $and: searchParameters }, searchLimits );
 } );

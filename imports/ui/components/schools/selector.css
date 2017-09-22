@@ -16,7 +16,7 @@ ul.react-autosuggest__suggestions-list {
   background: aliceblue;
   position: absolute;
   max-height: 200px;
-  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
 input.react-autosuggest__input {
