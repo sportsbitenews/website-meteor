@@ -18,7 +18,7 @@ import Helmet from 'react-helmet';
 
 import FooterPanel from '/imports/ui/components/footer/footer.js';
 import Strings from '/imports/api/strings/strings.js';
-import {User} from '/imports/api/users/users.js';
+import {validate, User} from '/imports/api/users/users.js';
 
 import HeaderLine from './components/headerLine/headerLine.js';
 import AccountTypePanel from './components/accountType.js';
