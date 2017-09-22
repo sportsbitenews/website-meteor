@@ -25,7 +25,7 @@ Meteor.startup( () => {
   // } );
 
   // Read initial data in if this is the first installation
-  if ( Schools.find().count() === 0 ) {
+  if ( Schools.find().count() < 10 && fs.existsSync( '/data/share/website-meteor/private/schools.new.json' ) ) {
     const data = JSON.parse( fs.readFileSync( '/data/share/website-meteor/private/schools.new.json' ) );
     const out = [];
     data.forEach( ( oldSchool ) => {
