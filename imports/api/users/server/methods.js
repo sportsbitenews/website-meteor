@@ -2,13 +2,15 @@
 
 // import {PUBLIC_ORIGIN} from '/imports/api/data/constants';
 import {validate} from '/imports/api/users/users';
+const Future = Npm.require('fibers/future');
 
-export const saveUser = ( user, future ) => {
+export const saveUser = ( user ) => {
   console.log(user);
+  const future = new Future();
   validate( user, ( errorMessages ) => {
     if ( errorMessages === null ) {
       console.log( 'Theoretically posting to wicket' );
-      future.return( true );
+      future.return( {user:'123456'} );
       // HTTP.post(
       //   PUBLIC_ORIGIN + '/services/users',
       //   { data: user },
@@ -28,11 +30,12 @@ export const saveUser = ( user, future ) => {
       // )
     }
     else {
-      future.return( false );
+      // future.return( false );
       throw new Meteor.Error(
         'user.failedValidation',
         errorMessages
       );
     }
-  } )
+  } );
+  return future.wait();
 };

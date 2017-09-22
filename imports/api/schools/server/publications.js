@@ -21,7 +21,7 @@ Meteor.publish( 'schools.public', ( search ) => {
         { name: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
         { name2: { $regex: '\.*' + searchTerm + '\.*', $options: 'i' } },
         { city: { $regex: searchTerm + '\.*', $options: 'i' } },
-        { state: { $regex: searchTerm + '\.*', $options: 'i' } },
+        { state: { $regex: searchTerm + '\.*', $options: 'i' } }
       ]
     } )
 

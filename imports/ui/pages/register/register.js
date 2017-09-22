@@ -46,8 +46,7 @@ export default class RegistrationPage extends React.Component {
       getString: Strings( registrationStrings, this.props.locale, this ),
       page: 1,
       user: new User()
-    }
-    console.log('from RP constructor:', this.state.user);
+    };
   }
 
   switchLocale( locale ) {
@@ -59,7 +58,6 @@ export default class RegistrationPage extends React.Component {
   }
 
   handleNext( user ) {
-    console.log('from RP handleNext:', user);
     if ( this.state.page < 3 ) {
       this.setState( {
         user,
@@ -67,17 +65,19 @@ export default class RegistrationPage extends React.Component {
       } );
     }
     else {
-      Meteor.call( 'users.saveUser', { user }, ( error, result ) => {
-        if ( error ) {
-          console.log( 'Registration finished with errors:', error, user );
-          // TODO: handle errors
-          // TODO: handle async errors from method, they don't appear to be caught here
-        }
-        else {
-          console.log( 'method result: ', result );
-          window.alert( 'Registration finished.  Eventually we\'ll show the donation dialog and then redirect to the confirmation page.' );
-        }
-      } );
+      validate( user, ( errorMessages ) => {
+        Meteor.call( 'users.saveUser', { user }, ( error, result ) => {
+          if ( error ) {
+            console.log( 'Registration finished with errors:', error, user );
+            // TODO: handle errors
+            // TODO: handle async errors from method, they don't appear to be caught here
+          }
+          else {
+            console.log( 'method result: ', result );
+            window.alert( 'Registration finished.  Eventually we\'ll show the donation dialog and then redirect to the confirmation page.' );
+          }
+        } );
+      });
     }
   }
 
