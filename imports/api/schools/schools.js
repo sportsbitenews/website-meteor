@@ -22,11 +22,11 @@ import {SimpleSchema} from 'meteor/aldeed:simple-schema';
 export const Schools = new Mongo.Collection( 'schools' );
 
 // Deny all client-side updates since we will be using methods to manage this collection
-Schools.deny( {
-  insert() { return true; },
-  update() { return true; },
-  remove() { return true; }
-} );
+// Schools.deny( {
+//   insert() { return true; },
+//   update() { return true; },
+//   remove() { return true; }
+// } );
 
 Schools.schema = new SimpleSchema( {
   _id: { type: String, regEx: SimpleSchema.RegEx.Id },
